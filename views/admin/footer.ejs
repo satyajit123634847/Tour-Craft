@@ -1,0 +1,141 @@
+<!-- content-wrapper ends -->
+<!-- partial:partials/_footer.html -->
+<footer class="footer">
+    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2023 Cryolor asia
+            pacific. All right reserved. Developed by <a href="https://greenbuds.co.in/">Greenbuds</a></span>
+
+    </div>
+</footer>
+<!-- partial -->
+</div>
+<!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+<!-- plugins:js -->
+<script src="vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="vendors/chart.js/Chart.min.js"></script>
+<script src="vendors/datatables.net/jquery.dataTables.js"></script>
+<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="js/dataTables.select.min.js"></script>
+
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="js/off-canvas.js"></script>
+<script src="js/hoverable-collapse.js"></script>
+<script src="js/template.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="js/dashboard.js"></script>
+<script src="js/Chart.roundedBarCharts.js"></script>
+<!-- End custom js for this page-->
+
+<script src="helper/parsley.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+<script>
+    var login = sessionStorage.getItem("admin_login")
+    if (login == true || login == "true") {
+        var name = sessionStorage.getItem("user_name")
+        $("#user_name_show").text(name)
+
+        name = sessionStorage.getItem("name")
+        $("#name_show").text(name)
+
+    } else if (login == "false" || login == false) {
+        window.location = "/login"
+    }
+    else {
+        window.location = "/login"
+    }
+
+
+
+    // -------logout code----------------//
+    $("#admin_logout").click(function () {
+        sessionStorage.setItem("admin_login", false)
+        sessionStorage.setItem("name", null)
+        sessionStorage.setItem("user_name", null)
+        sessionStorage.setItem("user_id", null)
+        sessionStorage.setItem("user_status", null)
+        sessionStorage.setItem("user_token", null)
+
+        toastr.error("Admin logout successfully", '', { timeOut: 3000 })
+        setTimeout(() => {
+            window.location = '/login';
+
+        }, 1000);
+    })
+
+
+
+    // ------check user role
+
+    var type = sessionStorage.getItem("user_status")
+
+    console.log(type)
+
+
+    if (type == "Super Admin") {
+
+
+    } else if (type == "Initiator Login") {
+
+        $(".super_admin").css("display", "none")
+
+
+    }
+   else if (type == "SCM Head") {
+
+        $(".super_admin").css("display", "none")
+        $(".initiator_admin").css("display", "none")
+
+
+
+
+    }
+    else if (type == "Finance Compliance Verification") {
+
+        $(".super_admin").css("display", "none")
+        $(".initiator_admin").css("display", "none")
+
+
+
+
+    } else if (type == "IT Team") {
+
+        $(".super_admin").css("display", "none")
+        $(".initiator_admin").css("display", "none")
+        $(".it_team_remove").css("display", "none")
+
+
+
+
+
+    } else if (type == "CFO") {
+
+        $(".super_admin").css("display", "none")
+        $(".initiator_admin").css("display", "none")
+
+
+
+
+    }
+
+
+
+
+</script>
+</body>
+
+
+</html>

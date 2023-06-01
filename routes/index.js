@@ -1,0 +1,86 @@
+var express = require('express');
+var router = express.Router();
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express', base_url: process.env.base_url });
+});
+
+// ------login----------------------//
+router.get('/login', function(req, res, next) {
+  res.render('admin/login', { title: 'Login', base_url: process.env.base_url });
+});
+
+// -----dashboard--------------------//
+router.get('/dashboard', function(req, res, next) {
+  res.render('admin/dashboard', { title: 'Dashboard', base_url: process.env.base_url });
+});
+
+// ---------vendor--------------------//
+router.get('/vendor', function(req, res, next) {
+  res.render('admin/vendor', { title: 'Vendor', base_url: process.env.base_url });
+});
+
+// ----------addAssistance.ejs-------------------//
+router.get('/add-assistance', function(req, res, next) {
+  res.render('admin/addAssistance', { title: 'Add-Assistance', base_url: process.env.base_url });
+});
+
+
+// ----------addAssistance.ejs-------------------//
+router.get('/new-vendor', function(req, res, next) {
+  res.render('admin/new_vendor', { title: 'New-Vendor', base_url: process.env.base_url });
+});
+
+
+// --------vendorRegister----------------------------//
+router.get('/existing-vendor', function(req, res, next) {
+  res.render('admin/existing_vendor', { title: 'Pending-Vendor', base_url: process.env.base_url });
+});
+
+// -------revert_vendors.ejs-----------------//
+router.get('/revert-vendor', function(req, res, next) {
+  res.render('admin/revert_vendors', { title: 'Revert-Vendors', base_url: process.env.base_url });
+});
+
+// ------------approvalVendors.ejs------------------//
+router.get('/approval-vendors', function(req, res, next) {
+  res.render('admin/approvalVendors', { title: 'Approval-Vendors', base_url: process.env.base_url });
+});
+
+
+
+router.get('/pdf', function(req, res, next) {
+  res.render('admin/pdf.ejs', { title: 'Approval-Vendors', base_url: process.env.base_url });
+});
+
+
+
+
+
+
+
+
+// -----------------------------vendor pages----------------------------------------------------------------//
+
+
+// -------vendor_register---------------------//
+router.get('/vendor-register', function(req, res, next) {
+  res.render('vendor/vendor_register', { title: 'Vendor-Register', base_url: process.env.base_url });
+});
+
+// ------vendor_login.ejs-------------------------//
+router.get('/vendor-login', function(req, res, next) {
+  res.render('vendor/vendor_login', { title: 'Vendor-Login', base_url: process.env.base_url });
+});
+
+
+// --------vendorRegister----------------------------//
+router.get('/vendor-register-form', function(req, res, next) {
+  res.render('vendor/vendorRegister', { title: 'Vendor-Register-Form', base_url: process.env.base_url });
+});
+
+
+
+
+module.exports = router;

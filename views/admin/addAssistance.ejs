@@ -1,0 +1,121 @@
+<%- include('header.ejs') %>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add User Assistance</h4>
+
+                            <form id="addAssistance" data-parsley-validate>
+
+                                <input type="hidden" id="id">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Name</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Name"
+                                                required="" data-parsley-required-message="Please Enter Name">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Username</label>
+                                            <input type="text" class="form-control" id="username" placeholder="Username"
+                                                required="" data-parsley-required-message="Please Enter User Name">
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Email</label>
+                                            <input type="text" class="form-control" id="email" placeholder="Email"
+                                                required="" data-parsley-required-message="Please Enter Email">
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Mobile Number</label>
+                                            <input type="text" class="form-control" id="mobile_number"
+                                                placeholder="Mobile number" required=""
+                                                data-parsley-required-message="Please Enter Mobile Number">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleSelectGender">Select Role</label>
+                                            <select class="form-control" id="user_status">
+                                                <option value="Super Admin">Super Admin</option>
+                                                <option value="Initiator Login">Initiator/SCM</option>
+                                               
+                                                <option value="SCM Head">SCM Head </option>
+                                                <option value="Finance Compliance Verification">Finance Compliance Verification</option>
+                                                <option value="IT Team">IT Team </option>
+                                                <option value="CFO">CFO </option>
+
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Password</label>
+                                            <input type="password" class="form-control" id="password"
+                                                placeholder="Password" required=""
+                                                data-parsley-required-message="Please Enter Password">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12" style="text-align: end;">
+                                        <button type="submit" class="btn btn-primary mr-2"
+                                            id="submit_data">Submit</button>
+
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Assistance List</h4>
+
+                            <div class="table-responsive pt-3">
+                                <table class="table table-bordered" id="add_assistance_table">
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <%- include('footer.ejs') %>
+
+
+
+            <script src="admin/addAssistance.js"></script>
+            <script src="helper/parsley.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $(function () {
+                        assistance.base_url = "<%=base_url%>";
+                        assistance.init();
+                    });
+                });
+            </script>

@@ -1,0 +1,661 @@
+<%- include('header.ejs') %>
+  <div class="main-panel">
+    <div class="content-wrapper">
+
+      <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+              <div class="card-body">
+                  <h4 class="card-title">Add New Vendor</h4>
+
+                  <form id="vendor_register" data-parsley-validate>
+
+                      <input type="hidden" id="id">
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="exampleInputUsername1">Name</label>
+                                  <input type="text" class="form-control" id="name" placeholder="Name"
+                                      required="" data-parsley-required-message="Please Enter Name">
+                              </div>
+
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="exampleInputUsername1">Email</label>
+                                  <input type="text" class="form-control" id="email" placeholder="Email"
+                                      required="" data-parsley-required-message="Please Enter Email">
+                              </div>
+
+                          </div>
+                          <!-- <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="exampleInputUsername1">Mobile Number</label>
+                                  <input type="text" class="form-control" id="mobile_number"
+                                      placeholder="Mobile number" required=""
+                                      data-parsley-required-message="Please Enter Mobile Number">
+                              </div>
+
+                          </div> -->
+
+                       
+                          <div class="col-md-4 mt-md-3" >
+                              <button type="submit" class="btn btn-primary mr-2 mt-md-3"
+                                  id="submit_data">Submit</button>
+
+                          </div>
+
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+        <div class="col-md-12 grid-margin transparent">
+          <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">New Register Vendor</h4>
+
+                  <div class="table-responsive pt-3">
+                    <table class="table table-bordered" id="vendor_table">
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+
+    <!-- Large modal -->
+    <button type="button" style="display: none;" class="btn btn-primary" data-toggle="modal" id="view_model_btn"
+      data-target="#view_model">Large
+      modal</button>
+
+      <div class="modal fade bd-example-modal-lg" id="view_model" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h3 class="modal-title " id="vendor_name"></h3>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <p class="card-description" style="color:#4B49AC; font-weight: 600;">
+                      Personal info
+                  </p>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Name</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" id="name"
+                                      placeholder="Enter Your Name.." required=""
+                                      data-parsley-required-message="Please Enter Name" disabled />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Mobile Number</label>
+                              <div class="col-sm-9">
+                                  <input type="number" class="form-control" id="mobile_number"
+                                      placeholder="Enter Mobile Number.." required=""
+                                      data-parsley-required-message="Please Enter Mobile Number" disabled />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Email</label>
+                              <div class="col-sm-9">
+                                  <input type="email" class="form-control" id="email"
+                                      placeholder="Enter Email Address.." required=""
+                                      data-parsley-required-message="Please Enter Email" disabled />
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Firm Type</label>
+                              <div class="col-sm-9">
+                                  <select class="form-control" id="firm_type" disabled>
+                                      <option value=0>Select firm type</option>
+                                      <option value=1>Proprietorship</option>
+                                      <option value=2>Partnership</option>
+                                      <option value=3>Private Ltd</option>
+                                      <option value=4>Public Ltd</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+
+                  <hr>
+                  <p class="card-description" style="color:#4B49AC; font-weight: 600;">
+                      Address
+                  </p>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Address 1</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" id="address" disabled
+                                      placeholder="Enter Address" required=""
+                                      data-parsley-required-message="Please Enter Address" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Address 2</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" id="address1" disabled
+                                      placeholder="Enter Address" required=""
+                                      data-parsley-required-message="Please Enter Address" />
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Landmark</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" id="city" disabled
+                                      placeholder="Enter Landmark" required=""
+                                      data-parsley-required-message="Please Enter Landmark" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">City</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" id="city1" disabled
+                                      placeholder="Enter City" required=""
+                                      data-parsley-required-message="Please Enter City" />
+                              </div>
+                          </div>
+
+
+
+
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">State</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" id="state" disabled
+                                      placeholder="Enter State" required=""
+                                      data-parsley-required-message="Please Enter State" />
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Zip Code</label>
+                              <div class="col-sm-9">
+                                  <input type="number" class="form-control" disabled id="zip_code"
+                                      placeholder="Enter Zip Code" required=""
+                                      data-parsley-required-message="Please Enter Zip Code" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">GST Number</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" disableddisabled id="gst_number"
+                                      required="" data-parsley-required-message="Please Enter GST Number"
+                                      placeholder="Enter GST Number" />
+                              </div>
+                          </div>
+
+
+                      </div>
+                      <div class="col-md-6">
+
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">GST Document</label>
+
+                              <div class="col-sm-9" id="gst_documents_section">
+
+
+                              </div>
+
+                          </div>
+
+
+
+
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-md-6">
+
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Pan Card Number</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" disabled id="pan_card_number"
+                                      placeholder="Enter Pan Card Number" required=""
+                                      data-parsley-required-message="Please Enter Pan Number" />
+                              </div>
+                          </div>
+
+
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">PAN Card</label>
+
+                              <div class="col-sm-9" id="pan_documents_section">
+
+
+                              </div>
+
+                          </div>
+
+
+
+
+                      </div>
+                  </div>
+
+                  <hr>
+                  <p class="card-description" style="color:#4B49AC; font-weight: 600;">
+                      Bank Details
+                  </p>
+
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Bank Name</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" disabled id="bank_name"
+                                      placeholder="Enter Bank Name" required=""
+                                      data-parsley-required-message="Please Enter Bank Name" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Account No</label>
+                              <div class="col-sm-9">
+                                  <input type="number" class="form-control" disabled id="account_no"
+                                      placeholder="Enter Account Number" required=""
+                                      data-parsley-required-message="Please Enter Account Number" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Bank Address </label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" disabled id="bank_address"
+                                      placeholder="Enter Bank Address" required=""
+                                      data-parsley-required-message="Please Enter Bank Address" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">IFSC Code</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" disabled id="ifsc_code"
+                                      placeholder="Enter ifsc code" required=""
+                                      data-parsley-required-message="Please Enter IFSC Code" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Old Bank NOC</label>
+
+                              <div class="col-sm-9" id="noc_documents_section">
+
+
+                              </div>
+                          </div>
+
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Cancelled Cheque</label>
+
+
+                              <div class="col-sm-9" id="cheque_documents_section">
+
+
+                              </div>
+                          </div>
+
+
+
+
+                      </div>
+                  </div>
+
+
+
+                  <hr>
+                  <div class="row my-3">
+                      <div class="col-6">
+                          <p class="card-description" style="color:#4B49AC; font-weight: 600;">
+                              Contact Details
+                          </p>
+                      </div>
+
+                  </div>
+
+                  <div id="contact_section">
+                      <div class="row get_contact_section">
+
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">
+                                      Name</label>
+                                  <div class="col-sm-9">
+                                      <input type="text" class="form-control d_name" placeholder="Enter Name"
+                                          required="" data-parsley-required-message="Please Enter Name"
+                                          disabled />
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Designation</label>
+                                  <div class="col-sm-9">
+                                      <input type="text" class="form-control d_designation"
+                                          placeholder="Enter Designation" required="" disabled
+                                          data-parsley-required-message="Please Enter Designation" />
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">
+                                      Contact</label>
+                                  <div class="col-sm-9">
+                                      <input type="number" class="form-control d_contact" id=""
+                                          placeholder="Enter Contact Number" required=""
+                                          data-parsley-required-message="Please Enter Contact" disabled />
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">
+                                      Alternate Contact</label>
+                                  <div class="col-sm-9">
+                                      <input type="number" class="form-control d_contact_alternate" id=""
+                                          placeholder="Enter Contact Number" required=""
+                                          data-parsley-required-message="Please Enter Contact" disabled />
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">
+                                      Email</label>
+                                  <div class="col-sm-9">
+                                      <input type="email" class="form-control d_email" id=""
+                                          placeholder="Enter Email" required=""
+                                          data-parsley-required-message="Please Enter Email" disabled />
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">
+                                      Alternate Email</label>
+                                  <div class="col-sm-9">
+                                      <input type="email" class="form-control d_email_alternate" id=""
+                                          placeholder="Enter Email" required=""
+                                          data-parsley-required-message="Please Enter Email" disabled />
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+
+
+                  </div>
+                  <hr>
+
+
+                  <div class="row my-3">
+                      <div class="col-6">
+                          <p class="card-description" style="color:#4B49AC; font-weight: 600;">
+                              Sales Details
+                          </p>
+                      </div>
+
+                  </div>
+
+
+
+                  <div id="sales_section">
+                      <div class="row get_sale_data">
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Sales/ Mkt Name </label>
+                                  <div class="col-sm-9">
+                                      <input type="text" class="form-control s_name" id=""
+                                          placeholder="Enter Name" required=""
+                                          data-parsley-required-message="Please Enter  Name" disabled />
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Sales/ Mkt Designation </label>
+                                  <div class="col-sm-9">
+                                      <input type="text" class="form-control s_designation" id=""
+                                          placeholder="Enter Designation" required=""
+                                          data-parsley-required-message="Please Enter Designation" disabled />
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Sales/ Mkt Contact </label>
+                                  <div class="col-sm-9">
+                                      <input type="number" class="form-control s_number" id=""
+                                          placeholder="Enter Contact Number" required="" disabled
+                                          data-parsley-required-message="Please Enter Contact" />
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Sales/ Mkt Alternate Contact </label>
+                                  <div class="col-sm-9">
+                                      <input type="number" class="form-control s_number_alternate" id=""
+                                          placeholder="Enter Contact Number" required=""
+                                          data-parsley-required-message="Please Enter Contact" disabled />
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Sales/ Mkt Email </label>
+                                  <div class="col-sm-9">
+                                      <input type="email" class="form-control s_email" id=""
+                                          placeholder="Enter Email" required=""
+                                          data-parsley-required-message="Please Enter Email" disabled />
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Sales/ Mkt Alternate Email </label>
+                                  <div class="col-sm-9">
+                                      <input type="email" class="form-control s_email_alternate" id=""
+                                          placeholder="Enter Email" required=""
+                                          data-parsley-required-message="Please Enter Email" disabled />
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+
+
+                  <hr>
+                  <p class="card-description" style="color:#4B49AC; font-weight: 600;">
+                      Accounts Person Details
+                  </p>
+
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Accounts Person Name</label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" id="p_name" placeholder="Enter Name"
+                                      required="" data-parsley-required-message="Please Enter Name"
+                                      disabled />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Accounts Person Designation </label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control" id="p_designation"
+                                      placeholder="Enter Designation" required=""
+                                      data-parsley-required-message="Please Enter Designation" disabled />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Accounts Person Contact </label>
+                              <div class="col-sm-9">
+                                  <input type="number" class="form-control" id="p_contact"
+                                      placeholder="Enter Contact Number" required=""
+                                      data-parsley-required-message="Please Enter Contact Number" disabled />
+                              </div>
+                          </div>
+                      </div>
+
+
+
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-sm-3 col-form-label">Accounts Person Email </label>
+                              <div class="col-sm-9">
+                                  <input type="email" class="form-control" id="p_email"
+                                      placeholder="Enter Email" required=""
+                                      data-parsley-required-message="Please Enter Email" disabled />
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+
+              </div>
+
+          </div>
+
+      </div>
+  </div>
+    <!-- -------time line  model---------------- -->
+    <!-- Button trigger modal -->
+    <button type="button" id="timeline_btn" class="btn btn-primary" data-toggle="modal" data-target="#timeline_model"
+      style="display: none;">
+      Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="timeline_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalLabel">Timeline</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+
+              
+
+              <div class="col-12">
+
+
+                <h3 id="vendor_name_timeline">Vendor Name</h3>
+
+                <div class="timeline">
+                  <div class="outer" id="timeline_data">
+
+
+
+
+                  </div>
+                </div>
+
+
+
+
+
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------time line model end -->
+
+
+    <%- include('footer.ejs') %>
+
+
+      <script src="admin/new_vendor.js"></script>
+      <script src="helper/parsley.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+      <script>
+        $(document).ready(function () {
+          $(function () {
+            vendor.base_url = "<%=base_url%>";
+            vendor.init();
+          });
+        });
+      </script>
