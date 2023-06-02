@@ -71,6 +71,10 @@ const vendorSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  is_revert: {
+    type: Boolean,
+    default: false
+  },
   is_cfo: {
     type: Boolean,
     default: false

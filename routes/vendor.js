@@ -71,6 +71,10 @@ router.get('/verify_pan/:id', vendorController.verify_pan);
 // ---------downloaded_pdf-------------------------//
 router.get('/download_pdf/:id', vendorController.download_pdf);
 
+// ----------get_count------------------------------//
+router.get('/get_count', vendorController.get_count);
+
+
 
 
 
