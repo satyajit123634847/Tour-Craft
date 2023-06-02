@@ -95,9 +95,16 @@ exports.list_admin = async (req, res) => {
 // ----------update_admin---------------//
 exports.update_admin = async (req, res) => {
     const { username, name, mobile_number, email, user_status, password } = req.body;
-    adminUsers.findByIdAndUpdate({ _id: req.params.id }, {
-        username, name, mobile_number, email, user_status, password
-    })
+
+    var data = await adminUsers.findById({_id: req.params.id })
+    var query = null
+   if( data.password === password){
+    query ={ username, name, mobile_number, email, user_status}
+
+   }else{
+    query ={ username, name, mobile_number, email, user_status, password}
+   }
+    adminUsers.findByIdAndUpdate({ _id: req.params.id },query)
         .then((data) => {
             return res.json({
                 status: true,
