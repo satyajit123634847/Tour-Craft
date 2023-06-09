@@ -109,6 +109,17 @@ var register = {
       obj.ssi_no = $("#ssi_no").val()
       obj.payment_terms = $("#payment_terms").val()
 
+      obj.accounting_ref = $("#accounting_ref").val()
+      obj.sales_ref = $("#sales_ref").val()
+      obj.delivery_terms = $("#delivery_terms").val()
+      obj.financial_supplier = $("#financial_supplier").val()
+      obj.s_name_as_per_name = $("#s_name_as_per_name").val()
+      obj.supplier_type = $("#supplier_type").val()
+      obj.type_of_item = $("#type_of_item").val()
+
+
+
+
 
 
 
@@ -717,6 +728,17 @@ var register = {
         $("#msme_no").val(info.msme_no ? info.msme_no : "")
         $("#ssi_no").val(info.ssi_no ? info.ssi_no : "")
         $("#payment_terms").val(info.payment_terms ? info.payment_terms : "")
+
+        $("#accounting_ref").val(info.accounting_ref ? info.accounting_ref : "")
+        $("#sales_ref").val(info.sales_ref ? info.sales_ref : "")
+        $("#delivery_terms").val(info.delivery_terms ? info.delivery_terms : "")
+        $("#financial_supplier").val(info.financial_supplier ? info.financial_supplier : "")
+        $("#s_name_as_per_name").val(info.s_name_as_per_name ? info.s_name_as_per_name : "")
+        $("#supplier_type").val(info.supplier_type ? info.supplier_type : "")
+        $("#type_of_item").val(info.type_of_item ? info.type_of_item : "")
+
+
+
 
 
 
@@ -1379,12 +1401,10 @@ var register = {
 
     var value = $(e).val()
 
-    if (value == 1) {
 
-      $(".add_more").css("display", "none")
 
-    }
 
+    // $(".add_more_section").css("text-align","end")
 
     if (value == 1) {
       $(".d_name_label").text("Proprietor Name")
@@ -1394,7 +1414,7 @@ var register = {
       $(".d_email_label").text("Proprietor Email")
       $(".d_email_alternate_label").text("Proprietor Alternate Email")
 
-      $(".add_more").css("display", "block")
+      $(".add_more").css("display", "none")
 
 
 
@@ -1407,8 +1427,8 @@ var register = {
       $(".d_email_label").text("Partner/Director Email")
       $(".d_email_alternate_label").text("Partner/Director Alternate Email")
 
+      $(".add_more").css("display","")
       $(".pan_for_partnership").css("display", "block")
-      $(".add_more").css("display", "block")
     } else if (value == 3 || value == 4) {
 
       $(".d_name_label").text("Director Name")
@@ -1417,7 +1437,7 @@ var register = {
       $(".d_contact_alternate_label").text("Director Alternate Contact")
       $(".d_email_label").text("Director Email")
       $(".d_email_alternate_label").text("Director Alternate Email")
-      $(".add_more").css("display", "block")
+      $(".add_more").css("display", "")
     }
 
   },
@@ -1507,6 +1527,7 @@ var register = {
     var value = $("#country").val()
 
     if (value == "India") {
+      $(".ifsc_label").text("IFSC Code")
 
     } else {
       $(".ifsc_label").text("Swift Code")

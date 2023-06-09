@@ -276,6 +276,15 @@ var vendor = {
                 $("#ssi_no").val(info.ssi_no ? info.ssi_no : "")
                 $("#payment_terms").val(info.payment_terms ? info.payment_terms : "")
 
+                $("#accounting_ref").val(info.accounting_ref ? info.accounting_ref : "")
+                $("#sales_ref").val(info.sales_ref ? info.sales_ref : "")
+                $("#delivery_terms").val(info.delivery_terms ? info.delivery_terms : "")
+                $("#financial_supplier").val(info.financial_supplier ? info.financial_supplier : "")
+                $("#s_name_as_per_name").val(info.s_name_as_per_name ? info.s_name_as_per_name : "")
+                $("#supplier_type").val(info.supplier_type ? info.supplier_type : "")
+                $("#type_of_item").val(info.type_of_item ? info.type_of_item : "")
+
+
 
 
 

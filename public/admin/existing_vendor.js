@@ -167,13 +167,11 @@ var vendor = {
                     'class': 'center',
                     'render': function (data, type, row) {
                         var downloadAttachment = row['download_attachment'];
-
-                        console.log("downloadAttachment", downloadAttachment)
-
                         if (downloadAttachment == "" || downloadAttachment == undefined) {
-                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="vendor/download_pdf/${data}"><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        
+                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="vendor/download_pdf/${data}"><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> <a href="vendor/download_pdf_it/${data}"><i class="mdi mdi-file-document-box mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                         } else {
-                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> <a href="vendor/download_pdf_it/${data}"><i class="mdi mdi-file-document-box mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
                         }
                     }
@@ -432,6 +430,15 @@ var vendor = {
                 $("#msme_no").val(info.msme_no ? info.msme_no : "")
                 $("#ssi_no").val(info.ssi_no ? info.ssi_no : "")
                 $("#payment_terms").val(info.payment_terms ? info.payment_terms : "")
+
+                $("#accounting_ref").val(info.accounting_ref ? info.accounting_ref : "")
+                $("#sales_ref").val(info.sales_ref ? info.sales_ref : "")
+                $("#delivery_terms").val(info.delivery_terms ? info.delivery_terms : "")
+                $("#financial_supplier").val(info.financial_supplier ? info.financial_supplier : "")
+                $("#s_name_as_per_name").val(info.s_name_as_per_name ? info.s_name_as_per_name : "")
+                $("#supplier_type").val(info.supplier_type ? info.supplier_type : "")
+                $("#type_of_item").val(info.type_of_item ? info.type_of_item : "")
+
 
 
 

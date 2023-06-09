@@ -85,6 +85,8 @@ const vendorSchema = new mongoose.Schema({
         required: true
     },
 
+
+
     gst_url: {
         type: [],
 
@@ -204,6 +206,34 @@ const vendorSchema = new mongoose.Schema({
         type: String,
         default:null
     },
+    accounting_ref : {
+        type: String,
+        default:null
+    },
+    sales_ref : {
+        type: String,
+        default:null
+    },
+    delivery_terms : {
+        type: String,
+        default:null
+    },
+    financial_supplier : {
+        type: String,
+        default:null
+    },
+    s_name_as_per_name : {
+        type: String,
+        default:null
+    },
+    supplier_type : {
+        type: String,
+        default:null
+    },
+    type_of_item : {
+        type: String,
+        default:null
+    },
 
 
 
@@ -221,6 +251,8 @@ const vendorSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     }
+} ,{
+    timestamps: true,
 });
 
 

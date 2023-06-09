@@ -26,7 +26,7 @@
             data-target="#view_model">Large
             modal</button>
 
-        <div class="modal fade bd-example-modal-lg" id="view_model" tabindex="-1" role="dialog"
+            <div class="modal fade bd-example-modal-lg" id="view_model" tabindex="-1" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -53,15 +53,15 @@
                                 </div>
                             </div>
                             <!-- <div class="col-md-6">
-                                  <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Mobile Number</label>
-                                    <div class="col-sm-9">
-                                      <input type="number" class="form-control" id="mobile_number"
-                                        placeholder="Enter Mobile Number.." required=""
-                                        data-parsley-required-message="Please Enter Mobile Number" />
-                                    </div>
-                                  </div>
-                                </div> -->
+                              <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Mobile Number</label>
+                                <div class="col-sm-9">
+                                  <input type="number" class="form-control" id="mobile_number"
+                                    placeholder="Enter Mobile Number.." required=""
+                                    data-parsley-required-message="Please Enter Mobile Number" />
+                                </div>
+                              </div>
+                            </div> -->
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Email</label>
@@ -80,7 +80,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Firm Type</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" id="firm_type">
+                                        <select class="form-control" id="firm_type"
+                                           >
                                             <option value=0>Select firm type</option>
                                             <option value=1>Proprietorship</option>
                                             <option value=2>Partnership</option>
@@ -90,6 +91,43 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Accounting Reference </label>
+                                  <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="accounting_ref" placeholder="Enter Accounting Reference.."
+                                      required="" data-parsley-required-message="Please Enter Accounting Reference" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Sales Reference </label>
+                                  <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="sales_ref" placeholder="Enter Sales Reference.."
+                                      required="" data-parsley-required-message="Please Enter Sales Reference" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Delivery Terms </label>
+                                  <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="delivery_terms" placeholder="Enter Delivery Terms.."
+                                      required="" data-parsley-required-message="Please Enter Delivery Terms" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Financial Supplier </label>
+                                  <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="financial_supplier" placeholder="Enter Financial Supplier.."
+                                      required="" data-parsley-required-message="Please Enter Financial Supplier" />
+                                  </div>
+                                </div>
+                              </div>
+          
 
                         </div>
 
@@ -102,8 +140,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Address 1</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="address" placeholder="Enter Address"
-                                            required="" data-parsley-required-message="Please Enter Address" />
+                                        <input type="text" class="form-control" id="address"
+                                            placeholder="Enter Address" required=""
+                                            data-parsley-required-message="Please Enter Address" />
                                     </div>
                                 </div>
                             </div>
@@ -124,8 +163,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Landmark</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="city" placeholder="Enter Landmark"
-                                            required="" data-parsley-required-message="Please Enter Landmark" />
+                                        <input type="text" class="form-control" id="city"
+                                            placeholder="Enter Landmark" required=""
+                                            data-parsley-required-message="Please Enter Landmark" />
                                     </div>
                                 </div>
                             </div>
@@ -185,6 +225,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Sup. Name As Per Name</label>
+                                  <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="s_name_as_per_name" placeholder="Enter Sup. Name As Per Name"
+                                      required="" data-parsley-required-message="Please Enter Sup. Name As Per Name" />
+                                  </div>
+                                </div>
+                              </div>
 
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -221,7 +270,8 @@
                                     <label class="col-sm-3 col-form-label"> Select Country</label>
                                     <div class="col-sm-9">
                                         <!-- Country names and Country Name -->
-                                        <select class="form-select form-control" id="country" name="country">
+                                        <select class="form-select form-control" id="country" name="country"
+                                           >
                                             <option value="Afghanistan">Afghanistan</option>
                                             <option value="Aland Islands">Aland Islands</option>
                                             <option value="Albania">Albania</option>
@@ -509,8 +559,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label ifsc_label">IFSC Code</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="ifsc_code" placeholder="Enter code"
-                                            required="" data-parsley-required-message="Please Enter Code" />
+                                        <input type="text" class="form-control" id="ifsc_code"
+                                            placeholder="Enter code" required=""
+                                            data-parsley-required-message="Please Enter Code" />
                                     </div>
                                 </div>
                             </div>
@@ -518,8 +569,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label ifsc_label">MICR Code</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="micr_code" placeholder="Enter code"
-                                            required="" data-parsley-required-message="Please Enter MICR Code" />
+                                        <input type="text" class="form-control" id="micr_code"
+                                            placeholder="Enter code" required=""
+                                            data-parsley-required-message="Please Enter MICR Code" />
                                     </div>
                                 </div>
                             </div>
@@ -529,7 +581,7 @@
 
                                     <div class="col-sm-9">
                                         <!-- <input type="file" class="form-control" id="old_noc"
-                                                onchange="register.upload_noc_files(this)" multiple /> -->
+                                            onchange="register.upload_noc_files(this)" multiple /> -->
                                         <div class="img_pre mt-2" id="noc_documents_section" style="display: flex;">
                                         </div>
                                     </div>
@@ -543,8 +595,9 @@
 
                                     <div class="col-sm-9">
                                         <!-- <input type="file" class="form-control" id="cancelled_cheque"
-                                                onchange="register.upload_cheque_files(this)" multiple /> -->
-                                        <div class="img_pre mt-2" id="cheque_documents_section" style="display: flex;">
+                                            onchange="register.upload_cheque_files(this)" multiple /> -->
+                                        <div class="img_pre mt-2" id="cheque_documents_section"
+                                            style="display: flex;">
                                         </div>
                                     </div>
                                 </div>
@@ -567,9 +620,9 @@
                                 </p>
                             </div>
                             <!-- <div class="col-6" style="text-align: end;">
-                                    <a class="btn btn-success add_more" onclick="register.append_contact_details()">Add
-                                        More</a>
-                                </div> -->
+                                <a class="btn btn-success add_more" onclick="register.append_contact_details()">Add
+                                    More</a>
+                            </div> -->
                         </div>
 
                         <div id="contact_section">
@@ -587,7 +640,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label d_designation_label">Designation</label>
+                                        <label
+                                            class="col-sm-3 col-form-label d_designation_label">Designation</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control d_designation"
                                                 placeholder="Enter Designation" required=""
@@ -652,10 +706,10 @@
                                                 data-parsley-required-message="Please Enter Pan Number" />
                                         </div>
                                         <!-- <div class="col-sm-3 pan_verify_btn_section" id="pan_verify_btn_section">
-                                                <a class="btn btn-block btn-success  font-weight-medium"
-                                                    onclick="register.verify_pan1(this)">Verify</a>
+                                            <a class="btn btn-block btn-success  font-weight-medium"
+                                                onclick="register.verify_pan1(this)">Verify</a>
 
-                                            </div> -->
+                                        </div> -->
                                     </div>
 
 
@@ -665,7 +719,7 @@
                                         <label class="col-sm-3 col-form-label">PAN Card</label>
                                         <div class="col-sm-9">
                                             <!-- <input type="file" class="form-control"
-                                                    onchange="register.upload_pan_files1(this)" /> -->
+                                                onchange="register.upload_pan_files1(this)" /> -->
                                             <div class="img_pre mt-2" id="pan_documents_section_1"
                                                 style="display: flex;">
                                             </div>
@@ -692,7 +746,7 @@
                                     Sales Details
                                 </p>
                             </div>
-
+                            
                         </div>
 
 
@@ -819,8 +873,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Accounts Person Email </label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="p_email" placeholder="Enter Email"
-                                            required="" data-parsley-required-message="Please Enter Email" />
+                                        <input type="email" class="form-control" id="p_email"
+                                            placeholder="Enter Email" required=""
+                                            data-parsley-required-message="Please Enter Email" />
                                     </div>
                                 </div>
                             </div>
@@ -873,6 +928,24 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Supplier Terms </label>
+                                  <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="supplier_type" placeholder="Enter Supplier Terms"
+                                      required="" data-parsley-required-message="Please Enter Supplier Terms" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Type Of Item </label>
+                                  <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="type_of_item" placeholder="Enter Type Of Item"
+                                      required="" data-parsley-required-message="Please Enter Type Of Item" />
+                                  </div>
+                                </div>
+                              </div>
                         </div>
 
 
@@ -958,10 +1031,10 @@
                                             data-parsley-required-message="Please Enter Pan Number" />
                                     </div>
                                     <!-- <div class="col-sm-3" id="pan_verify_btn_section">
-                                            <a class="btn btn-block btn-success  font-weight-medium"
-                                                onclick="register.verify_pan()">Verify</a>
+                                        <a class="btn btn-block btn-success  font-weight-medium"
+                                            onclick="register.verify_pan()">Verify</a>
 
-                                        </div> -->
+                                    </div> -->
                                 </div>
 
 
@@ -971,7 +1044,7 @@
                                     <label class="col-sm-3 col-form-label">PAN Card</label>
                                     <div class="col-sm-9">
                                         <!-- <input type="file" class="form-control" id="pan_card"
-                                                onchange="register.upload_pan_files(this)" multiple /> -->
+                                            onchange="register.upload_pan_files(this)" multiple /> -->
                                         <div class="img_pre mt-2" id="pan_documents_section" style="display: flex;">
                                         </div>
                                     </div>
@@ -1006,7 +1079,7 @@
                         </div>
 
 
-
+                      
 
 
 

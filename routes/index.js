@@ -50,8 +50,10 @@ router.get('/approval-vendors', function(req, res, next) {
 
 
 
+
+
 router.get('/pdf', function(req, res, next) {
-  res.render('admin/pdf.ejs', { title: 'Approval-Vendors', base_url: process.env.base_url });
+  res.render('admin/pdf_it.ejs', { title: 'Approval-Vendors', base_url: process.env.base_url });
 });
 
 

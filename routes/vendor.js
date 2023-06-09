@@ -74,6 +74,9 @@ router.get('/download_pdf/:id', vendorController.download_pdf);
 // ----------get_count------------------------------//
 router.get('/get_count', vendorController.get_count);
 
+// ----------download_pdf_it----------------//
+router.get('/download_pdf_it/:id', vendorController.download_pdf_it);
+
 
 
 

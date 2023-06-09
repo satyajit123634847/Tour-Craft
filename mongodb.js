@@ -16,17 +16,6 @@ const mongoose = require("mongoose")
 
 
 
-    // --------production_database ------------------------//
-
-        // mongoose.connect('mongodb://root:root1234@13.231.133.55:27017/',)
-
-        // .then(success => {
-        //     console.log('database connected')
-        // })
-        // .catch(error => {
-        //     console.log("error while connecting database", error)
-        // })
-
 
   
 

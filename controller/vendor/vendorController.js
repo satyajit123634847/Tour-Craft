@@ -266,11 +266,11 @@ exports.save_vendor_data = async (req, res) => {
 
     console.log(req.body)
 
-    const { mode_of_payment, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
+    const { mode_of_payment, accounting_ref, delivery_terms, financial_supplier, type_of_item, s_name_as_per_name, supplier_type, sales_ref, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
 
     const existingUser = await firmDataModel.findOne({ pan_card_number: pan_card_number, status: true });
 
-    new firmDataModel({ mode_of_payment, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
+    new firmDataModel({ mode_of_payment, accounting_ref, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
         .save()
         .then(async (data) => {
             await new timelineVendor({ vendor_id: vendor_id, type: "Vendor Fill The Form.", action_status: 2 }).save()
@@ -351,9 +351,9 @@ exports.save_vendor_data = async (req, res) => {
 // ---------update_vendor_data----------------------//
 exports.update_vendor_data = async (req, res) => {
 
-    const { mode_of_payment, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
+    const { mode_of_payment, accounting_ref, delivery_terms, financial_supplier, type_of_item, s_name_as_per_name, supplier_type, sales_ref, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
 
-    firmDataModel.findByIdAndUpdate({ _id: req.params.id }, { mode_of_payment, payment_terms, micr_code, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
+    firmDataModel.findByIdAndUpdate({ _id: req.params.id }, { mode_of_payment, accounting_ref, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
         .then(async (data) => {
             await new timelineVendor({ vendor_id: vendor_id, type: " Update Vendor Form.", action_status: 2 }).save()
             var vendor_data = await vendorsModel.findByIdAndUpdate({ _id: vendor_id }, {
@@ -564,7 +564,7 @@ exports.revert_to_vendor = async (req, res) => {
             remark: remark,
             operator_by: reject_data_id,
             level_status: 4,
-            is_revert:true
+            is_revert: true
         })
 
         await new timelineVendor({ vendor_id: vendor_id, type: "Revert Back To Finance.", action_status: 1, operator_by: operator_by, operator_type: operator_type, comment: comment_revert, attachment: attachment_revert, remark: remark }).save()
@@ -629,7 +629,7 @@ exports.revert_to_vendor = async (req, res) => {
             remark: remark,
             operator_by: reject_data_id,
             level_status: 5,
-            is_revert:true
+            is_revert: true
         })
 
         await new timelineVendor({ vendor_id: vendor_id, type: "Revert Back To IT Team.", action_status: 1, operator_by: operator_by, operator_type: operator_type, comment: comment_revert, attachment: attachment_revert, remark: remark }).save()
@@ -678,7 +678,73 @@ exports.revert_to_vendor = async (req, res) => {
         `
         await helper.sendmail(email, cc, subject, html)
 
-    } else if (operator_type == "CFO") {
+    } else if (operator_type == "Finance Compliance Verification") {
+        var reject_data = await timelineVendor.find({ vendor_id: vendor_id, operator_type: "Initiator Login" })
+
+        var reject_data_id = null
+        if (reject_data.length > 0) {
+            reject_data_id = reject_data[0].operator_by
+
+        }
+        var vendor_data = await vendorsModel.findByIdAndUpdate({ _id: vendor_id }, {
+
+            comment: comment_revert,
+            attachment: attachment_revert,
+            remark: remark,
+            operator_by: reject_data_id,
+            level_status: 1,
+            is_revert: true
+        })
+
+        await new timelineVendor({ vendor_id: vendor_id, type: "Revert Back To Initiator Login.", action_status: 1, operator_by: operator_by, operator_type: operator_type, comment: comment_revert, attachment: attachment_revert, remark: remark }).save()
+
+        var admin_data = ""
+        if (reject_data_id != undefined) {
+
+            admin_data = await adminModel.findById({ _id: reject_data_id })
+
+        }
+
+
+        var email = admin_data.email
+        var cc = ""
+        var subject = "Finance Team Rejects Vendor Form – Notification to Initiator Login"
+
+        var url = process.env.base_url
+        var html = `<!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Finance TeamRejects Vendor Form – Notification to  Initiator Login</title>
+        </head>
+        <body>
+          <h2>Finance Team Rejects Vendor Form – Notification to  Initiator Login</h2>
+        
+          <p>Dear ${admin_data.name},</p>
+        
+          <p>I hope this email finds you well. I am writing to inform you that the Finance Team has rejected a vendor form submitted for approval. The details of the rejected vendor form are as follows:</p>
+        
+          <ul>
+            <li><strong>Vendor Name:</strong> ${vendor_data.name}</li>
+            <li><strong>Vendor Contact:</strong> ${vendor_data.mobile_number}</li>
+            <li><strong>Reason for Rejection:</strong> ${comment_revert}</li>
+          </ul>
+        
+          
+        
+          <p>Thank you for your attention to this matter.</p>
+        
+          <p>Best regards,</p>
+        
+         
+        </body>
+        </html>
+        `
+        await helper.sendmail(email, cc, subject, html)
+
+
+    }
+    else if (operator_type == "CFO") {
 
         var reject_data = await timelineVendor.find({ vendor_id: vendor_id, operator_type: "Initiator Login" })
 
@@ -694,7 +760,7 @@ exports.revert_to_vendor = async (req, res) => {
             remark: remark,
             operator_by: reject_data_id,
             level_status: 1,
-            is_revert:true
+            is_revert: true
         })
 
         await new timelineVendor({ vendor_id: vendor_id, type: "Revert Back To Initiator Form CFO.", action_status: 1, operator_by: operator_by, operator_type: operator_type, comment: comment_revert, attachment: attachment_revert, remark: remark }).save()
@@ -758,7 +824,7 @@ exports.revert_to_vendor = async (req, res) => {
             comment: comment_revert,
             attachment: attachment_revert,
             remark: remark,
-            operator_by: reject_data_id, is_revert:true
+            operator_by: reject_data_id, is_revert: true
         })
 
         await new timelineVendor({ vendor_id: vendor_id, type: "Revert Back.", action_status: 1, operator_by: operator_by, operator_type: operator_type, comment: comment_revert, attachment: attachment_revert, remark: remark }).save()
@@ -1180,6 +1246,7 @@ async function generatePDF(htmlData) {
         content: `
         @page {
           margin-top: 2cm; /* Adjust the margin value as per your requirement */
+          margin-bottom: 2cm; /* Adjust the margin value as per your requirement */
         }
       `,
     });
@@ -1198,21 +1265,21 @@ async function generatePDF(htmlData) {
 
 exports.get_count = async (req, res) => {
 
-    var total = await vendorsModel.find({ status: true }).countDocuments() 
+    var total = await vendorsModel.find({ status: true }).countDocuments()
 
-    var pending_total = await vendorsModel.find({ final_approval: false , status:true }).countDocuments()
-    var approval_total = await vendorsModel.find({ final_approval: true , status:true }).countDocuments()
-    var revert_total = await vendorsModel.find({ is_revert:true , status:true }).countDocuments()
+    var pending_total = await vendorsModel.find({ final_approval: false, status: true }).countDocuments()
+    var approval_total = await vendorsModel.find({ final_approval: true, status: true }).countDocuments()
+    var revert_total = await vendorsModel.find({ is_revert: true, status: true }).countDocuments()
 
-    var new_total = await vendorsModel.find({ status:true, level_status:0 }).countDocuments()
+    var new_total = await vendorsModel.find({ status: true, level_status: 0 }).countDocuments()
 
     return res.json({
-        status:true,
-        total:total,
-        pending_total:pending_total,
-        approval_total:approval_total,
-        revert_total:revert_total,
-        new_total:new_total
+        status: true,
+        total: total,
+        pending_total: pending_total,
+        approval_total: approval_total,
+        revert_total: revert_total,
+        new_total: new_total
 
 
     })
@@ -1224,3 +1291,47 @@ exports.get_count = async (req, res) => {
 
 
 }
+
+
+exports.download_pdf_it = async (req, res) => {
+
+
+    var firm_data = await firmDataModel.findOne({ vendor_id: req.params.id, status: true }).populate("vendor_id");
+    firm_data.base_url = process.env.base_url
+
+    try {
+        // Retrieve dynamic data from the database or generate it dynamically
+        var userData = firm_data
+
+        console.log("userData", userData)
+
+        // res.render('admin/pdf.ejs', { userData });
+        // return
+        // Render the template with dynamic data
+        const templatePath = 'views/admin/pdf_it.ejs';
+        ejs.renderFile(templatePath, { userData }, async (err, renderedHtml) => {
+            if (err) {
+                console.error('Error rendering template:', err);
+                res.status(500).send('Error rendering template');
+                return;
+            }
+
+            // Generate PDF from the rendered HTML
+            const pdfBuffer = await generatePDF(renderedHtml);
+
+            // Set response headers for file download
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename=${userData.vendor_id.name}.pdf`);
+
+            // Send the PDF buffer as the response
+            res.send(pdfBuffer);
+        });
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        res.status(500).send('Error generating PDF');
+    }
+
+
+}
+
+

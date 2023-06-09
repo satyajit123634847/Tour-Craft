@@ -82,6 +82,46 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Accounting Reference </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="accounting_ref"
+                                                    placeholder="Enter Accounting Reference.."  value="<%=userData.accounting_ref ? userData.accounting_ref : '' %>"  required=""
+                                                    data-parsley-required-message="Please Enter Accounting Reference" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Sales Reference </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="sales_ref"
+                                                    placeholder="Enter Sales Reference.."  value="<%=userData.sales_ref ? userData.sales_ref : '' %>"  required=""
+                                                    data-parsley-required-message="Please Enter Sales Reference" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Delivery Terms </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="delivery_terms"
+                                                    placeholder="Enter Delivery Terms.."  value="<%=userData.delivery_terms ? userData.delivery_terms : '' %>"  required=""
+                                                    data-parsley-required-message="Please Enter Delivery Terms" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Financial Supplier </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="financial_supplier"
+                                                    placeholder="Enter Financial Supplier.."  value="<%=userData.financial_supplier ? userData.financial_supplier : '' %>"  required=""
+                                                    data-parsley-required-message="Please Enter Financial Supplier" />
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
 
@@ -184,6 +224,17 @@
                                                     <option value="LC">LC</option>
                                                     <option value="Cheque">Cheque</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Sup. Name As Per Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="s_name_as_per_name"
+                                                    placeholder="Enter Sup. Name As Per Name"   value="<%=userData.s_name_as_per_name ? userData.s_name_as_per_name : '' %>" required=""
+                                                    data-parsley-required-message="Please Enter Sup. Name As Per Name" />
                                             </div>
                                         </div>
                                     </div>
@@ -1011,6 +1062,26 @@
                                                                         placeholder="Enter Incoterms / Location"
                                                                         data-parsley-required-message="Please Enter Incoterms / Location"
                                                                         value="<%= userData.incoterms_location %>" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-3 col-form-label">Supplier Terms </label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control" id="supplier_type"
+                                                                        placeholder="Enter Supplier Terms" value="<%= userData.supplier_type %>" required=""
+                                                                        data-parsley-required-message="Please Enter Supplier Terms" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-3 col-form-label">Type Of Item </label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control" value="<%= userData.type_of_item %>" id="type_of_item"
+                                                                        placeholder="Enter Type Of Item" required=""
+                                                                        data-parsley-required-message="Please Enter Type Of Item" />
                                                                 </div>
                                                             </div>
                                                         </div>

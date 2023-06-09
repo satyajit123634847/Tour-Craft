@@ -15,7 +15,7 @@ const vendorSchema = new mongoose.Schema({
 
   mobile_number: {
     type: Number,
-    default:null
+    default: null
     // required: true,
 
   },
@@ -35,7 +35,7 @@ const vendorSchema = new mongoose.Schema({
   },
   download_attachment: {
     type: String,
-    default:""
+    default: ""
 
   },
 
@@ -96,6 +96,8 @@ const vendorSchema = new mongoose.Schema({
     type: String,
     default: "Register"
   },
+}, {
+  timestamps: true,
 });
 
 vendorSchema.pre('save', async function (next) {
