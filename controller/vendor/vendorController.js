@@ -86,7 +86,7 @@ exports.login = async (req, res) => {
 
     const { username, password } = req.body;
     const vendorsModel_data = await vendorsModel.findOne({ username: username, status: true });
-    console.log("vendorsModel_data", vendorsModel_data)
+    
     if (!vendorsModel_data) {
         return res.json({
             status: true,
