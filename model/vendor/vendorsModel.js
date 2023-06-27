@@ -60,6 +60,10 @@ const vendorSchema = new mongoose.Schema({
     default: 0
   },
   ban_number_input: {
+    type: Number,
+
+  },
+  financial_supplier: {
     type: String,
 
   },

@@ -2,6 +2,8 @@ var register = {
   base_url: null,
   is_update: false,
   is_pan: false,
+  is_gst: false,
+
 
   init: function () {
     register.bind_events()
@@ -33,13 +35,23 @@ var register = {
       // Perform form validation using Parsley or other validation libraries
       if ($('#register_form').parsley().isValid()) {
 
-        if (register.is_pan) {
+        if (register.is_pan && register.is_gst) {
           $("#register_btn").attr("disabled", true);
 
           register.register_user()
         } else {
-          toastr.options.positionClass = 'toast-bottom-right';
-          toastr.error("Please verify pan number..", '', { timeOut: 3000 })
+
+          if (register.is_pan == false) {
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.error("Please verify pan number..", '', { timeOut: 3000 })
+
+          }
+          if (register.is_gst == false) {
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.error("Please verify gst number..", '', { timeOut: 3000 })
+
+          }
+
         }
       }
     })
@@ -61,7 +73,7 @@ var register = {
       toastr.error("Please select firm type..", '', { timeOut: 3000 })
       $("#register_btn").attr("disabled", false);
 
-    }else if ($("#mode_of_payment").val() == 0 || $("#mode_of_payment").val() == "0") {
+    } else if ($("#mode_of_payment").val() == 0 || $("#mode_of_payment").val() == "0") {
 
       toastr.options.positionClass = 'toast-bottom-right';
       toastr.error("Please select mode of payment..", '', { timeOut: 3000 })
@@ -671,6 +683,8 @@ var register = {
           } else {
             register.is_update = true
             register.is_pan = true
+            register.is_gst = true
+
             $("#old_bank_noc_section").css("display", "block")
           }
         }
@@ -1005,7 +1019,7 @@ var register = {
                           <label class="col-sm-3 col-form-label">Pan Card Number</label>
                           <div class="col-sm-6  pan_verify_btn_section_input">
                             <input type="text" class="form-control pan_verify_input" id=""
-                              placeholder="Enter Pan Card Number" required=""
+                              placeholder="Enter Pan Card Number" maxlength="10" oninput="convertToUppercase(this)" required=""
                               data-parsley-required-message="Please Enter Pan Number" value="${data.pan_number}"/>
                           </div>
                           <div class="col-sm-3 pan_verify_btn_section" id="pan_verify_btn_section">
@@ -1262,7 +1276,7 @@ var register = {
           <label class="col-sm-3 col-form-label">Pan Card Number</label>
           <div class="col-sm-6  pan_verify_btn_section_input">
             <input type="text" class="form-control pan_verify_input" id=""
-              placeholder="Enter Pan Card Number" required=""
+              placeholder="Enter Pan Card Number" maxlength="10" oninput="convertToUppercase(this)" required=""
               data-parsley-required-message="Please Enter Pan Number" />
           </div>
           <div class="col-sm-3 pan_verify_btn_section" id="pan_verify_btn_section">
@@ -1415,6 +1429,7 @@ var register = {
       $(".d_email_alternate_label").text("Proprietor Alternate Email")
 
       $(".add_more").css("display", "none")
+      $(".pan_for_partnership").css("display", "block")
 
 
 
@@ -1427,7 +1442,7 @@ var register = {
       $(".d_email_label").text("Partner/Director Email")
       $(".d_email_alternate_label").text("Partner/Director Alternate Email")
 
-      $(".add_more").css("display","")
+      $(".add_more").css("display", "")
       $(".pan_for_partnership").css("display", "block")
     } else if (value == 3 || value == 4) {
 
@@ -1438,6 +1453,8 @@ var register = {
       $(".d_email_label").text("Director Email")
       $(".d_email_alternate_label").text("Director Alternate Email")
       $(".add_more").css("display", "")
+      $(".pan_for_partnership").css("display", "none")
+
     }
 
   },
@@ -1451,32 +1468,52 @@ var register = {
       toastr.error("Please enter pan number", '', { timeOut: 3000 })
 
     } else {
-      var $request = $.ajax({
-        url: `${register.base_url}/vendor/verify_pan/${pan_number}`,
-        type: "GET",
-        dataType: "json",
-        contentType: "application/json",
 
-      });
-
-      $request.done(function (data) {
-
-        if (data.status) {
-
-          $("#pan_verify_btn_section").css("display", "none")
-          toastr.options.positionClass = 'toast-bottom-right';
-          toastr.success(data.message, '', { timeOut: 3000 })
-          register.is_pan = true
+      var panNumber = pan_number
+      var pattern = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
 
 
-        } else {
-          toastr.options.positionClass = 'toast-bottom-right';
-          toastr.error(data.message, '', { timeOut: 3000 })
-        }
+      if (pattern.test(panNumber)) {
+
+        var $request = $.ajax({
+          url: `${register.base_url}/vendor/verify_pan/${pan_number}`,
+          type: "GET",
+          dataType: "json",
+          contentType: "application/json",
+
+        });
+
+        $request.done(function (data) {
+
+          if (data.status) {
+
+            $(e).css("display", "none")
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.success(data.message, '', { timeOut: 3000 })
+            register.is_pan = true
+
+
+          } else {
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.error(data.message, '', { timeOut: 3000 })
+          }
 
 
 
-      })
+        })
+
+
+
+      } else {
+
+        toastr.options.positionClass = 'toast-bottom-right';
+        toastr.error("Invalid PAN card number.", '', { timeOut: 3000 })
+
+      }
+
+
+
+
 
     }
 
@@ -1492,8 +1529,68 @@ var register = {
       toastr.error("Please enter pan number", '', { timeOut: 3000 })
 
     } else {
+      var panNumber = pan_number
+      var pattern = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+
+
+      if (pattern.test(panNumber)) {
+
+        var $request = $.ajax({
+          url: `${register.base_url}/vendor/verify_pan/${pan_number}`,
+          type: "GET",
+          dataType: "json",
+          contentType: "application/json",
+
+        });
+
+        $request.done(function (data) {
+
+          if (data.status) {
+
+            $(e).css("display", "none")
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.success(data.message, '', { timeOut: 3000 })
+            register.is_pan = true
+
+
+          } else {
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.error(data.message, '', { timeOut: 3000 })
+          }
+
+
+
+        })
+
+
+
+      } else {
+
+        toastr.options.positionClass = 'toast-bottom-right';
+        toastr.error("Invalid PAN card number.", '', { timeOut: 3000 })
+
+      }
+
+
+
+
+
+    }
+
+
+  },
+  verify_gst: function (e) {
+
+    var gst_number = $("#gst_number").val()
+
+    if (gst_number == "") {
+
+      toastr.options.positionClass = 'toast-bottom-right';
+      toastr.error("Please enter gst number", '', { timeOut: 3000 })
+
+    } else {
       var $request = $.ajax({
-        url: `${register.base_url}/vendor/verify_pan/${pan_number}`,
+        url: `${register.base_url}/vendor/verify_gst/${gst_number}`,
         type: "GET",
         dataType: "json",
         contentType: "application/json",
@@ -1504,10 +1601,10 @@ var register = {
 
         if (data.status) {
 
-          $(e).css("display", "none")
+          $("#gst_verify_btn_section").css("display", "none")
           toastr.options.positionClass = 'toast-bottom-right';
           toastr.success(data.message, '', { timeOut: 3000 })
-          register.is_pan = true
+          register.is_gst = true
 
 
         } else {

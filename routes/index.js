@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+const firmDataModel = require('../model/vendor/frimDataModel');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express', base_url: process.env.base_url });
@@ -52,8 +54,12 @@ router.get('/approval-vendors', function(req, res, next) {
 
 
 
-router.get('/pdf', function(req, res, next) {
-  res.render('admin/pdf_it.ejs', { title: 'Approval-Vendors', base_url: process.env.base_url });
+router.get('/pdf', async function(req, res, next) {
+  var userData = await firmDataModel.findOne({ vendor_id: "6491d5ee3b04aea660bcee9e", status: true }).populate("vendor_id");
+  userData.base_url = process.env.base_url
+
+  console.log(userData)
+  res.render('admin/pdf_it.ejs', { title: 'Approval-Vendors', base_url: process.env.base_url, userData:userData });
 });
 
 

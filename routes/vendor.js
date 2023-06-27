@@ -68,6 +68,10 @@ router.get('/list_all_approval_by_id/:id', vendorController.list_all_approval_by
 // ----------------verify_pan-----------------------------//
 router.get('/verify_pan/:id', vendorController.verify_pan);
 
+// ----------verify_gst------------------------------//
+router.get('/verify_gst/:id', vendorController.verify_gst);
+
+
 // ---------downloaded_pdf-------------------------//
 router.get('/download_pdf/:id', vendorController.download_pdf);
 
@@ -76,6 +80,10 @@ router.get('/get_count', vendorController.get_count);
 
 // ----------download_pdf_it----------------//
 router.get('/download_pdf_it/:id', vendorController.download_pdf_it);
+
+// ------------download_pdf_it_csv---------------//
+router.get('/download_pdf_it_csv/:id', vendorController.download_pdf_it_csv);
+
 
 
 

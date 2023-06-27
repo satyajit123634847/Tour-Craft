@@ -166,12 +166,18 @@ var vendor = {
                     'sTitle': 'View',
                     'class': 'center',
                     'render': function (data, type, row) {
+                        var it_csv = ""
+                        if(level_status == 4){
+
+                            it_csv= `<a href="vendor/download_pdf_it_csv/${data}"><i class="mdi mdi-file-document-box mx-2" title="Download CSV"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        }else{
+                            it_csv = ""
+                        }
                         var downloadAttachment = row['download_attachment'];
                         if (downloadAttachment == "" || downloadAttachment == undefined) {
-                        
-                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="vendor/download_pdf/${data}"><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> <a href="vendor/download_pdf_it/${data}"><i class="mdi mdi-file-document-box mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="vendor/download_pdf_it/${data}"><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> ${it_csv}`
                         } else {
-                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> <a href="vendor/download_pdf_it/${data}"><i class="mdi mdi-file-document-box mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> ${it_csv}`
 
                         }
                     }
@@ -976,18 +982,24 @@ var vendor = {
 
             if (obj.is_cfo == true) {
                 vendor.load_admin_role(2)
-
+                
                 $("#ban_number_input").attr('disabled', 'disabled')
+                $("#financial_supplier").attr('disabled', 'disabled')
+
 
                 vendor.is_final = true
 
 
             }
             $("#ban_section").css("display", "block")
+            $("#finanical_section").css("display", "block")
+
 
             if (obj.is_ban == true) {
 
                 $("#ban_number_input").val(obj.ban_number_input)
+                $("#financial_supplier").val(obj.financial_supplier)
+
 
 
 
@@ -1024,6 +1036,7 @@ var vendor = {
 
         vendor.is_ban = false
         $("#forword_section").css("display", "none")
+        
         $("#revert_section").css("display", "block")
 
         $("#forword_btn").css("display", "none")
@@ -1213,6 +1226,8 @@ var vendor = {
             obj.forwarded_to = $("#select_user").val()
             obj.remark = `Approved By ${status}`
             obj.ban_number_input = $("#ban_number_input").val()
+            obj.financial_supplier = $("#financial_supplier").val()
+
 
             obj.operator_by = sessionStorage.getItem("user_id")
             obj.operator_type = sessionStorage.getItem("user_status")

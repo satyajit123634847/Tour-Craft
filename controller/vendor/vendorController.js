@@ -9,6 +9,7 @@ const timelineVendor = require('../../model/admin/timeline_vendor');
 const jwt = require('jsonwebtoken');
 const helper = require("../../helper/emailHelper")
 require('dotenv').config();
+const { createObjectCsvWriter } = require('csv-writer');
 
 const mongoose = require("mongoose");
 
@@ -18,6 +19,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const ejs = require('ejs');
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const path = require('path');
 
 
 // ---------register---------------------//
@@ -86,7 +88,7 @@ exports.login = async (req, res) => {
 
     const { username, password } = req.body;
     const vendorsModel_data = await vendorsModel.findOne({ username: username, status: true });
-    
+
     if (!vendorsModel_data) {
         return res.json({
             status: true,
@@ -597,7 +599,7 @@ exports.revert_to_vendor = async (req, res) => {
         
           <ul>
             <li><strong>Vendor Name:</strong> ${vendor_data.name}</li>
-            <li><strong>Vendor Contact:</strong> ${vendor_data.mobile_number}</li>
+            <li><strong>Vendor Email:</strong> ${vendor_data.email}</li>
             <li><strong>Reason for Rejection:</strong> ${comment_revert}</li>
           </ul>
         
@@ -662,7 +664,7 @@ exports.revert_to_vendor = async (req, res) => {
         
           <ul>
             <li><strong>Vendor Name:</strong> ${vendor_data.name}</li>
-            <li><strong>Vendor Contact:</strong> ${vendor_data.mobile_number}</li>
+            <li><strong>Vendor Email:</strong> ${vendor_data.email}</li>
             <li><strong>Reason for Rejection:</strong> ${comment_revert}</li>
           </ul>
         
@@ -726,7 +728,7 @@ exports.revert_to_vendor = async (req, res) => {
         
           <ul>
             <li><strong>Vendor Name:</strong> ${vendor_data.name}</li>
-            <li><strong>Vendor Contact:</strong> ${vendor_data.mobile_number}</li>
+            <li><strong>Vendor Email:</strong> ${vendor_data.email}</li>
             <li><strong>Reason for Rejection:</strong> ${comment_revert}</li>
           </ul>
         
@@ -793,7 +795,7 @@ exports.revert_to_vendor = async (req, res) => {
         
           <ul>
             <li><strong>Vendor Name:</strong> ${vendor_data.name}</li>
-            <li><strong>Vendor Contact:</strong> ${vendor_data.mobile_number}</li>
+            <li><strong>Vendor Email:</strong> ${vendor_data.email}</li>
             <li><strong>Reason for Rejection:</strong> ${comment_revert}</li>
           </ul>
         
@@ -974,7 +976,10 @@ exports.resend_revert_to_vendor = async (req, res) => {
 // --------forward_to_admin-----------------------//
 exports.forward_to_admin = async (req, res) => {
 
-    var { comment_forword, vendor_id, attachment_forword, operator_by, operator_type, forwarded_to, remark, ban_number_input, is_final } = req.body
+
+    console.log(req.body)
+
+    var { comment_forword, vendor_id, attachment_forword, operator_by, operator_type, forwarded_to, remark, ban_number_input, is_final, financial_supplier } = req.body
     var level_status = 0
 
 
@@ -1015,6 +1020,7 @@ exports.forward_to_admin = async (req, res) => {
             is_ban: true,
             remark: remark,
             ban_number_input: ban_number_input,
+            financial_supplier: financial_supplier,
             final_approval: final,
             download_attachment: attachment_forword[0]
         })
@@ -1084,7 +1090,7 @@ exports.forward_to_admin = async (req, res) => {
         <p>I hope this email finds you well. I am writing to bring to your attention a vendor approval request that requires your attention and authorization. The following details are provided for your review:</p>
     
         <p><strong>Vendor Name:</strong> ${vendor_data.name}<br>
-        <strong>Vendor Contact:</strong> ${vendor_data.mobile_number}<br>
+        <strong>Vendor Email:</strong> ${vendor_data.email}<br>
         <strong>Vendor Email:</strong> ${vendor_data.email}</p>
     
        
@@ -1183,6 +1189,27 @@ exports.verify_pan = async (req, res) => {
         return res.json({
             status: true,
             message: "Pan verify successfully..!"
+        })
+
+    }
+
+
+
+}
+
+// ------------verify_gst-----------
+exports.verify_gst = async (req, res) => {
+
+    const existingUser = await firmDataModel.findOne({ gst_number: req.params.id, status: true });
+    if (existingUser) {
+        return res.json({
+            status: false,
+            message: "GST number already exists..!"
+        })
+    } else {
+        return res.json({
+            status: true,
+            message: "GST number  successfully..!"
         })
 
     }
@@ -1333,5 +1360,246 @@ exports.download_pdf_it = async (req, res) => {
 
 
 }
+
+
+
+
+exports.download_pdf_it_csv = async (req, res) => {
+    var data = await firmDataModel.find({ vendor_id: req.params.id }).populate("vendor_id");
+    console.log(data);
+
+    if (data[0].vendor_id.is_cfo == false) {
+
+        const filePath = path.join(__dirname, 'enquiry.csv');
+        // Create CSV writer
+        const csvWriter = createObjectCsvWriter({
+            path: filePath,
+            header: [
+                { id: 'header', title: 'Header' },
+                { id: 'value', title: 'Value' }
+            ]
+        });
+
+        var records = [];
+
+        data.forEach((item) => {
+            var BAAN_Number = item.vendor_id ? item.vendor_id.ban_number_input : "-";
+            var Supplier = item.vendor_id ? item.vendor_id.name : "-";
+            var Address = item.address ? item.address : "-";
+            var Address2 = item.address1 ? item.address1 : "-";
+            var City = item.city ? item.city : "-";
+            var City1 = item.city1 ? item.city1 : "-";
+            var ZipCode = item.zip_code ? item.zip_code : "-";
+            var accounting_ref = item.accounting_ref ? item.accounting_ref : "-";
+            var sales_ref = item.sales_ref ? item.sales_ref : "-";
+            var payment_terms = item.payment_terms ? item.payment_terms : "-";
+            var delivery_terms = item.delivery_terms ? item.delivery_terms : "-";
+            var Country = item.country ? item.country : "-";
+            var default_currency = item.default_currency ? item.default_currency : "-";
+            var financial_supplier = item.vendor_id ? item.vendor_id.financial_supplier : "-";
+            var Email = item.vendor_id ? item.vendor_id.email : "-";
+            var mobile_number = item.vendor_id.mobile_number ? item.vendor_id.mobile_number : "-";
+            var s_name_as_per_name = item.s_name_as_per_name ? item.s_name_as_per_name : "-";
+            var bank_name = item.bank_name ? item.bank_name : "-";
+            var account_no = item.account_no ? item.account_no : "-";
+            var bank_address = item.bank_address ? item.bank_address : "-";
+            var ifsc_code = item.ifsc_code ? item.ifsc_code : "-";
+            var micr_code = item.micr_code ? item.micr_code : "-";
+
+            var s_name = item.sale_data[0].s_name ? item.sale_data[0].s_name : "-";
+            var s_number = item.sale_data[0].s_number ? item.sale_data[0].s_number : "-";
+            var s_number_alternate = item.sale_data[0].s_number_alternate ? item.sale_data[0].s_number_alternate : "-";
+            var s_email = item.sale_data[0].s_email ? item.sale_data[0].s_email : "-";
+            var s_email_alternate = item.sale_data[0].s_email_alternate ? item.sale_data[0].s_email_alternate : "-";
+            var p_name = item.p_name ? item.p_name : "-";
+            var p_contact = item.p_contact ? item.p_contact : "-";
+            var p_alternate_contact = item.p_alternate_contact ? item.p_alternate_contact : "-";
+            var p_email = item.p_email ? item.p_email : "-";
+            var p_alternate_email = item.p_alternate_email ? item.p_alternate_email : "-";
+            var gst_number = item.gst_number ? item.gst_number : "-";
+            var gst_range = item.gst_range ? item.gst_range : "-";
+            var supplier_type = item.supplier_type ? item.supplier_type : "-";
+            var hsn_sac = item.hsn_sac ? item.hsn_sac : "-";
+            var gst_division = item.gst_division ? item.gst_division : "-";
+            var pan_card_number = item.pan_card_number ? item.pan_card_number : "-";
+            var type_of_item = item.type_of_item ? item.type_of_item : "-";
+            var gst_commissionerate = item.gst_commissionerate ? item.gst_commissionerate : "-";
+            var msme_no = item.msme_no ? item.msme_no : "-";
+            var ssi_no = item.ssi_no ? item.ssi_no : "-";
+            var value = item.vendor_id.firm_type ? item.vendor_id.firm_type : "-";
+
+            if (value == 1) {
+
+
+                var firm_type = "Proprietorship"
+
+            } else if (value == 2) {
+
+
+                var firm_type = "Partnership"
+
+
+            } else if (value == 3) {
+
+
+                var firm_type = "Private Ltd"
+
+            } else {
+
+                var firm_type = "Public Ltd"
+
+
+            }
+
+
+
+
+
+
+
+            records.push(
+                { header: 'Supplier', value: Supplier },
+                { header: 'Address', value: Address },
+                { header: 'Address2', value: Address2 },
+                { header: 'City', value: City },
+                { header: 'City1', value: City1 },
+                { header: 'Zip Code', value: ZipCode },
+                { header: 'Accounting Reference', value: accounting_ref },
+                { header: 'Sales Reference', value: sales_ref },
+                { header: 'Terms of Payment', value: payment_terms },
+                { header: 'Terms of Delivery', value: delivery_terms },
+                { header: 'Country', value: Country },
+                { header: 'Currency', value: default_currency },
+                { header: 'Financial Supplier Group', value: financial_supplier },
+                { header: 'Email', value: Email },
+                { header: 'Telephone', value: mobile_number },
+                { header: 'Sup. Name as per Bank', value: s_name_as_per_name },
+                { header: 'Bank Name', value: bank_name },
+                { header: 'Bank Account No', value: account_no },
+                { header: 'Bank Address', value: bank_address },
+                { header: 'Country', value: Country },
+                { header: 'IFSC Code', value: ifsc_code },
+                { header: 'IBAN No.', value: account_no },
+                { header: 'MICR', value: micr_code },
+                { header: 'Vendor Callback', value: "" }
+            );
+
+            // Map contact_section_data
+            item.contact_section_data.forEach((contact, i) => {
+                records.push(
+                    { header: `Prop/Partner/Director Name ${i + 1} `, value: contact.d_name },
+                    { header: `Prop/Partner/Director Designation ${i + 1}`, value: contact.d_designation },
+                    { header: `Prop/Partner/Director Contact ${i + 1}`, value: contact.d_contact },
+                    { header: `Prop/Partner/Director Alternate Contact ${i + 1}`, value: contact.d_contact_alternate },
+                    { header: `Prop/Partner/Director Email ${i + 1}`, value: contact.d_email },
+                    { header: `Prop/Partner/Director Alternate Email ${i + 1}`, value: contact.d_email_alternate }
+                );
+            });
+
+
+            records.push(
+                { header: 'BAAN Number', value: BAAN_Number },
+                { header: 'Sale Name', value: s_name },
+
+                { header: 'Sale Contact', value: s_number },
+                { header: 'Sale Alternate Contact', value: s_number_alternate },
+                { header: 'Sale Email', value: s_email },
+                { header: 'Sale Alternate Email', value: s_email_alternate },
+                { header: 'Account Person Name', value: p_name },
+                { header: 'Account Person Contact', value: p_contact },
+                { header: 'Account Person Alternate Contact', value: p_alternate_contact },
+                { header: 'Account Person Email', value: p_email },
+                { header: 'Account Person Alternate Email', value: p_alternate_email },
+                { header: 'GST Registration No.', value: gst_number },
+                { header: 'Range', value: gst_range },
+                { header: 'Supplier Type', value: supplier_type },
+                { header: 'HSN/SAC', value: hsn_sac },
+                { header: 'GST Division', value: gst_division },
+                { header: 'Pan Number', value: pan_card_number },
+                { header: 'GST Commissionerate', value: gst_commissionerate },
+                { header: 'Type of Item', value: type_of_item },
+                { header: 'MSME Registered', value: msme_no },
+                { header: 'SSI Registered', value: ssi_no },
+                { header: 'Entity Type', value: firm_type },
+
+
+
+                // { header: 'Sup. Name as per Bank', value: s_name_as_per_name },
+                // { header: 'Bank Name', value: bank_name },
+                // { header: 'Bank Account No', value: account_no },
+                // { header: 'Bank Address', value: bank_address },
+                // { header: 'Country', value: Country },
+                // { header: 'IFSC Code', value: ifsc_code },
+                // { header: 'IBAN No.', value: account_no },
+                // { header: 'MICR', value: micr_code },
+                // { header: 'Vendor Callback', value: "" }
+            );
+
+        });
+
+        // Write headers and records to CSV file
+        await csvWriter.writeRecords(records);
+
+        // Set response headers for file download
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename=${data[0].vendor_id.name}.csv`);
+
+        // Send the CSV file as the response
+        return res.sendFile(filePath);
+
+    } else {
+
+        const filePath = path.join(__dirname, 'enquiry.csv');
+        // Create CSV writer
+        const csvWriter = createObjectCsvWriter({
+            path: filePath,
+            header: [
+                { id: 'header', title: 'Header' },
+                { id: 'value', title: 'Value' }
+            ]
+        });
+
+        var records = [];
+
+        data.forEach((item) => {
+
+            var s_name_as_per_name = item.s_name_as_per_name ? item.s_name_as_per_name : "-";
+            var bank_name = item.bank_name ? item.bank_name : "-";
+            var account_no = item.account_no ? item.account_no : "-";
+            var bank_address = item.bank_address ? item.bank_address : "-";
+            var ifsc_code = item.ifsc_code ? item.ifsc_code : "-";
+            var micr_code = item.micr_code ? item.micr_code : "-";
+            var Country = item.country ? item.country : "-";
+
+            records.push(
+                { header: 'Sup. Name as per Bank', value: s_name_as_per_name },
+                { header: 'Bank Name', value: bank_name },
+                { header: 'Bank Account No', value: account_no },
+                { header: 'Bank Address', value: bank_address },
+                { header: 'Country', value: Country },
+                { header: 'IFSC Code', value: ifsc_code },
+                { header: 'IBAN No.', value: account_no },
+                { header: 'MICR', value: micr_code },
+                { header: 'Vendor Callback', value: "" }
+            );
+
+         
+
+        });
+
+        // Write headers and records to CSV file
+        await csvWriter.writeRecords(records);
+
+        // Set response headers for file download
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename=${data[0].vendor_id.name}_bank_details.csv`);
+
+        // Send the CSV file as the response
+        return res.sendFile(filePath);
+    }
+
+
+};
+
 
 
