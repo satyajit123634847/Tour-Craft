@@ -29,32 +29,32 @@ var register = {
     //     register.register_user()
     // });
 
-    $('#register_form').submit(function (event) {
-      event.preventDefault(); // Prevent default form submission
+    // $('#register_form').submit(function (event) {
+    //   event.preventDefault(); // Prevent default form submission
 
-      // Perform form validation using Parsley or other validation libraries
-      if ($('#register_form').parsley().isValid()) {
+    //   // Perform form validation using Parsley or other validation libraries
+    //   if ($('#register_form').parsley().isValid()) {
 
-        if (register.is_pan && register.is_gst) {
-          $("#register_btn").attr("disabled", true);
+    //     if (register.is_pan && register.is_gst) {
+    //       $("#register_btn").attr("disabled", true);
 
-          register.register_user()
-        } else {
+    //       register.register_user()
+    //     } else {
 
-          if (register.is_pan == false) {
-            toastr.options.positionClass = 'toast-bottom-right';
-            toastr.error("Please verify pan number..", '', { timeOut: 3000 })
+    //       if (register.is_pan == false) {
+    //         toastr.options.positionClass = 'toast-bottom-right';
+    //         toastr.error("Please verify pan number..", '', { timeOut: 3000 })
 
-          }
-          if (register.is_gst == false) {
-            toastr.options.positionClass = 'toast-bottom-right';
-            toastr.error("Please verify gst number..", '', { timeOut: 3000 })
+    //       }
+    //       if (register.is_gst == false) {
+    //         toastr.options.positionClass = 'toast-bottom-right';
+    //         toastr.error("Please verify gst number..", '', { timeOut: 3000 })
 
-          }
+    //       }
 
-        }
-      }
-    })
+    //     }
+    //   }
+    // })
 
 
 
