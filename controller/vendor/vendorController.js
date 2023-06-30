@@ -1376,7 +1376,7 @@ exports.download_pdf_test = async (req, res) => {
         // res.render('admin/pdf.ejs', { userData });
         // return
         // Render the template with dynamic data
-        const templatePath = 'views/admin/pdf.html';
+        const templatePath = 'views/admin/pdf1.ejs';
         ejs.renderFile(templatePath, { userData }, async (err, renderedHtml) => {
             if (err) {
                 console.error('Error rendering template:', err);
