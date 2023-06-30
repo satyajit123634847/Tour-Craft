@@ -1361,6 +1361,47 @@ exports.download_pdf_it = async (req, res) => {
 
 }
 
+exports.download_pdf_test = async (req, res) => {
+
+
+    // var firm_data = await firmDataModel.findOne({ vendor_id: req.params.id, status: true }).populate("vendor_id");
+    // firm_data.base_url = process.env.base_url
+
+    try {
+        // Retrieve dynamic data from the database or generate it dynamically
+        var userData = []
+
+        console.log("userData", userData)
+
+        // res.render('admin/pdf.ejs', { userData });
+        // return
+        // Render the template with dynamic data
+        const templatePath = 'views/admin/pdf.html';
+        ejs.renderFile(templatePath, { userData }, async (err, renderedHtml) => {
+            if (err) {
+                console.error('Error rendering template:', err);
+                res.status(500).send('Error rendering template');
+                return;
+            }
+
+            // Generate PDF from the rendered HTML
+            const pdfBuffer = await generatePDF(renderedHtml);
+
+            // Set response headers for file download
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename=test.pdf`);
+
+            // Send the PDF buffer as the response
+            res.send(pdfBuffer);
+        });
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        res.status(500).send('Error generating PDF');
+    }
+
+
+}
+
 
 
 

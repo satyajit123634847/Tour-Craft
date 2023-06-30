@@ -84,6 +84,10 @@ router.get('/download_pdf_it/:id', vendorController.download_pdf_it);
 // ------------download_pdf_it_csv---------------//
 router.get('/download_pdf_it_csv/:id', vendorController.download_pdf_it_csv);
 
+// ------------download_pdf_test-----------------//
+router.get('/download_pdf_test', vendorController.download_pdf_test);
+
+
 
 
 

@@ -32,7 +32,7 @@
               <div class="card card-dark-blue">
                 <div class="card-body">
                   <p class="mb-4">Pending Vendors</p>
-                  <p class="fs-30 mb-2"  id="pending">4</p>
+                  <p class="fs-30 mb-2" id="pending">4</p>
                   <a href="/existing-vendor" style="color:white">
                     <p>View All</p>
                   </a>
@@ -42,7 +42,7 @@
             <div class="col-md-4 mb-4 stretch-card transparent">
               <div class="card card-dark-blue">
                 <div class="card-body">
-                  <p class="mb-4" >Revert Vendor</p>
+                  <p class="mb-4">Revert Vendor</p>
                   <p class="fs-30 mb-2" id="revert">1</p>
                   <a href="/revert-vendor" style="color:white">
                     <p>View All</p>
@@ -55,7 +55,7 @@
             <div class="col-md-4 mb-4 stretch-card transparent">
               <div class="card card-tale">
                 <div class="card-body">
-                  <p class="mb-4" >Approval Vendor</p>
+                  <p class="mb-4">Approval Vendor</p>
                   <p class="fs-30 mb-2" id="approval">0</p>
                   <a href="/approval-vendors" style="color:white">
                     <p>View All</p>
@@ -67,7 +67,7 @@
               <div class="card card-dark-blue">
                 <div class="card-body">
                   <p class="mb-4">New Register Vendors</p>
-                  <p class="fs-30 mb-2"  id="new">2</p>
+                  <p class="fs-30 mb-2" id="new">2</p>
                   <a href="/new-vendor" style="color:white">
                     <p>View All</p>
                   </a>
@@ -77,7 +77,7 @@
             <div class="col-md-4 mb-4 stretch-card transparent">
               <div class="card card-dark-blue">
                 <div class="card-body">
-                  <p class="mb-4" >Rejected Vendor</p>
+                  <p class="mb-4">Rejected Vendor</p>
                   <p class="fs-30 mb-2" id="rejected">0</p>
                   <a href="/new-vendor" style="color:white">
                     <p>View All</p>
@@ -100,29 +100,29 @@
         $(function () {
           var base_url = "<%=base_url%>";
           var $request = $.ajax({
-          url: `${base_url}/vendor/get_count`,
-          type: "GET",
-          dataType: "json",
-          contentType: "application/json",
+            url: `${base_url}/vendor/get_count`,
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
 
+          });
+
+          $request.done(function (data) {
+
+            if (data.status) {
+
+              $("#total").text(data.total)
+              $("#pending").text(data.pending_total)
+              $("#approval").text(data.approval_total)
+              $("#revert").text(data.revert_total)
+              $("#new").text(data.new_total)
+
+
+            }
+
+          })
         });
 
-        $request.done(function (data) {
-
-          if (data.status) {
-
-            $("#total").text(data.total)
-            $("#pending").text(data.pending_total)
-            $("#approval").text(data.approval_total)
-            $("#revert").text(data.revert_total)
-            $("#new").text(data.new_total)
 
 
-          }
-
-        })
-        });
-
-
-      
       </script>
