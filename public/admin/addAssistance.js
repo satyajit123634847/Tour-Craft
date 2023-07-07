@@ -163,7 +163,19 @@ var assistance = {
         obj.email = $("#email").val()
         obj.user_status = $("#user_status").val()
 
+        var sign = []
+        $(".gst_array_class").each(async function () {
+            sign.push($(this).find(".get_img_section").attr("data-img"));
+  
+        })
+
+        obj.sign = sign[0]
+
+  
+
       
+        console.log(obj)
+        // return
         var id = $("#id").val()
 
         if (id == null || id == "") {
@@ -251,6 +263,19 @@ var assistance = {
 
         $("#submit_data").text("Update")
 
+        if(obj.sign == ""){
+
+        }else{
+            var img = `<div class="mx-1 remove_img_section gst_array_class"><img src="${assistance.base_url}/files/${obj.sign}" class="get_img_section" data-img='${obj.sign}'   width=100px alt="Img">
+            <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${obj.sign}' onclick="assistance.remove_project_images(this)">X</i></a>
+            </div>`
+
+            $("#sign_section").html("")
+            $("#sign_section").append(img)
+
+        }
+       
+
     },
     delete_assistance: function (e) {
         let self = this;
@@ -292,6 +317,85 @@ var assistance = {
             }
         })
 
+    },
+
+    upload_gst_files: function (e) {
+        // --------project banner img-----------------//
+        var formData = new FormData();
+        let media_length = $(e)[0].files.length
+    
+        for (let i = 0; i <= media_length; i++)
+          formData.append('files', $(e)[0].files[i]);
+    
+    
+        var $request = $.ajax({
+          url: `${assistance.base_url}/admin/upload-files`,
+          data: formData,
+          type: 'POST',
+          contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+          processData: false, // NEEDED, DON'T OMIT THIS
+        });
+    
+        $request.done(async function (response) {
+          if (response.status == true) {
+    
+    
+            var project_img_array = []
+    
+            await response.url.map(info => {
+              project_img_array.push(info.filename)
+            })
+    
+    
+            var img = ""
+            project_img_array.map(info => {
+              var ex = info.split('.').pop()
+    
+              if (ex == "mp4") {
+                img += `<div class="mx-1 remove_img_section gst_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                            <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="assistance.remove_project_images(this)">X</i></a>
+                            </div>`
+              } else if (ex == "pdf") {
+                img += `<div class="mx-1 remove_img_section gst_array_class"><img src="images/pdf.png" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                            <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="assistance.remove_project_images(this)">X</i></a>
+                            </div>`
+              }
+              else {
+                img += `<div class="mx-1 remove_img_section gst_array_class"><img src="${assistance.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="assistance.remove_project_images(this)">X</i></a>
+                        </div>`
+    
+              }
+    
+    
+    
+            })
+    
+            $(e).siblings(".img_pre").html("")
+            $(e).siblings(".img_pre").append(img)
+
+          }
+        })
+    
+      },
+
+    remove_project_images: async function (e) {
+
+        Swal.fire({
+            title: 'Are you sure to remove image?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $(e).parent(".a_tag").parent(".remove_img_section").remove()
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.success("Images remove successfully...!", '', { timeOut: 3000 },)
+            }
+        })
     },
 
 

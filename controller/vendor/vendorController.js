@@ -4,6 +4,8 @@ const vendorsModel = require('../../model/vendor/vendorsModel');
 const adminModel = require('../../model/admin/adminUser.model');
 
 const firmDataModel = require('../../model/vendor/frimDataModel');
+const sign_master = require('../../model/vendor/signeModel');
+
 
 const timelineVendor = require('../../model/admin/timeline_vendor');
 const jwt = require('jsonwebtoken');
@@ -27,7 +29,7 @@ exports.register = async (req, res) => {
 
 
     console.log("here")
-    const { name, email } = req.body;
+    const { name, email, code_of_conduct, it_deceleration } = req.body;
     // const existingUser = await vendorsModel.findOne({ email: email, status: true });
     // if (existingUser) {
     //     return res.json({
@@ -37,7 +39,7 @@ exports.register = async (req, res) => {
     // }
 
 
-    new vendorsModel({ name, email })
+    new vendorsModel({ name, email, code_of_conduct, it_deceleration })
         .save()
         .then(async (data) => {
             await new timelineVendor({ vendor_id: data._id, type: "Registered", action_status: 0 }).save()
@@ -219,11 +221,51 @@ exports.list_vendor_approved = async (req, res) => {
 // -------send vendor register email-------------//
 exports.send_vendor_link = async (req, res) => {
 
+    console.log(req.body)
+
     var email = req.body.email
     var cc = ""
     var subject = "Vendor Information Request"
 
     var url = process.env.base_url
+
+    var path_url = ""
+    if (req.body.code_of_conduct[0] == "" || req.body.code_of_conduct.length == 0) {
+
+        path_url = `${url}/images/CodeofConduct.pdf`
+
+    } else {
+
+        path_url = `${url}/files/${req.body.code_of_conduct[0]}`
+
+    }
+
+    var path_url1 = ""
+    if (req.body.it_deceleration[0] == "" || req.body.it_deceleration.length == 0) {
+
+        path_url1 = `${url}/images/ITDeclaration.pdf`
+
+    } else {
+
+        path_url1 = `${url}/files/${req.body.it_deceleration[0]}`
+
+    }
+
+    const codeOfConductAttachment = {
+        filename: 'code of conduct.pdf',
+        path: path_url
+    };
+
+    const itDeclarationAttachment = {
+        filename: 'it declaration.pdf',
+        path: path_url1
+    };
+
+    const attachments = [codeOfConductAttachment, itDeclarationAttachment];
+
+
+
+
     var html = `<!DOCTYPE html>
     <html>
     <head>
@@ -243,7 +285,8 @@ exports.send_vendor_link = async (req, res) => {
     </body>
     </html>
     `
-    await helper.sendmail(email, cc, subject, html)
+
+    await helper.sendmail1(email, cc, subject, html, attachments)
 
     await vendorsModel.findByIdAndUpdate({ _id: req.body._id }, {
         link_status: 1,
@@ -268,11 +311,11 @@ exports.save_vendor_data = async (req, res) => {
 
     console.log(req.body)
 
-    const { mode_of_payment, accounting_ref, delivery_terms, financial_supplier, type_of_item, s_name_as_per_name, supplier_type, sales_ref, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
+    const { mode_of_payment, msme_attachment, ssi_attachment, it_deceleration_attachment, code_of_conduct_attachment, accounting_ref, delivery_terms, financial_supplier, type_of_item, s_name_as_per_name, supplier_type, sales_ref, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
 
     const existingUser = await firmDataModel.findOne({ pan_card_number: pan_card_number, status: true });
 
-    new firmDataModel({ mode_of_payment, accounting_ref, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
+    new firmDataModel({ mode_of_payment, msme_attachment, ssi_attachment, accounting_ref, it_deceleration_attachment, code_of_conduct_attachment, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
         .save()
         .then(async (data) => {
             await new timelineVendor({ vendor_id: vendor_id, type: "Vendor Fill The Form.", action_status: 2 }).save()
@@ -353,9 +396,11 @@ exports.save_vendor_data = async (req, res) => {
 // ---------update_vendor_data----------------------//
 exports.update_vendor_data = async (req, res) => {
 
-    const { mode_of_payment, accounting_ref, delivery_terms, financial_supplier, type_of_item, s_name_as_per_name, supplier_type, sales_ref, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
+    console.log(req.body)
 
-    firmDataModel.findByIdAndUpdate({ _id: req.params.id }, { mode_of_payment, accounting_ref, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
+    const { mode_of_payment, accounting_ref, it_deceleration_attachment, code_of_conduct_attachment, delivery_terms, msme_attachment, ssi_attachment, financial_supplier, type_of_item, s_name_as_per_name, supplier_type, sales_ref, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
+
+    firmDataModel.findByIdAndUpdate({ _id: req.params.id }, { mode_of_payment, msme_attachment, it_deceleration_attachment, code_of_conduct_attachment, ssi_attachment, accounting_ref, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
         .then(async (data) => {
             await new timelineVendor({ vendor_id: vendor_id, type: " Update Vendor Form.", action_status: 2 }).save()
             var vendor_data = await vendorsModel.findByIdAndUpdate({ _id: vendor_id }, {
@@ -460,13 +505,15 @@ exports.list_vendor_by_status = async (req, res) => {
 
     var query = ""
     if (req.params.id == 0) {
-        query = { $and: [{ status: true }, { final_approval: false }, { approve_status: req.params.id1 }] }
+        query = { $and: [{ status: true }, { final_approval: false }] }
 
     } else {
 
-        query = { $and: [{ status: true }, { level_status: req.params.id }, { final_approval: false }, { approve_status: req.params.id1 }] }
+        query = { $and: [{ status: true }, { level_status: req.params.id }, { final_approval: false }] }
 
     }
+
+    console.log(query)
 
     vendorsModel.find(query)
         .populate("operator_by")
@@ -547,6 +594,8 @@ exports.get_firm_data_by_vendor_id = async (req, res) => {
 // --------revert_to_vendor-----------------------//
 exports.revert_to_vendor = async (req, res) => {
 
+
+    console.log(req.body)
     var { comment_revert, vendor_id, attachment_revert, operator_by, operator_type, remark, is_ban } = req.body
 
 
@@ -613,7 +662,30 @@ exports.revert_to_vendor = async (req, res) => {
         </body>
         </html>
         `
-        await helper.sendmail(email, cc, subject, html)
+        const emailAttachments = attachment_revert.map((filename) => {
+            let attachment = {};
+
+            if (filename.endsWith('.pdf')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.mp3')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            }
+
+            return attachment;
+        });
+
+        await helper.sendmail1(email, cc, subject, html, emailAttachments)
 
     } else if (operator_type == "Finance Compliance Verification" && is_ban == true) {
 
@@ -630,7 +702,7 @@ exports.revert_to_vendor = async (req, res) => {
             attachment: attachment_revert,
             remark: remark,
             operator_by: reject_data_id,
-            level_status: 5,
+            level_status: 4,
             is_revert: true
         })
 
@@ -678,7 +750,30 @@ exports.revert_to_vendor = async (req, res) => {
         </body>
         </html>
         `
-        await helper.sendmail(email, cc, subject, html)
+        const emailAttachments = attachment_revert.map((filename) => {
+            let attachment = {};
+
+            if (filename.endsWith('.pdf')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.mp3')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            }
+
+            return attachment;
+        });
+
+        await helper.sendmail1(email, cc, subject, html, emailAttachments)
 
     } else if (operator_type == "Finance Compliance Verification") {
         var reject_data = await timelineVendor.find({ vendor_id: vendor_id, operator_type: "Initiator Login" })
@@ -707,6 +802,9 @@ exports.revert_to_vendor = async (req, res) => {
 
         }
 
+        await sign_master.updateMany({ vendor_id: vendor_id }, {
+            status: false
+        })
 
         var email = admin_data.email
         var cc = ""
@@ -742,7 +840,30 @@ exports.revert_to_vendor = async (req, res) => {
         </body>
         </html>
         `
-        await helper.sendmail(email, cc, subject, html)
+        const emailAttachments = attachment_revert.map((filename) => {
+            let attachment = {};
+
+            if (filename.endsWith('.pdf')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.mp3')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            }
+
+            return attachment;
+        });
+
+        await helper.sendmail1(email, cc, subject, html, emailAttachments)
 
 
     }
@@ -762,7 +883,10 @@ exports.revert_to_vendor = async (req, res) => {
             remark: remark,
             operator_by: reject_data_id,
             level_status: 1,
-            is_revert: true
+            is_revert: true,
+            is_ban: false,
+            ban_number_input: null,
+            financial_supplier: ""
         })
 
         await new timelineVendor({ vendor_id: vendor_id, type: "Revert Back To Initiator Form CFO.", action_status: 1, operator_by: operator_by, operator_type: operator_type, comment: comment_revert, attachment: attachment_revert, remark: remark }).save()
@@ -774,6 +898,9 @@ exports.revert_to_vendor = async (req, res) => {
 
         }
 
+        await sign_master.updateMany({ vendor_id: vendor_id }, {
+            status: false
+        })
 
         var email = admin_data.email
         var cc = ""
@@ -809,8 +936,30 @@ exports.revert_to_vendor = async (req, res) => {
         </body>
         </html>
         `
-        await helper.sendmail(email, cc, subject, html)
+        const emailAttachments = attachment_revert.map((filename) => {
+            let attachment = {};
 
+            if (filename.endsWith('.pdf')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.mp3')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            }
+
+            return attachment;
+        });
+
+        await helper.sendmail1(email, cc, subject, html, emailAttachments)
     }
     else {
 
@@ -835,6 +984,9 @@ exports.revert_to_vendor = async (req, res) => {
         })
 
 
+        await sign_master.updateMany({ vendor_id: vendor_id }, {
+            status: false
+        })
 
 
         // var attachment_text = ""
@@ -882,7 +1034,31 @@ exports.revert_to_vendor = async (req, res) => {
     </html>
     
     `
-        await helper.sendmail(email, cc, subject, html)
+        const emailAttachments = attachment_revert.map((filename) => {
+            let attachment = {};
+
+            if (filename.endsWith('.pdf')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            } else if (filename.endsWith('.mp3')) {
+                attachment = {
+                    filename: filename,
+                    path: `${url}/files/${filename}`
+                };
+            }
+
+            return attachment;
+        });
+
+        await helper.sendmail1(email, cc, subject, html, emailAttachments)
+
 
 
     }
@@ -981,6 +1157,7 @@ exports.forward_to_admin = async (req, res) => {
 
     var { comment_forword, vendor_id, attachment_forword, operator_by, operator_type, forwarded_to, remark, ban_number_input, is_final, financial_supplier } = req.body
     var level_status = 0
+
 
 
 
@@ -1087,11 +1264,11 @@ exports.forward_to_admin = async (req, res) => {
     <body>
         <p>Dear ${admin_data.name},</p>
     
-        <p>I hope this email finds you well. I am writing to bring to your attention a vendor approval request that requires your attention and authorization. The following details are provided for your review:</p>
+        <p>I hope this email finds you well. I am writing to bring to your attention a vendor approval request that requires your attention and authorization. The following details and attachment are provided for your review:</p>
     
         <p><strong>Vendor Name:</strong> ${vendor_data.name}<br>
         <strong>Vendor Email:</strong> ${vendor_data.email}<br>
-        <strong>Vendor Email:</strong> ${vendor_data.email}</p>
+       
     
        
     
@@ -1103,14 +1280,52 @@ exports.forward_to_admin = async (req, res) => {
     
         <p>Best regards,<br>
         ${forwarded_form.name}<br>
-        ${forwarded_form.user_status}<br>
+      
         ${forwarded_form.email}</p>
 
     </body>
     </html>
     
     `
-    await helper.sendmail(email, cc, subject, html)
+    const emailAttachments = attachment_forword.map((filename) => {
+        let attachment = {};
+
+        if (filename.endsWith('.pdf')) {
+            attachment = {
+                filename: filename,
+                path: `${url}/files/${filename}`
+            };
+        } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif')) {
+            attachment = {
+                filename: filename,
+                path: `${url}/files/${filename}`
+            };
+        } else if (filename.endsWith('.mp3')) {
+            attachment = {
+                filename: filename,
+                path: `${url}/files/${filename}`
+            };
+        }
+
+        return attachment;
+    });
+
+    await helper.sendmail1(email, cc, subject, html, emailAttachments)
+
+
+    var sign_data = await sign_master.find({ vendor_id: vendor_id, operator_type: operator_type, status: true })
+
+    console.log("sign_data", sign_data)
+
+    if (sign_data.length > 0) {
+
+    } else {
+        await new sign_master({ vendor_id: vendor_id, approved_user: operator_by, operator_type: operator_type }).save()
+    }
+
+
+
+
 
 
     return res.json({
@@ -1223,6 +1438,67 @@ exports.download_pdf = async (req, res) => {
 
 
     var firm_data = await firmDataModel.findOne({ vendor_id: req.params.id, status: true }).populate("vendor_id");
+
+
+
+    // Your aggregation query
+    var test = await firmDataModel.aggregate([
+        {
+            $lookup: {
+                from: 'vendors',
+                localField: 'vendor_id',
+                foreignField: '_id',
+                as: 'vendor_id'
+            }
+        },
+        {
+            $unwind: '$vendor_id'
+        },
+        {
+            $lookup: {
+                from: 'sign_masters',
+                localField: 'vendor_id',
+                foreignField: 'vendor_id',
+                as: 'sign_masters'
+            }
+        },
+        {
+            $unwind: '$sign_masters'
+        },
+        {
+            $lookup: {
+                from: 'adminusers',
+                localField: 'sign_masters.approved_user',
+                foreignField: '_id',
+                as: 'sign_masters.approved_user'
+            }
+        },
+        {
+            $unwind: '$sign_masters.approved_user'
+        },
+        // {
+        //     $project: {
+        //         _id: 1,
+        //         vendor_id: {
+        //             _id: '$vendor._id',
+        //             name: '$vendor.name'
+        //         },
+        //         sign_master: {
+        //             admin_data: {
+        //                 _id: '$sign_master.admin_data._id',
+        //                 name: '$sign_master.admin_data.name'
+        //             }
+        //         }
+        //     }
+        // }
+    ])
+
+
+    console.log("here")
+
+    console.log("test", test)
+
+
     firm_data.base_url = process.env.base_url
 
     try {
@@ -1323,8 +1599,82 @@ exports.get_count = async (req, res) => {
 exports.download_pdf_it = async (req, res) => {
 
 
-    var firm_data = await firmDataModel.findOne({ vendor_id: req.params.id, status: true }).populate("vendor_id");
+    console.log(".....")
+
+    var firm_data1 = await firmDataModel.aggregate([
+        {
+            $match: { $and: [{ vendor_id: new ObjectId(req.params.id) }, { status: true }] }
+        },
+        {
+            $lookup: {
+                from: "vendors",
+                localField: "vendor_id",
+                foreignField: "_id",
+                as: "vendor_id"
+
+            }
+        },
+
+        {
+            $unwind: {
+                path: "$vendor_id",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $lookup: {
+                from: "sign_masters",
+                let: {
+                    vendor_id: '$vendor_id._id',//Main table value
+                    status: true
+                },
+                pipeline: [
+
+                    {
+                        $match: {
+                            $and: [
+                                { $expr: { $eq: ["$vendor_id", "$$vendor_id"] } },
+                                { $expr: { $eq: ["$status", "$$status"] } },
+
+                            ]
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "adminusers",
+                            localField: "approved_user",
+                            foreignField: "_id",
+                            as: "admin_users"
+                        }
+                    },
+                    {
+                        $unwind: {
+                            path: "$admin_users",
+                            preserveNullAndEmptyArrays: true
+                        }
+                    },
+
+
+
+                ],
+                as: "sign_masters"
+            }
+        },
+    ])
+
+
+    var firm_data = firm_data1[0]
+
+
+
     firm_data.base_url = process.env.base_url
+    // firm_data.sign_data =  sign_data
+
+
+
+
+    // console.log("sign_data", sign_data)
+
 
     try {
         // Retrieve dynamic data from the database or generate it dynamically
@@ -1624,7 +1974,7 @@ exports.download_pdf_it_csv = async (req, res) => {
                 { header: 'Vendor Callback', value: "" }
             );
 
-         
+
 
         });
 
@@ -1643,4 +1993,113 @@ exports.download_pdf_it_csv = async (req, res) => {
 };
 
 
+
+exports.get_sign_section = async (req, res) => {
+
+    sign_master.find({ vendor_id: req.params.id, status: true })
+        .populate("vendor_id")
+        .populate("approved_user")
+        .then((data) => {
+            return res.json({
+                status: true,
+                data: data,
+                message: "Vendor list"
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            return res.json({
+                status: false,
+                data: err,
+                message: "Somethings went wrong...!"
+            })
+        })
+
+
+}
+
+
+exports.test_api = async (req, res) => {
+
+    // var firm_data = await firmDataModel.findOne({ vendor_id: req.params.id, status: true }).populate("vendor_id");
+
+    firmDataModel.aggregate([
+        {
+            $match: { $and: [{ vendor_id: new ObjectId(req.params.id) }, { status: true }] }
+        },
+        {
+            $lookup: {
+                from: "vendors",
+                localField: "vendor_id",
+                foreignField: "_id",
+                as: "vendor_id"
+
+            }
+        },
+
+        {
+            $unwind: {
+                path: "$vendor_id",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $lookup: {
+                from: "sign_masters",
+                let: {
+                    vendor_id: '$vendor_id._id',//Main table value
+                    status: true
+                },
+                pipeline: [
+
+                    {
+                        $match: {
+                            $and: [
+                                { $expr: { $eq: ["$vendor_id", "$$vendor_id"] } },
+                                { $expr: { $eq: ["$status", "$$status"] } },
+
+                            ]
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "adminusers",
+                            localField: "approved_user",
+                            foreignField: "_id",
+                            as: "admin_users"
+                        }
+                    },
+                    {
+                        $unwind: {
+                            path: "$admin_users",
+                            preserveNullAndEmptyArrays: true
+                        }
+                    },
+
+
+
+                ],
+                as: "sign_masters"
+            }
+        },
+    ])
+        .then(data => {
+            return res.json({
+                status: true,
+                data: data,
+
+            });
+
+        })
+        .catch(err => {
+            return res.json({
+                status: false,
+                data: err,
+                message: "Something Went Wrong..!",
+            });
+
+        })
+
+
+}
 

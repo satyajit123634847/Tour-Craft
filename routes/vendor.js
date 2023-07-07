@@ -87,6 +87,15 @@ router.get('/download_pdf_it_csv/:id', vendorController.download_pdf_it_csv);
 // ------------download_pdf_test-----------------//
 router.get('/download_pdf_test', vendorController.download_pdf_test);
 
+// ----------get_sign_section-------------------------//
+router.get('/get_sign_section/:id', vendorController.get_sign_section);
+
+
+// --------------test_api-----------------
+router.get('/test_api/:id', vendorController.test_api);
+
+
+
 
 
 

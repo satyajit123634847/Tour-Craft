@@ -36,7 +36,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputUsername1">Mobile Number</label>
                                             <input type="text" class="form-control" id="mobile_number"
@@ -46,15 +46,16 @@
 
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleSelectGender">Select Role</label>
                                             <select class="form-control" id="user_status">
                                                 <option value="Super Admin">Super Admin</option>
                                                 <option value="Initiator Login">Initiator/SCM</option>
-                                               
+
                                                 <option value="SCM Head">SCM Head </option>
-                                                <option value="Finance Compliance Verification">Finance Compliance Verification</option>
+                                                <option value="Finance Compliance Verification">Finance Compliance
+                                                    Verification</option>
                                                 <option value="IT Team">IT Team </option>
                                                 <option value="CFO">CFO </option>
 
@@ -63,12 +64,23 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Password</label>
                                             <input type="password" class="form-control" id="password"
                                                 placeholder="Password" required=""
                                                 data-parsley-required-message="Please Enter Password">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputCity1">Sign</label>
+                                            <input type="file" class="form-control" id="attachment_revert"
+                                                placeholder="Location" accept="image/png, image/gif, image/jpeg"
+                                                onchange="assistance.upload_gst_files(this)">
+                                            <div class="img_pre mt-2" id="sign_section" style="display: flex;">
+                                            </div>
                                         </div>
                                     </div>
 

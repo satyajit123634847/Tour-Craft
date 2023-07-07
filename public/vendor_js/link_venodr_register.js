@@ -29,32 +29,32 @@ var register = {
     //     register.register_user()
     // });
 
-    // $('#register_form').submit(function (event) {
-    //   event.preventDefault(); // Prevent default form submission
+    $('#register_form').submit(function (event) {
+      event.preventDefault(); // Prevent default form submission
 
-    //   // Perform form validation using Parsley or other validation libraries
-    //   if ($('#register_form').parsley().isValid()) {
+      // Perform form validation using Parsley or other validation libraries
+      if ($('#register_form').parsley().isValid()) {
 
-    //     if (register.is_pan && register.is_gst) {
-    //       $("#register_btn").attr("disabled", true);
+        if (register.is_pan && register.is_gst) {
+          $("#register_btn").attr("disabled", true);
 
-    //       register.register_user()
-    //     } else {
+          register.register_user()
+        } else {
 
-    //       if (register.is_pan == false) {
-    //         toastr.options.positionClass = 'toast-bottom-right';
-    //         toastr.error("Please verify pan number..", '', { timeOut: 3000 })
+          if (register.is_pan == false) {
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.error("Please verify pan number..", '', { timeOut: 3000 })
 
-    //       }
-    //       if (register.is_gst == false) {
-    //         toastr.options.positionClass = 'toast-bottom-right';
-    //         toastr.error("Please verify gst number..", '', { timeOut: 3000 })
+          }
+          if (register.is_gst == false) {
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.error("Please verify gst number..", '', { timeOut: 3000 })
 
-    //       }
+          }
 
-    //     }
-    //   }
-    // })
+        }
+      }
+    })
 
 
 
@@ -169,6 +169,31 @@ var register = {
 
       })
 
+      var msme_attachement = []
+      $(".upload_msme_files").each(async function () {
+        msme_attachement.push($(this).find(".get_img_section").attr("data-img"));
+
+      })
+
+      var ssi_attachment = []
+      $(".upload_ssi_files").each(async function () {
+        ssi_attachment.push($(this).find(".get_img_section").attr("data-img"));
+
+      })
+
+      var code_of_conduct_attachment = []
+      $(".upload_code_files").each(async function () {
+        code_of_conduct_attachment.push($(this).find(".get_img_section").attr("data-img"));
+
+      })
+
+      var it_deceleration_attachment = []
+      $(".upload_it_files").each(async function () {
+        it_deceleration_attachment.push($(this).find(".get_img_section").attr("data-img"));
+
+      })
+
+
       let params = new URLSearchParams(location.search);
       var vendor_id = params.get('id')
 
@@ -177,6 +202,12 @@ var register = {
       obj.noc_url = noc_url
       obj.cheque_url = cheque_url
       obj.vendor_id = vendor_id
+      obj.msme_attachment = msme_attachement
+      obj.ssi_attachment = ssi_attachment
+      obj.it_deceleration_attachment = it_deceleration_attachment
+      obj.code_of_conduct_attachment = code_of_conduct_attachment
+
+
 
 
       var pan_property_url = []
@@ -907,6 +938,73 @@ var register = {
         $("#cheque_documents_section").append(img)
 
 
+        var img = ""
+
+
+        if (info.ssi_attachment.length > 0) {
+
+          info.ssi_attachment.map(info => {
+            var ex = info.split('.').pop()
+
+            if (ex == "mp4") {
+              img += `<div class="mx-1 remove_img_section upload_ssi_files"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+            } else if (ex == "pdf") {
+              img += `<div class="mx-1 remove_img_section upload_ssi_files"><img src="images/pdf.png" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+            }
+            else {
+              img += `<div class="mx-1 remove_img_section upload_ssi_files"><img src="${register.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                    <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                    </div>`
+
+            }
+
+
+          })
+
+
+        }
+        $("#ssi_attachement").html("")
+        $("#ssi_attachement").append(img)
+
+
+
+        var img = ""
+
+
+        if (info.msme_attachment.length > 0) {
+
+          info.msme_attachment.map(info => {
+            var ex = info.split('.').pop()
+
+            if (ex == "mp4") {
+              img += `<div class="mx-1 remove_img_section upload_msme_files"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+            } else if (ex == "pdf") {
+              img += `<div class="mx-1 remove_img_section upload_msme_files"><img src="images/pdf.png" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+            }
+            else {
+              img += `<div class="mx-1 remove_img_section upload_msme_files"><img src="${register.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                    <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                    </div>`
+
+            }
+
+
+          })
+
+
+        }
+        $("#msme_attachement").html("")
+        $("#msme_attachement").append(img)
+
+
         var html = ""
         var add_more = ""
 
@@ -942,6 +1040,73 @@ var register = {
               })
 
             }
+
+
+            var img = ""
+
+
+            if (info.code_of_conduct_attachment.length > 0) {
+    
+              info.code_of_conduct_attachment.map(info => {
+                var ex = info.split('.').pop()
+    
+                if (ex == "mp4") {
+                  img += `<div class="mx-1 remove_img_section upload_code_files"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                            <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                            </div>`
+                } else if (ex == "pdf") {
+                  img += `<div class="mx-1 remove_img_section upload_code_files"><img src="images/pdf.png" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                            <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                            </div>`
+                }
+                else {
+                  img += `<div class="mx-1 remove_img_section upload_code_files"><img src="${register.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+    
+                }
+    
+    
+              })
+    
+    
+            }
+            $("#code_of_conduct_attachement").html("")
+            $("#code_of_conduct_attachement").append(img)
+
+
+
+            var img = ""
+
+
+            if (info.it_deceleration_attachment.length > 0) {
+    
+              info.it_deceleration_attachment.map(info => {
+                var ex = info.split('.').pop()
+    
+                if (ex == "mp4") {
+                  img += `<div class="mx-1 remove_img_section upload_it_files"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                            <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                            </div>`
+                } else if (ex == "pdf") {
+                  img += `<div class="mx-1 remove_img_section upload_it_files"><img src="images/pdf.png" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                            <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                            </div>`
+                }
+                else {
+                  img += `<div class="mx-1 remove_img_section upload_it_files"><img src="${register.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+    
+                }
+    
+    
+              })
+    
+    
+            }
+            $("#it_attachement").html("")
+            $("#it_attachement").append(img)
 
             if (i != 0) {
               add_more = ` <div class="col-md-12 remove" style="text-align: end;">
@@ -1629,7 +1794,241 @@ var register = {
     } else {
       $(".ifsc_label").text("Swift Code")
     }
-  }
+  },
+  upload_msme_files: function (e) {
+    // --------project banner img-----------------//
+    var formData = new FormData();
+    let media_length = $(e)[0].files.length
+
+    for (let i = 0; i <= media_length; i++)
+      formData.append('files', $(e)[0].files[i]);
+
+
+    var $request = $.ajax({
+      url: `${register.base_url}/admin/upload-files`,
+      data: formData,
+      type: 'POST',
+      contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+      processData: false, // NEEDED, DON'T OMIT THIS
+    });
+
+    $request.done(async function (response) {
+      if (response.status == true) {
+
+
+        var project_img_array = []
+
+        await response.url.map(info => {
+          project_img_array.push(info.filename)
+        })
+
+
+        var img = ""
+        project_img_array.map(info => {
+
+          var ex = info.split('.').pop()
+
+          if (ex == "mp4") {
+            img += `<div class="mx-1 remove_img_section upload_msme_files"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+          } else if (ex == "pdf") {
+            img += `<div class="mx-1 remove_img_section upload_msme_files"><img src="images/pdf.png" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+          }
+          else {
+            img += `<div class="mx-1 remove_img_section upload_msme_files"><img src="${register.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                    <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                    </div>`
+
+          }
+
+
+
+        })
+
+        $(e).siblings(".img_pre").append(img)
+      }
+    })
+
+  },
+  upload_ssi_files: function (e) {
+    // --------project banner img-----------------//
+    var formData = new FormData();
+    let media_length = $(e)[0].files.length
+
+    for (let i = 0; i <= media_length; i++)
+      formData.append('files', $(e)[0].files[i]);
+
+
+    var $request = $.ajax({
+      url: `${register.base_url}/admin/upload-files`,
+      data: formData,
+      type: 'POST',
+      contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+      processData: false, // NEEDED, DON'T OMIT THIS
+    });
+
+    $request.done(async function (response) {
+      if (response.status == true) {
+
+
+        var project_img_array = []
+
+        await response.url.map(info => {
+          project_img_array.push(info.filename)
+        })
+
+
+        var img = ""
+        project_img_array.map(info => {
+
+          var ex = info.split('.').pop()
+
+          if (ex == "mp4") {
+            img += `<div class="mx-1 remove_img_section upload_ssi_files"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+          } else if (ex == "pdf") {
+            img += `<div class="mx-1 remove_img_section upload_ssi_files"><img src="images/pdf.png" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+          }
+          else {
+            img += `<div class="mx-1 remove_img_section upload_ssi_files"><img src="${register.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                    <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                    </div>`
+
+          }
+
+
+
+        })
+
+        $(e).siblings(".img_pre").append(img)
+      }
+    })
+
+  },
+
+  upload_code_files: function (e) {
+    // --------project banner img-----------------//
+    var formData = new FormData();
+    let media_length = $(e)[0].files.length
+
+    for (let i = 0; i <= media_length; i++)
+      formData.append('files', $(e)[0].files[i]);
+
+
+    var $request = $.ajax({
+      url: `${register.base_url}/admin/upload-files`,
+      data: formData,
+      type: 'POST',
+      contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+      processData: false, // NEEDED, DON'T OMIT THIS
+    });
+
+    $request.done(async function (response) {
+      if (response.status == true) {
+
+
+        var project_img_array = []
+
+        await response.url.map(info => {
+          project_img_array.push(info.filename)
+        })
+
+
+        var img = ""
+        project_img_array.map(info => {
+
+          var ex = info.split('.').pop()
+
+          if (ex == "mp4") {
+            img += `<div class="mx-1 remove_img_section upload_code_files"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+          } else if (ex == "pdf") {
+            img += `<div class="mx-1 remove_img_section upload_code_files"><img src="images/pdf.png" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+          }
+          else {
+            img += `<div class="mx-1 remove_img_section upload_code_files"><img src="${register.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                    <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                    </div>`
+
+          }
+
+
+
+        })
+
+        $(e).siblings(".img_pre").append(img)
+      }
+    })
+
+  },
+  upload_it_files: function (e) {
+    // --------project banner img-----------------//
+    var formData = new FormData();
+    let media_length = $(e)[0].files.length
+
+    for (let i = 0; i <= media_length; i++)
+      formData.append('files', $(e)[0].files[i]);
+
+
+    var $request = $.ajax({
+      url: `${register.base_url}/admin/upload-files`,
+      data: formData,
+      type: 'POST',
+      contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+      processData: false, // NEEDED, DON'T OMIT THIS
+    });
+
+    $request.done(async function (response) {
+      if (response.status == true) {
+
+
+        var project_img_array = []
+
+        await response.url.map(info => {
+          project_img_array.push(info.filename)
+        })
+
+
+        var img = ""
+        project_img_array.map(info => {
+
+          var ex = info.split('.').pop()
+
+          if (ex == "mp4") {
+            img += `<div class="mx-1 remove_img_section upload_it_files"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+          } else if (ex == "pdf") {
+            img += `<div class="mx-1 remove_img_section upload_it_files"><img src="images/pdf.png" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                        <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                        </div>`
+          }
+          else {
+            img += `<div class="mx-1 remove_img_section upload_it_files"><img src="${register.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                    <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="register.remove_project_images(this)">X</i></a>
+                    </div>`
+
+          }
+
+
+
+        })
+
+        $(e).siblings(".img_pre").append(img)
+      }
+    })
+
+  },
+
 
 
 

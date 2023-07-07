@@ -35,14 +35,12 @@
 
 
         <%- include('footer.ejs') %>
-
-
-
             <!-- Large modal -->
             <button type="button" style="display: none;" class="btn btn-primary" data-toggle="modal" id="view_model_btn"
                 data-target="#view_model">Large
                 modal</button>
-                <div class="modal fade bd-example-modal-lg" id="view_model" tabindex="-1" role="dialog"
+
+            <div class="modal fade bd-example-modal-lg" id="view_model" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -64,27 +62,27 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="name"
                                                 placeholder="Enter Your Company Name.." required=""
-                                                data-parsley-required-message="Please Enter Company Name" />
+                                                data-parsley-required-message="Please Enter Company Name" disabled />
                                         </div>
                                     </div>
                                 </div>
                                 <!-- <div class="col-md-6">
-                                  <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Mobile Number</label>
-                                    <div class="col-sm-9">
-                                      <input type="number" class="form-control" id="mobile_number"
-                                        placeholder="Enter Mobile Number.." required=""
-                                        data-parsley-required-message="Please Enter Mobile Number" />
-                                    </div>
-                                  </div>
-                                </div> -->
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Mobile Number</label>
+                        <div class="col-sm-9">
+                          <input type="number" class="form-control" id="mobile_number"
+                            placeholder="Enter Mobile Number.." required=""
+                            data-parsley-required-message="Please Enter Mobile Number" />
+                        </div>
+                      </div>
+                    </div> -->
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Email</label>
                                         <div class="col-sm-9">
                                             <input type="email" class="form-control" id="email"
                                                 placeholder="Enter Email Address.." required=""
-                                                data-parsley-required-message="Please Enter Email" />
+                                                data-parsley-required-message="Please Enter Email" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -96,8 +94,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Firm Type</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" id="firm_type"
-                                               >
+                                            <select class="form-control" id="firm_type" disabled>
                                                 <option value=0>Select firm type</option>
                                                 <option value=1>Proprietorship</option>
                                                 <option value=2>Partnership</option>
@@ -109,41 +106,46 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Accounting Reference </label>
-                                      <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="accounting_ref" placeholder="Enter Accounting Reference.."
-                                          required="" data-parsley-required-message="Please Enter Accounting Reference" />
-                                      </div>
+                                        <label class="col-sm-3 col-form-label">Accounting Reference </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="accounting_ref"
+                                                placeholder="Enter Accounting Reference.." required=""
+                                                data-parsley-required-message="Please Enter Accounting Reference"
+                                                disabled />
+                                        </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Sales Reference </label>
-                                      <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="sales_ref" placeholder="Enter Sales Reference.."
-                                          required="" data-parsley-required-message="Please Enter Sales Reference" />
-                                      </div>
+                                        <label class="col-sm-3 col-form-label">Sales Reference </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="sales_ref"
+                                                placeholder="Enter Sales Reference.." required=""
+                                                data-parsley-required-message="Please Enter Sales Reference" disabled />
+                                        </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Delivery Terms </label>
-                                      <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="delivery_terms" placeholder="Enter Delivery Terms.."
-                                          required="" data-parsley-required-message="Please Enter Delivery Terms" />
-                                      </div>
+                                        <label class="col-sm-3 col-form-label">Delivery Terms </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="delivery_terms"
+                                                placeholder="Enter Delivery Terms.." required=""
+                                                data-parsley-required-message="Please Enter Delivery Terms" disabled />
+                                        </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Financial Supplier </label>
-                                      <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="financial_supplier" placeholder="Enter Financial Supplier.."
-                                          required="" data-parsley-required-message="Please Enter Financial Supplier" />
-                                      </div>
-                                    </div>
-                                  </div>
-              
+                                </div>
+                                <!-- <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Financial Supplier </label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="financial_supplier"
+                                    placeholder="Enter Financial Supplier.." required=""
+                                    data-parsley-required-message="Please Enter Financial Supplier" />
+                            </div>
+                        </div>
+                    </div> -->
+
 
                             </div>
 
@@ -158,7 +160,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="address"
                                                 placeholder="Enter Address" required=""
-                                                data-parsley-required-message="Please Enter Address" />
+                                                data-parsley-required-message="Please Enter Address" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +170,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="address1"
                                                 placeholder="Enter Address" required=""
-                                                data-parsley-required-message="Please Enter Address" />
+                                                data-parsley-required-message="Please Enter Address" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -181,7 +183,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="city"
                                                 placeholder="Enter Landmark" required=""
-                                                data-parsley-required-message="Please Enter Landmark" />
+                                                data-parsley-required-message="Please Enter Landmark" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -190,7 +192,8 @@
                                         <label class="col-sm-3 col-form-label">City</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="city1" placeholder="Enter City"
-                                                required="" data-parsley-required-message="Please Enter City" />
+                                                required="" data-parsley-required-message="Please Enter City"
+                                                disabled />
                                         </div>
                                     </div>
 
@@ -205,7 +208,8 @@
                                         <label class="col-sm-3 col-form-label">State</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="state" placeholder="Enter State"
-                                                required="" data-parsley-required-message="Please Enter State" />
+                                                required="" data-parsley-required-message="Please Enter State"
+                                                disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -216,7 +220,7 @@
                                         <div class="col-sm-9">
                                             <input type="number" class="form-control" id="zip_code"
                                                 placeholder="Enter Zip Code" required=""
-                                                data-parsley-required-message="Please Enter Zip Code" />
+                                                data-parsley-required-message="Please Enter Zip Code" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -231,7 +235,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Mode Of Payment</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" id="mode_of_payment">
+                                            <select class="form-control" id="mode_of_payment" disabled>
                                                 <option value=0>Select mode of payment</option>
                                                 <option value="RTGS">RTGS</option>
                                                 <option value="TT">TT</option>
@@ -243,13 +247,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Sup. Name As Per Name</label>
-                                      <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="s_name_as_per_name" placeholder="Enter Sup. Name As Per Name"
-                                          required="" data-parsley-required-message="Please Enter Sup. Name As Per Name" />
-                                      </div>
+                                        <label class="col-sm-3 col-form-label">Sup. Name As Per Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="s_name_as_per_name"
+                                                placeholder="Enter Sup. Name As Per Name" required=""
+                                                data-parsley-required-message="Please Enter Sup. Name As Per Name"
+                                                disabled />
+                                        </div>
                                     </div>
-                                  </div>
+                                </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group row">
@@ -257,7 +263,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="bank_name"
                                                 placeholder="Enter Bank Name" required=""
-                                                data-parsley-required-message="Please Enter Bank Name" />
+                                                data-parsley-required-message="Please Enter Bank Name" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -267,7 +273,7 @@
                                         <div class="col-sm-9">
                                             <input type="number" class="form-control" id="account_no"
                                                 placeholder="Enter Account Number" required=""
-                                                data-parsley-required-message="Please Enter Account Number" />
+                                                data-parsley-required-message="Please Enter Account Number" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -277,7 +283,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="bank_address"
                                                 placeholder="Enter Bank Address" required=""
-                                                data-parsley-required-message="Please Enter Bank Address" />
+                                                data-parsley-required-message="Please Enter Bank Address" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -287,7 +293,7 @@
                                         <div class="col-sm-9">
                                             <!-- Country names and Country Name -->
                                             <select class="form-select form-control" id="country" name="country"
-                                               >
+                                                disabled>
                                                 <option value="Afghanistan">Afghanistan</option>
                                                 <option value="Aland Islands">Aland Islands</option>
                                                 <option value="Albania">Albania</option>
@@ -577,7 +583,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="ifsc_code"
                                                 placeholder="Enter code" required=""
-                                                data-parsley-required-message="Please Enter Code" />
+                                                data-parsley-required-message="Please Enter Code" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -587,7 +593,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="micr_code"
                                                 placeholder="Enter code" required=""
-                                                data-parsley-required-message="Please Enter MICR Code" />
+                                                data-parsley-required-message="Please Enter MICR Code" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -597,7 +603,7 @@
 
                                         <div class="col-sm-9">
                                             <!-- <input type="file" class="form-control" id="old_noc"
-                                                onchange="register.upload_noc_files(this)" multiple /> -->
+                                    onchange="register.upload_noc_files(this)" multiple /> -->
                                             <div class="img_pre mt-2" id="noc_documents_section" style="display: flex;">
                                             </div>
                                         </div>
@@ -611,7 +617,7 @@
 
                                         <div class="col-sm-9">
                                             <!-- <input type="file" class="form-control" id="cancelled_cheque"
-                                                onchange="register.upload_cheque_files(this)" multiple /> -->
+                                    onchange="register.upload_cheque_files(this)" multiple /> -->
                                             <div class="img_pre mt-2" id="cheque_documents_section"
                                                 style="display: flex;">
                                             </div>
@@ -636,9 +642,9 @@
                                     </p>
                                 </div>
                                 <!-- <div class="col-6" style="text-align: end;">
-                                    <a class="btn btn-success add_more" onclick="register.append_contact_details()">Add
-                                        More</a>
-                                </div> -->
+                        <a class="btn btn-success add_more" onclick="register.append_contact_details()">Add
+                            More</a>
+                    </div> -->
                             </div>
 
                             <div id="contact_section">
@@ -650,7 +656,8 @@
                                                 Name</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control d_name" placeholder="Enter Name"
-                                                    required="" data-parsley-required-message="Please Enter Name" />
+                                                    required="" data-parsley-required-message="Please Enter Name"
+                                                    disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -661,7 +668,7 @@
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control d_designation"
                                                     placeholder="Enter Designation" required=""
-                                                    data-parsley-required-message="Please Enter Designation" />
+                                                    data-parsley-required-message="Please Enter Designation" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -672,7 +679,7 @@
                                             <div class="col-sm-9">
                                                 <input type="number" class="form-control d_contact" id=""
                                                     placeholder="Enter Contact Number" required=""
-                                                    data-parsley-required-message="Please Enter Contact" />
+                                                    data-parsley-required-message="Please Enter Contact" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -684,7 +691,7 @@
                                             <div class="col-sm-9">
                                                 <input type="number" class="form-control d_contact_alternate" id=""
                                                     placeholder="Enter Contact Number" required=""
-                                                    data-parsley-required-message="Please Enter Contact" />
+                                                    data-parsley-required-message="Please Enter Contact" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -696,7 +703,7 @@
                                             <div class="col-sm-9">
                                                 <input type="email" class="form-control d_email" id=""
                                                     placeholder="Enter Email" required=""
-                                                    data-parsley-required-message="Please Enter Email" />
+                                                    data-parsley-required-message="Please Enter Email" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -707,7 +714,7 @@
                                             <div class="col-sm-9">
                                                 <input type="email" class="form-control d_email_alternate" id=""
                                                     placeholder="Enter Email" required=""
-                                                    data-parsley-required-message="Please Enter Email" />
+                                                    data-parsley-required-message="Please Enter Email" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -719,13 +726,13 @@
                                             <div class="col-sm-9  pan_verify_btn_section_input">
                                                 <input type="text" class="form-control pan_verify_input" id=""
                                                     placeholder="Enter Pan Card Number" required=""
-                                                    data-parsley-required-message="Please Enter Pan Number" />
+                                                    data-parsley-required-message="Please Enter Pan Number" disabled />
                                             </div>
                                             <!-- <div class="col-sm-3 pan_verify_btn_section" id="pan_verify_btn_section">
-                                                <a class="btn btn-block btn-success  font-weight-medium"
-                                                    onclick="register.verify_pan1(this)">Verify</a>
+                                    <a class="btn btn-block btn-success  font-weight-medium"
+                                        onclick="register.verify_pan1(this)">Verify</a>
 
-                                            </div> -->
+                                </div> -->
                                         </div>
 
 
@@ -735,7 +742,7 @@
                                             <label class="col-sm-3 col-form-label">PAN Card</label>
                                             <div class="col-sm-9">
                                                 <!-- <input type="file" class="form-control"
-                                                    onchange="register.upload_pan_files1(this)" /> -->
+                                        onchange="register.upload_pan_files1(this)" /> -->
                                                 <div class="img_pre mt-2" id="pan_documents_section_1"
                                                     style="display: flex;">
                                                 </div>
@@ -762,7 +769,7 @@
                                         Sales Details
                                     </p>
                                 </div>
-                                
+
                             </div>
 
 
@@ -775,7 +782,7 @@
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control s_name" id=""
                                                     placeholder="Enter Name" required=""
-                                                    data-parsley-required-message="Please Enter  Name" />
+                                                    data-parsley-required-message="Please Enter  Name" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -785,7 +792,7 @@
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control s_designation" id=""
                                                     placeholder="Enter Designation" required=""
-                                                    data-parsley-required-message="Please Enter Designation" />
+                                                    data-parsley-required-message="Please Enter Designation" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -805,7 +812,7 @@
                                             <div class="col-sm-9">
                                                 <input type="number" class="form-control s_number_alternate" id=""
                                                     placeholder="Enter Contact Number" required=""
-                                                    data-parsley-required-message="Please Enter Contact" />
+                                                    data-parsley-required-message="Please Enter Contact" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -816,7 +823,7 @@
                                             <div class="col-sm-9">
                                                 <input type="email" class="form-control s_email" id=""
                                                     placeholder="Enter Email" required=""
-                                                    data-parsley-required-message="Please Enter Email" />
+                                                    data-parsley-required-message="Please Enter Email" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -826,7 +833,7 @@
                                             <div class="col-sm-9">
                                                 <input type="email" class="form-control s_email_alternate" id=""
                                                     placeholder="Enter Email" required=""
-                                                    data-parsley-required-message="Please Enter Email" />
+                                                    data-parsley-required-message="Please Enter Email" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -846,7 +853,8 @@
                                         <label class="col-sm-3 col-form-label">Accounts Person Name</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="p_name" placeholder="Enter Name"
-                                                required="" data-parsley-required-message="Please Enter Name" />
+                                                required="" data-parsley-required-message="Please Enter Name"
+                                                disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -856,7 +864,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="p_designation"
                                                 placeholder="Enter Designation" required=""
-                                                data-parsley-required-message="Please Enter Designation" />
+                                                data-parsley-required-message="Please Enter Designation" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -866,7 +874,7 @@
                                         <div class="col-sm-9">
                                             <input type="number" class="form-control" id="p_contact"
                                                 placeholder="Enter Contact Number" required=""
-                                                data-parsley-required-message="Please Enter Contact Number" />
+                                                data-parsley-required-message="Please Enter Contact Number" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -878,7 +886,7 @@
                                         <div class="col-sm-9">
                                             <input type="number" class="form-control" id="p_alternate_contact"
                                                 placeholder="Enter Contact Number" required=""
-                                                data-parsley-required-message="Please Enter Contact Number" />
+                                                data-parsley-required-message="Please Enter Contact Number" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -891,7 +899,7 @@
                                         <div class="col-sm-9">
                                             <input type="email" class="form-control" id="p_email"
                                                 placeholder="Enter Email" required=""
-                                                data-parsley-required-message="Please Enter Email" />
+                                                data-parsley-required-message="Please Enter Email" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -901,7 +909,7 @@
                                         <div class="col-sm-9">
                                             <input type="email" class="form-control" id="p_alternate_email"
                                                 placeholder="Enter Email" required=""
-                                                data-parsley-required-message="Please Enter Email" />
+                                                data-parsley-required-message="Please Enter Email" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -920,7 +928,8 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="default_currency"
                                                 placeholder="Enter Default Currency" required=""
-                                                data-parsley-required-message="Please Enter Default Currency" />
+                                                data-parsley-required-message="Please Enter Default Currency"
+                                                disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -930,7 +939,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="payment_terms"
                                                 placeholder="Enter Payment Terms" required=""
-                                                data-parsley-required-message="Please Enter Payment Terms" />
+                                                data-parsley-required-message="Please Enter Payment Terms" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -940,28 +949,31 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="incoterms_location"
                                                 placeholder="Enter Incoterms / Location"
-                                                data-parsley-required-message="Please Enter Incoterms / Location" />
+                                                data-parsley-required-message="Please Enter Incoterms / Location"
+                                                disabled />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Supplier Terms </label>
-                                      <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="supplier_type" placeholder="Enter Supplier Terms"
-                                          required="" data-parsley-required-message="Please Enter Supplier Terms" />
-                                      </div>
+                                        <label class="col-sm-3 col-form-label">Supplier Terms </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="supplier_type"
+                                                placeholder="Enter Supplier Terms" required=""
+                                                data-parsley-required-message="Please Enter Supplier Terms" disabled />
+                                        </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Type Of Item </label>
-                                      <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="type_of_item" placeholder="Enter Type Of Item"
-                                          required="" data-parsley-required-message="Please Enter Type Of Item" />
-                                      </div>
+                                        <label class="col-sm-3 col-form-label">Type Of Item </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="type_of_item"
+                                                placeholder="Enter Type Of Item" required=""
+                                                data-parsley-required-message="Please Enter Type Of Item" disabled />
+                                        </div>
                                     </div>
-                                  </div>
+                                </div>
                             </div>
 
 
@@ -977,7 +989,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="gst_number" required=""
                                                 data-parsley-required-message="Please Enter GST Number"
-                                                placeholder="Enter GST Number" />
+                                                placeholder="Enter GST Number" disabled />
                                         </div>
                                     </div>
 
@@ -1003,7 +1015,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="gst_range"
                                                 placeholder="Enter GST range" required=""
-                                                data-parsley-required-message="Please Enter GST range" />
+                                                data-parsley-required-message="Please Enter GST range" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -1013,7 +1025,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="gst_division"
                                                 placeholder="Enter GST division" required=""
-                                                data-parsley-required-message="Please Enter GST division" />
+                                                data-parsley-required-message="Please Enter GST division" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -1023,7 +1035,8 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="gst_commissionerate"
                                                 placeholder="Enter GST Commissionerate" required=""
-                                                data-parsley-required-message="Please Enter GST Commissionerate" />
+                                                data-parsley-required-message="Please Enter GST Commissionerate"
+                                                disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -1033,7 +1046,8 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="hsn_sac"
                                                 placeholder="Enter HSN Code / SAC No." required=""
-                                                data-parsley-required-message="Please Enter HSN Code / SAC No." />
+                                                data-parsley-required-message="Please Enter HSN Code / SAC No."
+                                                disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -1044,13 +1058,13 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="pan_card_number"
                                                 placeholder="Enter Pan Card Number" required=""
-                                                data-parsley-required-message="Please Enter Pan Number" />
+                                                data-parsley-required-message="Please Enter Pan Number" disabled />
                                         </div>
                                         <!-- <div class="col-sm-3" id="pan_verify_btn_section">
-                                            <a class="btn btn-block btn-success  font-weight-medium"
-                                                onclick="register.verify_pan()">Verify</a>
+                                <a class="btn btn-block btn-success  font-weight-medium"
+                                    onclick="register.verify_pan()">Verify</a>
 
-                                        </div> -->
+                            </div> -->
                                     </div>
 
 
@@ -1060,7 +1074,7 @@
                                         <label class="col-sm-3 col-form-label">PAN Card</label>
                                         <div class="col-sm-9">
                                             <!-- <input type="file" class="form-control" id="pan_card"
-                                                onchange="register.upload_pan_files(this)" multiple /> -->
+                                    onchange="register.upload_pan_files(this)" multiple /> -->
                                             <div class="img_pre mt-2" id="pan_documents_section" style="display: flex;">
                                             </div>
                                         </div>
@@ -1077,9 +1091,26 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="msme_no"
                                                 placeholder="MSME Registration No."
-                                                data-parsley-required-message="Please Enter HSN Code / SAC No." />
+                                                data-parsley-required-message="Please Enter HSN Code / SAC No."
+                                                disabled />
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">MSME Registration Attachment</label>
+                                        <div class="col-sm-9">
+                                            <!-- <input type="file" class="form-control" id="pan_card"
+                                    onchange="register.upload_pan_files(this)" multiple /> -->
+                                            <div class="img_pre mt-2" id="msme_documents_section"
+                                                style="display: flex;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
@@ -1088,14 +1119,68 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="ssi_no"
                                                 placeholder="Enter SSI Registration No"
-                                                data-parsley-required-message="Please Enter HSN Code / SAC No." />
+                                                data-parsley-required-message="Please Enter HSN Code / SAC No."
+                                                disabled />
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">SSI Registration Attachment</label>
+                                        <div class="col-sm-9">
+                                            <!-- <input type="file" class="form-control" id="pan_card"
+                                    onchange="register.upload_pan_files(this)" multiple /> -->
+                                            <div class="img_pre mt-2" id="ssi_documents_section" style="display: flex;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Code of Conduct Attachment</label>
+                                        <div class="col-sm-9">
+                                            <!-- <input type="file" class="form-control" id="pan_card"
+                                    onchange="register.upload_pan_files(this)" multiple /> -->
+                                            <div class="img_pre mt-2" id="code_of_conduct_attachment"
+                                                style="display: flex;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">IT Deceleration Attachment</label>
+                                        <div class="col-sm-9">
+                                            <!-- <input type="file" class="form-control" id="pan_card"
+                                    onchange="register.upload_pan_files(this)" multiple /> -->
+                                            <div class="img_pre mt-2" id="it_deceleration_attachment"
+                                                style="display: flex;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <hr>
+
+
+                            <div class="row " id="sign_section_area">
+
                             </div>
 
 
-                          
+
 
 
 
@@ -1106,6 +1191,92 @@
 
                 </div>
             </div>
+
+            <button type="button" id="action_mdole_btn" class="btn btn-primary" data-toggle="modal"
+            data-target="#action_model" style="display: none;">
+            Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="action_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Action</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" id="vendor_action_id">
+                        <div id="forword_section">
+                            <div class="form-group" id="ban_section" style="display: none;">
+                                <label for="exampleTextarea1">Enter BAAN Number</label>
+                                <input type="number" class="form-control" id="ban_number_input"
+                                    placeholder="Enter BAN Number">
+                            </div>
+                            <div class="form-group" id="finanical_section" style="display: none;">
+                                <label for="exampleTextarea1">Financial Supplier Group</label>
+                                <input type="text" class="form-control" id="financial_supplier"
+                                    placeholder="Enter Financial Supplier">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="exampleTextarea1">Comment</label>
+                                <textarea class="form-control" id="comment_forword" rows="4"
+                                    placeholder="Please Enter Comment"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputCity1">Attachment</label>
+                                <input type="file" class="form-control"
+                                    onchange="vendor.upload_forward_attachment_files(this)" id="attachment_forword"
+                                    placeholder="Location" accept="image/*,application/pdf,audio/*,video/mp4">
+
+                                <div class="img_pre mt-2" style="display: flex;">
+                                </div>
+                            </div>
+                            <div class="form-group" id="user_section_role">
+                                <label for="exampleSelectGender">Select User</label>
+                                <select class="form-control" id="select_user">
+
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <div id="revert_section" style="display: none;">
+                            <div class="form-group">
+                                <label for="exampleTextarea1">Comment</label>
+                                <textarea class="form-control" id="comment_revert" rows="4"
+                                    placeholder="Please Enter Comment"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputCity1">Attachment</label>
+                                <input type="file" class="form-control" id="attachment_revert"
+                                    placeholder="Location" onchange="vendor.upload_revert_attachment_files(this)"
+                                     accept="image/*,application/pdf,audio/*,video/mp4">
+                                <div class="img_pre mt-2" style="display: flex;">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="button" id="forword_btn" onclick="vendor.forward_to()"
+                            class="btn btn-primary">Forward</button>
+                        <button type="button" id="revert_btn" onclick="vendor.revert_back()" style="display: none;"
+                            class="btn btn-primary">Revert Back</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
 

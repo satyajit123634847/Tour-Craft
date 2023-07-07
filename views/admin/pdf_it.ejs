@@ -44,7 +44,7 @@
                 <h4> <b>Vendor Registration Details</b></h4>
             </div>
             <div class="col-2" id="logo_section">
-              
+
             </div>
 
         </div>
@@ -599,6 +599,18 @@
 
         </div>
 
+        <hr>
+
+        <div class="row" id="sign_section_area">
+            <% for (let i=0; i < userData.sign_masters.length; i++) { %>
+                <div class="col-4 border mt-3">
+                    <img src="<%= userData.base_url %>/files/<%= userData.sign_masters[i].admin_users.sign %>" width="100%" alt="">
+                    <p class="text-center"><%= userData.sign_masters[i].admin_users.name %> (<%= userData.sign_masters[i].admin_users.user_status %>)</p>
+                    <p class="text-center"><%= userData.sign_masters[i].admin_users.name %></p>
+                </div>
+            <% } %>
+        </div>
+
     </div>
 
 
@@ -677,7 +689,11 @@
 
                 $("#logo_section").append(img_logo)
 
-                console.log("base_url_1",base_url_1)
+                console.log("base_url_1", base_url_1)
+
+
+               
+
 
 
 

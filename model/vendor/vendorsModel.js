@@ -43,6 +43,14 @@ const vendorSchema = new mongoose.Schema({
     type: [],
 
   },
+  code_of_conduct: {
+    type: [],
+
+  },
+  it_deceleration: {
+    type: [],
+
+  },
   firm_type: {
     type: Number,
     default: null

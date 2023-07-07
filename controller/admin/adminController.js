@@ -10,7 +10,7 @@ exports.register = async (req, res) => {
 
     console.log(req.body)
 
-    const { username, password, name, mobile_number, email, user_status } = req.body;
+    const { username, password, name, mobile_number, email, user_status, sign } = req.body;
     const existingUser = await adminUsers.findOne({ username:username, status:true });
     if (existingUser) {
         return res.json({
@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
             message: "Username already exists"
         })
     }
-    new adminUsers({ username, password, name, mobile_number, email, user_status })
+    new adminUsers({ username, password, name, mobile_number, email, user_status,sign })
         .save()
         .then(data => {
             return res.json({
@@ -94,15 +94,15 @@ exports.list_admin = async (req, res) => {
 
 // ----------update_admin---------------//
 exports.update_admin = async (req, res) => {
-    const { username, name, mobile_number, email, user_status, password } = req.body;
+    const { username, name, mobile_number, email, user_status, password, sign } = req.body;
 
     var data = await adminUsers.findById({_id: req.params.id })
     var query = null
    if( data.password === password){
-    query ={ username, name, mobile_number, email, user_status}
+    query ={ username, name, mobile_number, email, user_status, sign}
 
    }else{
-    query ={ username, name, mobile_number, email, user_status, password}
+    query ={ username, name, mobile_number, email, user_status, password, sign}
    }
     adminUsers.findByIdAndUpdate({ _id: req.params.id },query)
         .then((data) => {

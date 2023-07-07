@@ -1,4 +1,5 @@
 var nodemailer = require('nodemailer');
+const fs = require('fs');
 
 exports.sendmail = (to, cc, subject, text, attachment, url) => {
 
@@ -29,5 +30,34 @@ exports.sendmail = (to, cc, subject, text, attachment, url) => {
         }
     });
 }
+
+exports.sendmail1 = (to, cc, subject, html, attachments) => {
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // use SSL
+        auth: {
+            user: 'satyajitvarpe45@gmail.com',
+            pass: 'imbdgnxvlttzuxxv'
+        }
+    });
+
+    const mailOptions = {
+        from: 'satyajitvarpe45@gmail.com',
+        to: to,
+        cc: cc,
+        subject: subject,
+        html: html,
+        attachments: attachments
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(info);
+        }
+    });
+};
 
 

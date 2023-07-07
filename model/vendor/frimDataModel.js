@@ -104,6 +104,22 @@ const vendorSchema = new mongoose.Schema({
         type: [],
 
     },
+    ssi_attachment: {
+        type: [],
+
+    },
+    msme_attachment: {
+        type: [],
+
+    },
+    it_deceleration_attachment: {
+        type: [],
+
+    },
+    code_of_conduct_attachment: {
+        type: [],
+
+    },
     contact_section_data: [
         {
             d_name: {

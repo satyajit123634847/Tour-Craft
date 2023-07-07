@@ -12,6 +12,9 @@ const adminSchema = new mongoose.Schema({
     required: true,
     // unique: true
   },
+  sign: {
+    type: String,
+  },
   mobile_number: {
     type: Number,
     required: true,

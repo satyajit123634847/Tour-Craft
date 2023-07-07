@@ -149,7 +149,7 @@ var vendor = {
                         if (data == null || data == "") {
                             return '-';
                         } else {
-                            return  `<a class="btn btn-success"> ${data} </a>`;
+                            return  `<a class="btn btn-success"> Approved </a>`;
                         }
 
                     }
@@ -235,7 +235,6 @@ var vendor = {
 
     },
 
-
     view_vendor: function (e) {
         let self = this;
         let row = $(e).closest('tr');
@@ -308,6 +307,15 @@ var vendor = {
                 $("#ssi_no").val(info.ssi_no ? info.ssi_no : "")
                 $("#payment_terms").val(info.payment_terms ? info.payment_terms : "")
 
+                $("#accounting_ref").val(info.accounting_ref ? info.accounting_ref : "")
+                $("#sales_ref").val(info.sales_ref ? info.sales_ref : "")
+                $("#delivery_terms").val(info.delivery_terms ? info.delivery_terms : "")
+                $("#financial_supplier").val(info.financial_supplier ? info.financial_supplier : "")
+                $("#s_name_as_per_name").val(info.s_name_as_per_name ? info.s_name_as_per_name : "")
+                $("#supplier_type").val(info.supplier_type ? info.supplier_type : "")
+                $("#type_of_item").val(info.type_of_item ? info.type_of_item : "")
+
+
 
 
 
@@ -341,16 +349,16 @@ var vendor = {
                         if (ex == "mp4") {
                             img += `<div class="mx-1 remove_img_section gst_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                        
-                        </div>`
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                         } else if (ex == "pdf") {
                             img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                        
-                        </div>`
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                         }
                         else {
                             img += `<div class="mx-1 remove_img_section gst_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                    
-                    </div>`
+                    </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
                         }
 
@@ -376,16 +384,16 @@ var vendor = {
                         if (ex == "mp4") {
                             img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
 
-                        </div>`
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                         } else if (ex == "pdf") {
                             img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                        
-                            </div>`
+                            </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                         }
                         else {
                             img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                    
-                    </div>`
+                    </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
                         }
 
@@ -405,16 +413,16 @@ var vendor = {
                         if (ex == "mp4") {
                             img += `<div class="mx-1 remove_img_section noc_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                             
-                            </div>`
+                            </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                         } else if (ex == "pdf") {
                             img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                        
-                        </div>`
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                         }
                         else {
                             img += `<div class="mx-1 remove_img_section noc_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                        
-                        </div>`
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
                         }
 
@@ -436,16 +444,16 @@ var vendor = {
                         if (ex == "mp4") {
                             img += `<div class="mx-1 remove_img_section cheque_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                        
-                        </div>`
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                         } else if (ex == "pdf") {
                             img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                        
-                        </div>`
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                         }
                         else {
                             img += `<div class="mx-1 remove_img_section cheque_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                     
-                    </div>`
+                    </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
                         }
 
@@ -459,6 +467,136 @@ var vendor = {
                 }
                 $("#cheque_documents_section").html("")
                 $("#cheque_documents_section").append(img)
+
+
+
+                var img = ""
+
+
+                if (info.msme_attachment.length > 0) {
+
+                    info.msme_attachment.map(info => {
+                        var ex = info.split('.').pop()
+
+                        if (ex == "mp4") {
+                            img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        } else if (ex == "pdf") {
+                            img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                       
+                            </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        }
+                        else {
+                            img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                   
+                    </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+
+                        }
+
+                    })
+
+                }
+                $("#msme_documents_section").html("")
+                $("#msme_documents_section").append(img)
+
+
+
+
+
+                var img = ""
+
+
+                if (info.ssi_attachment.length > 0) {
+
+                    info.ssi_attachment.map(info => {
+                        var ex = info.split('.').pop()
+
+                        if (ex == "mp4") {
+                            img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        } else if (ex == "pdf") {
+                            img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                       
+                            </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        }
+                        else {
+                            img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                   
+                    </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+
+                        }
+
+                    })
+
+                }
+                $("#ssi_documents_section").html("")
+                $("#ssi_documents_section").append(img)
+
+
+
+                var img = ""
+
+
+                if (info.code_of_conduct_attachment.length > 0) {
+
+                    info.code_of_conduct_attachment.map(info => {
+                        var ex = info.split('.').pop()
+
+                        if (ex == "mp4") {
+                            img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        } else if (ex == "pdf") {
+                            img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                       
+                            </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        }
+                        else {
+                            img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                   
+                    </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+
+                        }
+
+                    })
+
+                }
+                $("#code_of_conduct_attachment").html("")
+                $("#code_of_conduct_attachment").append(img)
+
+
+
+                var img = ""
+
+
+                if (info.it_deceleration_attachment.length > 0) {
+
+                    info.it_deceleration_attachment.map(info => {
+                        var ex = info.split('.').pop()
+
+                        if (ex == "mp4") {
+                            img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        } else if (ex == "pdf") {
+                            img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                       
+                            </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        }
+                        else {
+                            img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                   
+                    </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+
+                        }
+
+                    })
+
+                }
+                $("#it_deceleration_attachment").html("")
+                $("#it_deceleration_attachment").append(img)
 
 
                 var html = ""
@@ -476,16 +614,16 @@ var vendor = {
                                 if (ex == "mp4") {
                                     pan_section += `<div class="mx-1 remove_img_section pan_array_class_property"><img src="images/video.jpg" class="get_img_section" data-img='${img_url}'   width=100px alt="Img">
                             
-                              </div>`
+                              </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                                 } else if (ex == "pdf") {
                                     pan_section += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${img_url}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${img_url}'    width=100px alt="Img"></a>
                        
-                        </div>`
+                        </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
                                 }
                                 else {
                                     pan_section += `<div class="mx-1 remove_img_section pan_array_class_property"><img src="${vendor.base_url}/files/${img_url}" class="get_img_section" data-img='${img_url}'   width=100px alt="Img">
                           
-                          </div>`
+                          </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
                                 }
 
@@ -511,7 +649,7 @@ var vendor = {
                               Name</label>
                             <div class="col-sm-9">
                               <input type="text" class="form-control d_name" placeholder="Enter Name" required=""
-                                data-parsley-required-message="Please Enter Name" value="${data.d_name}" />
+                                data-parsley-required-message="Please Enter Name" value="${data.d_name}" disabled />
                             </div>
                           </div>
                         </div>
@@ -520,7 +658,7 @@ var vendor = {
                             <label class="col-sm-3 col-form-label d_designation_label">Designation</label>
                             <div class="col-sm-9">
                               <input type="text" class="form-control d_designation" placeholder="Enter Designation"
-                                required="" data-parsley-required-message="Please Enter Designation" value="${data.d_designation}" />
+                                required="" data-parsley-required-message="Please Enter Designation" value="${data.d_designation}" disabled />
                             </div>
                           </div>
                         </div>
@@ -530,7 +668,7 @@ var vendor = {
                               Contact</label>
                             <div class="col-sm-9">
                               <input type="number" class="form-control d_contact " id="" placeholder="Enter Contact Number"
-                                required="" data-parsley-required-message="Please Enter Contact" value="${data.d_contact}" />
+                                required="" data-parsley-required-message="Please Enter Contact" value="${data.d_contact}" disabled />
                             </div>
                           </div>
                         </div>
@@ -542,7 +680,7 @@ var vendor = {
                             <div class="col-sm-9">
                               <input type="number" class="form-control d_contact_alternate" id=""
                                 placeholder="Enter Contact Number" required=""
-                                data-parsley-required-message="Please Enter Contact" value="${data.d_contact_alternate}" />
+                                data-parsley-required-message="Please Enter Contact" value="${data.d_contact_alternate}" disabled />
                             </div>
                           </div>
                         </div>
@@ -553,7 +691,7 @@ var vendor = {
                               Email</label>
                             <div class="col-sm-9">
                               <input type="email" class="form-control d_email" id="" placeholder="Enter Email" required=""
-                                data-parsley-required-message="Please Enter Email" value="${data.d_email}" />
+                                data-parsley-required-message="Please Enter Email" value="${data.d_email}" disabled/>
                             </div>
                           </div>
                         </div>
@@ -563,7 +701,7 @@ var vendor = {
                               Alternate Email</label>
                             <div class="col-sm-9">
                               <input type="email" class="form-control d_email_alternate" id="" placeholder="Enter Email"
-                                required="" data-parsley-required-message="Please Enter Email" value="${data.d_email_alternate}" />
+                                required="" data-parsley-required-message="Please Enter Email" value="${data.d_email_alternate}"  disabled/>
                             </div>
                           </div>
                         </div>
@@ -574,7 +712,7 @@ var vendor = {
                           <div class="col-sm-9  pan_verify_btn_section_input">
                             <input type="text" class="form-control pan_verify_input" id=""
                               placeholder="Enter Pan Card Number" required=""
-                              data-parsley-required-message="Please Enter Pan Number" value="${data.pan_number}"/>
+                              data-parsley-required-message="Please Enter Pan Number" value="${data.pan_number}" disabled/>
                           </div>
                           
                         </div>  
@@ -625,7 +763,7 @@ var vendor = {
                             <label class="col-sm-3 col-form-label">Sales/ Mkt Name </label>
                             <div class="col-sm-9">
                               <input type="text" class="form-control s_name" value="${data.s_name}" id="" placeholder="Enter Name" required=""
-                                data-parsley-required-message="Please Enter  Name" />
+                                data-parsley-required-message="Please Enter  Name"  disabled/>
                             </div>
                           </div>
                         </div>
@@ -634,7 +772,7 @@ var vendor = {
                             <label class="col-sm-3 col-form-label">Sales/ Mkt Designation </label>
                             <div class="col-sm-9">
                               <input type="text" class="form-control s_designation" value="${data.s_designation}" id="" placeholder="Enter Designation" required=""
-                                data-parsley-required-message="Please Enter Designation" />
+                                data-parsley-required-message="Please Enter Designation"  disabled/>
                             </div>
                           </div>
                         </div>
@@ -643,7 +781,7 @@ var vendor = {
                             <label class="col-sm-3 col-form-label">Sales/ Mkt Contact </label>
                             <div class="col-sm-9">
                               <input type="number" class="form-control s_number" id="" value="${data.s_number}" placeholder="Enter Contact Number"
-                                required="" data-parsley-required-message="Please Enter Contact" />
+                                required="" data-parsley-required-message="Please Enter Contact"  disabled/>
                             </div>
                           </div>
                         </div>
@@ -653,7 +791,7 @@ var vendor = {
                             <div class="col-sm-9">
                               <input type="number" class="form-control s_number_alternate" value="${data.s_number_alternate}" id=""
                                 placeholder="Enter Contact Number" required=""
-                                data-parsley-required-message="Please Enter Contact" />
+                                data-parsley-required-message="Please Enter Contact"  disabled/>
                             </div>
                           </div>
                         </div>
@@ -663,7 +801,7 @@ var vendor = {
                             <label class="col-sm-3 col-form-label">Sales/ Mkt Email </label>
                             <div class="col-sm-9">
                               <input type="email" class="form-control s_email" id="" value="${data.s_email}" placeholder="Enter Email" required=""
-                                data-parsley-required-message="Please Enter Email" />
+                                data-parsley-required-message="Please Enter Email"  disabled/>
                             </div>
                           </div>
                         </div>
@@ -672,7 +810,7 @@ var vendor = {
                             <label class="col-sm-3 col-form-label">Sales/ Mkt Alternate Email </label>
                             <div class="col-sm-9">
                               <input type="email" class="form-control s_email_alternate" value="${data.s_email_alternate}" id="" placeholder="Enter Email" required=""
-                                data-parsley-required-message="Please Enter Email" />
+                                data-parsley-required-message="Please Enter Email"  disabled/>
                             </div>
                           </div>
                         </div>
@@ -726,6 +864,8 @@ var vendor = {
                     $(".d_email_label").text("Director Email")
                     $(".d_email_alternate_label").text("Director Alternate Email")
                 }
+
+                vendor.load_sign(info.vendor_id._id)
                 $("#view_model_btn").click()
 
 
@@ -739,6 +879,77 @@ var vendor = {
         })
 
 
+
+    },
+    load_sign: function (id) {
+
+        var $request = $.ajax({
+            url: `${vendor.base_url}/vendor/get_sign_section/${id}`,
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
+
+        });
+
+        $request.done(function (data) {
+            console.log(data)
+
+            if (data.status) {
+
+                var html = ""
+                data.data.map(info => {
+
+                    // Given timestamp
+                    const timestamp = info.createdAt
+
+                    // Convert timestamp to Date object
+                    const date = new Date(timestamp);
+
+                    // Extract date components
+                    const day = date.getDate();
+                    const month = date.getMonth() + 1; // Months are zero-based, so we add 1
+                    const year = date.getFullYear();
+
+                    // Extract time components
+                    let hours = date.getHours();
+                    const minutes = date.getMinutes();
+                    let amOrPm = "AM";
+
+                    // Adjust hours to 12-hour format and determine AM/PM
+                    if (hours >= 12) {
+                        amOrPm = "PM";
+                        hours -= 12;
+                    }
+
+                    // Format hours with leading zero if necessary
+                    const formattedHours = hours.toString().padStart(2, "0");
+
+                    // Format date and time in the desired format
+                    const formattedDate = `${day}-${month}-${year}`;
+                    const formattedTime = `${formattedHours}:${minutes.toString().padStart(2, "0")} ${amOrPm}`;
+
+                    // Output the converted timestamp
+                    const convertedTimestamp = `${formattedDate} ${formattedTime}`;
+                    console.log(convertedTimestamp);
+
+
+                    html += ` <div class="col-3 border mt-2">
+                    <img src="${vendor.base_url}/files/${info.approved_user.sign}" width="100%" alt="">
+                    <p class="text-center">${info.approved_user.name} (${info.approved_user.user_status})</p>
+                    <p  class="text-center">${convertedTimestamp}</p>
+
+                </div>`
+
+                })
+
+
+                $("#sign_section_area").html("")
+                $("#sign_section_area").append(html)
+
+            } else {
+
+            }
+        })
 
     },
     view_time_line: function (e) {
@@ -772,10 +983,31 @@ var vendor = {
 
                         if (info.attachment.length > 0) {
                             info.attachment.map(info1 => {
-                                img += `
-                                <img src="${vendor.base_url}/files/${info1}" onclick="vendor.show_img(this)" data-url="${vendor.base_url}/files/${info1}"    style="cursor: pointer;max-width="180px"" class="my-2 mx-2"
-                                    alt="">
-                            `
+                                console.log("info1", info1)
+
+                                var ex = info1.split('.').pop()
+                                if (ex == "mp4") {
+                                    img += `<div class="mx-1 remove_img_section revert_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info1}'   style="max-width:100%" alt="Img">
+                                    <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info1}' onclick="vendor.remove_project_images(this)"></i></a>
+                                    </div>`
+                                } else if (ex == "pdf") {
+                                    img += `<div class="mx-1 remove_img_section revert_array_class"><a class="a_tag" href="${vendor.base_url}/files/${info1}" target="_blank" download="new-filename"><img src="images/pdf.png" class="get_img_section" data-img='${info1}'  style="max-width:100%" alt="Img"></a>
+                                    </div>`
+                                } else if (ex == "mp3" || ex == "ogg") {
+                                    img += `<div class="mx-1 remove_img_section revert_array_class" >
+                          <audio controls class="get_img_section" data-img='${info1}'>
+                          <source src="${vendor.base_url}/files/${info1}" type="audio/mpeg">
+                         
+                        </audio>
+                                      <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="vendor.remove_project_images(this)"></i></a>
+                                      </div>`
+                                }
+                                else {
+                                    img += ` <img src="${vendor.base_url}/files/${info1}" onclick="vendor.show_img(this)" data-url="${vendor.base_url}/files/${info1}"    style="cursor: pointer;max-width:100%" class="my-2 mx-2"
+                                    alt="">`
+
+                                }
+                              
                             })
 
 
