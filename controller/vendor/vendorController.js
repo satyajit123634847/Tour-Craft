@@ -885,8 +885,8 @@ exports.revert_to_vendor = async (req, res) => {
             level_status: 1,
             is_revert: true,
             is_ban: false,
-            ban_number_input: null,
-            financial_supplier: ""
+            // ban_number_input: null,
+            // financial_supplier: ""
         })
 
         await new timelineVendor({ vendor_id: vendor_id, type: "Revert Back To Initiator Form CFO.", action_status: 1, operator_by: operator_by, operator_type: operator_type, comment: comment_revert, attachment: attachment_revert, remark: remark }).save()

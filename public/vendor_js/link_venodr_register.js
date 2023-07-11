@@ -1653,6 +1653,8 @@ var register = {
           if (data.status) {
 
             $(e).css("display", "none")
+           
+            $('#pan_card_number').prop('disabled', true);
             toastr.options.positionClass = 'toast-bottom-right';
             toastr.success(data.message, '', { timeOut: 3000 })
             register.is_pan = true
@@ -1717,6 +1719,9 @@ var register = {
             toastr.success(data.message, '', { timeOut: 3000 })
             register.is_pan = true
 
+            $(e).parent(".pan_verify_btn_section").siblings(".pan_verify_btn_section_input").children(".pan_verify_input").prop('disabled', true);
+
+
 
           } else {
             toastr.options.positionClass = 'toast-bottom-right';
@@ -1767,6 +1772,8 @@ var register = {
         if (data.status) {
 
           $("#gst_verify_btn_section").css("display", "none")
+
+          $('#gst_number').prop('disabled', true);
           toastr.options.positionClass = 'toast-bottom-right';
           toastr.success(data.message, '', { timeOut: 3000 })
           register.is_gst = true
