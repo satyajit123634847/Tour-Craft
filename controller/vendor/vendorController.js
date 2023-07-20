@@ -20,7 +20,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const ejs = require('ejs');
 const puppeteer = require('puppeteer');
-const fs = require('fs');
+// const fs = require('fs');
 const path = require('path');
 
 
@@ -1595,7 +1595,8 @@ exports.get_count = async (req, res) => {
 
 }
 
-
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 exports.download_pdf_it = async (req, res) => {
 
 
@@ -1676,33 +1677,59 @@ exports.download_pdf_it = async (req, res) => {
     // console.log("sign_data", sign_data)
 
 
+    // try {
+    //     // Retrieve dynamic data from the database or generate it dynamically
+    //     var userData = firm_data
+
+    //     console.log("userData", userData)
+
+    //     // res.render('admin/pdf.ejs', { userData });
+    //     // return
+    //     // Render the template with dynamic data
+    //     const templatePath = 'views/admin/pdf_it.ejs';
+    //     ejs.renderFile(templatePath, { userData }, async (err, renderedHtml) => {
+    //         if (err) {
+    //             console.error('Error rendering template:', err);
+    //             res.status(500).send('Error rendering template');
+    //             return;
+    //         }
+
+    //         // Generate PDF from the rendered HTML
+    //         const pdfBuffer = await generatePDF(renderedHtml);
+
+    //         // Set response headers for file download
+    //         res.setHeader('Content-Type', 'application/pdf');
+    //         res.setHeader('Content-Disposition', `attachment; filename=${userData.vendor_id.name}.pdf`);
+
+    //         // Send the PDF buffer as the response
+    //         res.send(pdfBuffer);
+    //     });
+    // } catch (error) {
+    //     console.error('Error generating PDF:', error);
+    //     res.status(500).send('Error generating PDF');
+    // }
     try {
         // Retrieve dynamic data from the database or generate it dynamically
-        var userData = firm_data
+        var userData = firm_data;
 
-        console.log("userData", userData)
+        console.log("userData", userData);
 
-        // res.render('admin/pdf.ejs', { userData });
-        // return
-        // Render the template with dynamic data
-        const templatePath = 'views/admin/pdf_it.ejs';
-        ejs.renderFile(templatePath, { userData }, async (err, renderedHtml) => {
-            if (err) {
-                console.error('Error rendering template:', err);
-                res.status(500).send('Error rendering template');
-                return;
-            }
+        // Create a new PDF document
+        const doc = new PDFDocument({ size: 'A4' });
 
-            // Generate PDF from the rendered HTML
-            const pdfBuffer = await generatePDF(renderedHtml);
+        // Set response headers for file download
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=${userData.vendor_id.name}.pdf`);
 
-            // Set response headers for file download
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', `attachment; filename=${userData.vendor_id.name}.pdf`);
+        // Pipe the PDF document to the response object
+        doc.pipe(res);
 
-            // Send the PDF buffer as the response
-            res.send(pdfBuffer);
-        });
+        // Render the dynamic data to the PDF document
+        doc.fontSize(16).text('Hello, PDF!', 100, 100);
+        // Add more text or data to the PDF as needed...
+
+        // Finalize the PDF and end the response
+        doc.end();
     } catch (error) {
         console.error('Error generating PDF:', error);
         res.status(500).send('Error generating PDF');
