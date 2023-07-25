@@ -20,7 +20,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const ejs = require('ejs');
 const puppeteer = require('puppeteer');
-// const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 
@@ -1595,12 +1595,11 @@ exports.get_count = async (req, res) => {
 
 }
 
-const PDFDocument = require('pdfkit');
-const fs = require('fs');
+const pdf = require('html-pdf');
+
 exports.download_pdf_it = async (req, res) => {
 
 
-    console.log(".....")
 
     var firm_data1 = await firmDataModel.aggregate([
         {
@@ -1669,74 +1668,150 @@ exports.download_pdf_it = async (req, res) => {
 
 
     firm_data.base_url = process.env.base_url
-    // firm_data.sign_data =  sign_data
+
+    var userData = firm_data
+
+    ejs.renderFile(path.join(__dirname, './views/', "report-      template.ejs"), {userData: userData}, (err, data) => {
+        if (err) {
+              res.send(err);
+        } else {
+            let options = {
+                "height": "11.25in",
+                "width": "8.5in",
+                "header": {
+                    "height": "20mm"
+                },
+                "footer": {
+                    "height": "20mm",
+                },
+            };
+            pdf.create(data, options).toFile("report.pdf", function (err, data) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send("File created successfully");
+                }
+            });
+        }
+    });
 
 
 
+}
 
-    // console.log("sign_data", sign_data)
+exports.download_pdf_it_k = async (req, res) => {
 
 
-    // try {
-    //     // Retrieve dynamic data from the database or generate it dynamically
-    //     var userData = firm_data
 
-    //     console.log("userData", userData)
+    var firm_data1 = await firmDataModel.aggregate([
+        {
+            $match: { $and: [{ vendor_id: new ObjectId(req.params.id) }, { status: true }] }
+        },
+        {
+            $lookup: {
+                from: "vendors",
+                localField: "vendor_id",
+                foreignField: "_id",
+                as: "vendor_id"
 
-    //     // res.render('admin/pdf.ejs', { userData });
-    //     // return
-    //     // Render the template with dynamic data
-    //     const templatePath = 'views/admin/pdf_it.ejs';
-    //     ejs.renderFile(templatePath, { userData }, async (err, renderedHtml) => {
-    //         if (err) {
-    //             console.error('Error rendering template:', err);
-    //             res.status(500).send('Error rendering template');
-    //             return;
-    //         }
+            }
+        },
 
-    //         // Generate PDF from the rendered HTML
-    //         const pdfBuffer = await generatePDF(renderedHtml);
+        {
+            $unwind: {
+                path: "$vendor_id",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $lookup: {
+                from: "sign_masters",
+                let: {
+                    vendor_id: '$vendor_id._id',//Main table value
+                    status: true
+                },
+                pipeline: [
 
-    //         // Set response headers for file download
-    //         res.setHeader('Content-Type', 'application/pdf');
-    //         res.setHeader('Content-Disposition', `attachment; filename=${userData.vendor_id.name}.pdf`);
+                    {
+                        $match: {
+                            $and: [
+                                { $expr: { $eq: ["$vendor_id", "$$vendor_id"] } },
+                                { $expr: { $eq: ["$status", "$$status"] } },
 
-    //         // Send the PDF buffer as the response
-    //         res.send(pdfBuffer);
-    //     });
-    // } catch (error) {
-    //     console.error('Error generating PDF:', error);
-    //     res.status(500).send('Error generating PDF');
-    // }
+                            ]
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "adminusers",
+                            localField: "approved_user",
+                            foreignField: "_id",
+                            as: "admin_users"
+                        }
+                    },
+                    {
+                        $unwind: {
+                            path: "$admin_users",
+                            preserveNullAndEmptyArrays: true
+                        }
+                    },
+
+
+
+                ],
+                as: "sign_masters"
+            }
+        },
+    ])
+
+
+    var firm_data = firm_data1[0]
+
+
+
+    firm_data.base_url = process.env.base_url
+
+    var userData = firm_data
+
     try {
         // Retrieve dynamic data from the database or generate it dynamically
-        var userData = firm_data;
+        var userData = firm_data
 
-        console.log("userData", userData);
+        console.log("userData", userData)
 
-        // Create a new PDF document
-        const doc = new PDFDocument({ size: 'A4' });
+        // res.render('admin/pdf.ejs', { userData });
+        // return
+        // Render the template with dynamic data
+        const templatePath = 'views/admin/pdf_it.ejs'; 
+        ejs.renderFile(templatePath, { userData }, async (err, renderedHtml) => {
+            if (err) {
+                console.error('Error rendering template:', err);
+                res.status(500).send('Error rendering template');
+                return;
+            }
 
-        // Set response headers for file download
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename=${userData.vendor_id.name}.pdf`);
+            // Generate PDF from the rendered HTML
+            const pdfBuffer = await generatePDF(renderedHtml);
 
-        // Pipe the PDF document to the response object
-        doc.pipe(res);
+            // Set response headers for file download
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename=${userData.vendor_id.name}.pdf`);
 
-        // Render the dynamic data to the PDF document
-        doc.fontSize(16).text('Hello, PDF!', 100, 100);
-        // Add more text or data to the PDF as needed...
-
-        // Finalize the PDF and end the response
-        doc.end();
+            // Send the PDF buffer as the response
+            res.send(pdfBuffer);
+        });
     } catch (error) {
         console.error('Error generating PDF:', error);
         res.status(500).send('Error generating PDF');
     }
 
 
+
+
+
 }
+
+
 
 exports.download_pdf_test = async (req, res) => {
 
