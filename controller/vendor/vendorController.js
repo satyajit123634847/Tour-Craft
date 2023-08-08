@@ -1595,111 +1595,111 @@ exports.get_count = async (req, res) => {
 
 }
 
-const pdf = require('html-pdf');
+// const pdf = require('html-pdf');
+
+// exports.download_pdf_it = async (req, res) => {
+
+
+
+//     var firm_data1 = await firmDataModel.aggregate([
+//         {
+//             $match: { $and: [{ vendor_id: new ObjectId(req.params.id) }, { status: true }] }
+//         },
+//         {
+//             $lookup: {
+//                 from: "vendors",
+//                 localField: "vendor_id",
+//                 foreignField: "_id",
+//                 as: "vendor_id"
+
+//             }
+//         },
+
+//         {
+//             $unwind: {
+//                 path: "$vendor_id",
+//                 preserveNullAndEmptyArrays: true
+//             }
+//         },
+//         {
+//             $lookup: {
+//                 from: "sign_masters",
+//                 let: {
+//                     vendor_id: '$vendor_id._id',//Main table value
+//                     status: true
+//                 },
+//                 pipeline: [
+
+//                     {
+//                         $match: {
+//                             $and: [
+//                                 { $expr: { $eq: ["$vendor_id", "$$vendor_id"] } },
+//                                 { $expr: { $eq: ["$status", "$$status"] } },
+
+//                             ]
+//                         }
+//                     },
+//                     {
+//                         $lookup: {
+//                             from: "adminusers",
+//                             localField: "approved_user",
+//                             foreignField: "_id",
+//                             as: "admin_users"
+//                         }
+//                     },
+//                     {
+//                         $unwind: {
+//                             path: "$admin_users",
+//                             preserveNullAndEmptyArrays: true
+//                         }
+//                     },
+
+
+
+//                 ],
+//                 as: "sign_masters"
+//             }
+//         },
+//     ])
+
+
+//     var firm_data = firm_data1[0]
+
+
+
+//     firm_data.base_url = process.env.base_url
+
+//     var userData = firm_data
+
+//     ejs.renderFile(path.join(__dirname, './views/', "report-      template.ejs"), {userData: userData}, (err, data) => {
+//         if (err) {
+//               res.send(err);
+//         } else {
+//             let options = {
+//                 "height": "11.25in",
+//                 "width": "8.5in",
+//                 "header": {
+//                     "height": "20mm"
+//                 },
+//                 "footer": {
+//                     "height": "20mm",
+//                 },
+//             };
+//             pdf.create(data, options).toFile("report.pdf", function (err, data) {
+//                 if (err) {
+//                     res.send(err);
+//                 } else {
+//                     res.send("File created successfully");
+//                 }
+//             });
+//         }
+//     });
+
+
+
+// }
 
 exports.download_pdf_it = async (req, res) => {
-
-
-
-    var firm_data1 = await firmDataModel.aggregate([
-        {
-            $match: { $and: [{ vendor_id: new ObjectId(req.params.id) }, { status: true }] }
-        },
-        {
-            $lookup: {
-                from: "vendors",
-                localField: "vendor_id",
-                foreignField: "_id",
-                as: "vendor_id"
-
-            }
-        },
-
-        {
-            $unwind: {
-                path: "$vendor_id",
-                preserveNullAndEmptyArrays: true
-            }
-        },
-        {
-            $lookup: {
-                from: "sign_masters",
-                let: {
-                    vendor_id: '$vendor_id._id',//Main table value
-                    status: true
-                },
-                pipeline: [
-
-                    {
-                        $match: {
-                            $and: [
-                                { $expr: { $eq: ["$vendor_id", "$$vendor_id"] } },
-                                { $expr: { $eq: ["$status", "$$status"] } },
-
-                            ]
-                        }
-                    },
-                    {
-                        $lookup: {
-                            from: "adminusers",
-                            localField: "approved_user",
-                            foreignField: "_id",
-                            as: "admin_users"
-                        }
-                    },
-                    {
-                        $unwind: {
-                            path: "$admin_users",
-                            preserveNullAndEmptyArrays: true
-                        }
-                    },
-
-
-
-                ],
-                as: "sign_masters"
-            }
-        },
-    ])
-
-
-    var firm_data = firm_data1[0]
-
-
-
-    firm_data.base_url = process.env.base_url
-
-    var userData = firm_data
-
-    ejs.renderFile(path.join(__dirname, './views/', "report-      template.ejs"), {userData: userData}, (err, data) => {
-        if (err) {
-              res.send(err);
-        } else {
-            let options = {
-                "height": "11.25in",
-                "width": "8.5in",
-                "header": {
-                    "height": "20mm"
-                },
-                "footer": {
-                    "height": "20mm",
-                },
-            };
-            pdf.create(data, options).toFile("report.pdf", function (err, data) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    res.send("File created successfully");
-                }
-            });
-        }
-    });
-
-
-
-}
-
-exports.download_pdf_it_k = async (req, res) => {
 
 
 
