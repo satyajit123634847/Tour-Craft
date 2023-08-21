@@ -1992,7 +1992,7 @@ exports.test_api = async (req, res) => {
 
 }
 
-exports.download_pdf_it_old = async (req, res) => {
+exports.download_pdf_it = async (req, res) => {
 
 
 
@@ -2105,7 +2105,7 @@ exports.download_pdf_it_old = async (req, res) => {
 }
 
 
-exports.download_pdf_it = async (req, res) => {
+exports.download_pdf_it_old = async (req, res) => {
 
 
 
