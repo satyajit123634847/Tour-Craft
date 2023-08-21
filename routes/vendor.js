@@ -94,6 +94,10 @@ router.get('/get_sign_section/:id', vendorController.get_sign_section);
 // --------------test_api-----------------
 router.get('/test_api/:id', vendorController.test_api);
 
+// --------download_pdf_it_data---------//
+router.get('/download_pdf_it_data/:id', vendorController.download_pdf_it_data);
+
+
 
 
 

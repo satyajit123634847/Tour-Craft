@@ -21,6 +21,684 @@ var vendor = {
             }
         })
     },
+    download_pdf: function (e) {
+
+        let self = this;
+        let row = $(e).closest('tr');
+        let obj = $('#vendor_table').dataTable().fnGetData(row);
+        var id = obj._id
+
+
+
+        var $request = $.ajax({
+            url: `${vendor.base_url}/vendor/download_pdf_it_data/${id}`,
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
+
+        });
+
+        $request.done(function (data) {
+
+            if (data.status) {
+                console.log(data)
+
+                var userData = data.data
+
+                var t = ""
+
+                userData.contact_section_data.map(info => {
+
+                    t += `<div class="row">
+                    <div class="col-3" style="margin-bottom: -15px !important;">
+                       <p>&nbsp;&nbsp;Prop/Partner Name</p>
+                    </div>
+                    <div class="col-9" style="margin-bottom: -15px !important;">
+                       <b>:&nbsp;</b> <span>
+                       ${info.d_name}
+                       </span>
+                    </div>
+                    <div class="col-3" style="margin-bottom: -15px !important;">
+                       <p>&nbsp;&nbsp;Prop/Partner Contact</p>
+                    </div>
+                    <div class="col-9" style="margin-bottom: -15px !important;">
+                       <b>:&nbsp;</b> <span>
+                      
+                       ${info.d_contact}
+                       </span>
+                    </div>
+                    <div class="col-3" style="margin-bottom: -15px !important;">
+                       <p> &nbsp;&nbsp;Prop/Partner Alt </p>
+                    </div>
+                    <div class="col-9" style="margin-bottom: -15px !important;">
+                       <b>:&nbsp;</b> <span>
+                       
+                       ${info.d_contact_alternate}
+                       </span>
+                    </div>
+                    <div class="col-3" style="margin-bottom: -15px !important;">
+                       <p>&nbsp;&nbsp;Prop/Partner Email</p>
+                    </div>
+                    <div class="col-9" style="margin-bottom: -15px !important;">
+                       <b>:&nbsp;</b> <span>
+                     
+                       ${info.d_email}
+                       </span>
+                    </div>
+                    <div class="col-3" style="margin-bottom: -15px !important;">
+                       <p>&nbsp;&nbsp;Prop/Partner Alt Email</p>
+                    </div>
+                    <div class="col-9" style="margin-bottom: -15px !important;">
+                       <b>:&nbsp;</b> <span>
+                     
+                       ${info.d_email_alternate}
+                       </span>
+                    </div>
+                 </div>
+                 <hr>`
+
+                })
+
+
+                var t2 = ""
+
+                userData.sign_masters.map((info) => {
+                    t2 += `<div class="col-4 border mt-3">
+                    <img src=" ${userData.base_url}/files/${info.admin_users.sign}" width="100%" alt="">
+                    <p class="text-center">${info.admin_users.name} (${info.admin_users.user_status})</p>
+                    <p class="text-center">${info.admin_users.name}></p>
+                 </div>`
+
+                })
+
+                var value = "${userData.vendor_id.firm_type ? userData.vendor_id.firm_type : ''}";
+                var t3 = ""
+                if (value == 1) {
+                    $("#firm_type").text("Proprietorship")
+                    t3 = "Proprietorship"
+
+                } else if (value == 2) {
+                    $("#firm_type").text("Partnership")
+                    t3 = "Partnership"
+
+
+
+                } else if (value == 3) {
+
+                    $("#firm_type").text("Private Ltd")
+                    t3 = "Private Ltd"
+
+
+                } else {
+                    $("#firm_type").text("Public Ltd")
+                    t3 = "Public Ltd"
+
+
+                }
+
+
+
+                
+
+                const dateObj = new Date();
+
+                const year = dateObj.getFullYear().toString();
+                const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+                const day = dateObj.getDate().toString().padStart(2, '0');
+
+                const convertedDate = `${day}-${month}-${year}`;
+
+                let hours = dateObj.getHours();
+                const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+
+                let period = "AM";
+
+                if (hours >= 12) {
+                    period = "PM";
+                    if (hours > 12) {
+                        hours -= 12;
+                    }
+                } else if (hours === 0) {
+                    hours = 12;
+                }
+
+                const convertedTime = `${hours}.${minutes}`;
+
+                const desiredFormat = `${convertedDate}`;
+
+                console.log(desiredFormat);
+
+                const invoice = `<!doctype html>
+                <html lang="en">
+                   <head>
+                      <!-- Required meta tags -->
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                      <!-- Bootstrap CSS -->
+                      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+                         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                      <link rel="preconnect" href="https://fonts.googleapis.com">
+                      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                      <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500&display=swap" rel="stylesheet">
+                      <title>Vendor Register Form</title>
+                      <style>
+                         body {
+                         font-family: 'Rajdhani', sans-serif;
+                         font-weight: 500;
+                         }
+                         p {
+                         font-size: 18px;
+                         }
+                         span {
+                         font-size: 16px;
+                         }
+                      </style>
+                   </head>
+                   <body>
+                      <div class="container mt-3 ">
+                         <div class="row">
+                            <div class="col-4">
+                               <p style="margin: 0px;"><b>Date : <span id="date_text">${desiredFormat}</span></b></p>
+                               <p style="margin: 0px;">Cryolor Asia Pacific Pvt Ltd</p>
+                            </div>
+                            <div class="col-5">
+                               <h5> <b>Vendor Registration Details</b></h5>
+                            </div>
+                            <div class="col-3" id="logo_section">
+                            <img src="${userData.base_url}/images/logo.jpg" width="100%" alt="logo">
+                            </div>
+                         </div>
+                         <hr>
+                         <div class="row border p-2">
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>BAAN Number</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.vendor_id.ban_number_input ? userData.vendor_id.ban_number_input : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Supplier</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b><span>
+                               <b>
+                               ${userData.vendor_id.name ? userData.vendor_id.name : ''}
+                               </b>
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Address</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.address ? userData.address : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Address2</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.address1 ? userData.address1 : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>City</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.city ? userData.city : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>City2</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.city1 ? userData.city1 : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Zip Code</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.zip_code ? userData.zip_code : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Accounting Reference</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.accounting_ref ? userData.accounting_ref : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Sales Reference</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.sales_ref ? userData.sales_ref : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Terms of Payment</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.payment_terms ? userData.payment_terms : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Terms of Delivery</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.delivery_terms ? userData.delivery_terms : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Country</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.country ? userData.country : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Currency</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.default_currency ? userData.default_currency : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Financial Supplier Group </p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.vendor_id.financial_supplier ? userData.vendor_id.financial_supplier : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Email </p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.vendor_id.email ? userData.vendor_id.email : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Telephone </p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.vendor_id.mobile_number ? userData.vendor_id.mobile_number : ''}
+                               </span>
+                            </div>
+                         </div>
+                         <div class="row border p-2 mt-3">
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Sup. Name as per Bank</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.s_name_as_per_name ? userData.s_name_as_per_name : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Bank Name</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.bank_name  ? userData.bank_name  : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Bank Account No</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.account_no ? userData.account_no : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Bank Address</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.bank_address ? userData.bank_address : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Country</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.country ? userData.country : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>IFSC Code</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.ifsc_code ? userData.ifsc_code : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>IBAN No.</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.account_no ? userData.account_no : '' }
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>MICR</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.micr_code ? userData.micr_code : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Vendor Callback</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span></span>
+                            </div>
+                         </div>
+                         <div class="row border p-2 ">
+                                ${t}
+                         </div>
+                         <div class="row border p-2 ">
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Sale Name</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.sale_data[0].s_name ? userData.sale_data[0].s_name : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Sale Contact</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+
+                               ${userData.sale_data[0].s_number ? userData.sale_data[0].s_number : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Sale Alternate Contact</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.sale_data[0].s_number_alternate ? userData.sale_data[0].s_number_alternate : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Sale Email</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.sale_data[0].s_email ? userData.sale_data[0].s_email : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Sale Alternate Email</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.sale_data[0].s_email_alternate ? userData.sale_data[0].s_email_alternate : ''}
+                               </span>
+                            </div>
+                         </div>
+                         <div class="row border p-2 ">
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Account Person Name</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.p_name ? userData.p_name : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Account Person Contact</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               
+                               ${userData.p_contact ? userData.p_contact : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Account Person Alternate Contact</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.p_alternate_contact ? userData.p_alternate_contact : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Account Person Email</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.p_email ? userData.p_email : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Account Person Alternate Email</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.p_alternate_email ? userData.p_alternate_email : ''}
+                               </span>
+                            </div>
+                         </div>
+                         <div class="row border p-2 ">
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>GST Registration No.</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               
+                               ${userData.gst_number ? userData.gst_number : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Range</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.gst_range ? userData.gst_range : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Supplier Type</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                             
+                               ${userData.supplier_type ? userData.supplier_type : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>HSN/SAC</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.hsn_sac ? userData.hsn_sac : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>GST Division</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                              
+                               ${userData.gst_division ? userData.gst_division : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Pan Number</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.pan_card_number ? userData.pan_card_number : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>GST Commissionerate</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.gst_commissionerate ? userData.gst_commissionerate : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Type of Item</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.type_of_item ? userData.type_of_item : ''}
+                               </span>
+                            </div>
+                         </div>
+                         <div class="row border p-2 ">
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>MSME Registered</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.msme_no ? userData.msme_no : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>SSI Registered</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.ssi_no ? userData.ssi_no : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Entity Type</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span id="firm_type">${t3} </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Name Of Owner</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.vendor_id.name ? userData.vendor_id.name : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Owner Contact</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.vendor_id.mobile_number ? userData.vendor_id.mobile_number : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Date Of Entry</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.type_of_item ? userData.type_of_item : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Created by</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span>
+                               ${userData.type_of_item ? userData.type_of_item : ''}
+                               </span>
+                            </div>
+                            <div class="col-3" style="margin-bottom: -15px !important;">
+                               <p>Code of Conduct Ack.Done</p>
+                            </div>
+                            <div class="col-9" style="margin-bottom: -15px !important;">
+                               <b>:&nbsp;</b> <span></span>
+                            </div>
+                         </div>
+                         <hr>
+                         <div class="row" id="sign_section_area">
+                            ${t2}
+                         </div>
+                      </div>
+                      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                         crossorigin="anonymous"></script>
+                      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+                         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                         crossorigin="anonymous"></script>
+                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+                         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                         crossorigin="anonymous"></script>
+                      <script>
+                         $(document).ready(function () {
+                             $(function () {
+                                 
+                         
+                         
+                         
+                              
+                         
+                                
+                         
+                         
+                                
+                         
+                         
+                         
+                         
+                         
+                         
+                         
+                         
+                             });
+                         });
+                      </script>
+                   </body>
+                </html>`
+
+                var opt = {
+                    margin: 1,
+                    filename: `${userData.vendor_id.name}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                html2pdf().from(invoice).set(opt).save();
+            }
+
+        })
+
+
+    },
     list_vendor: function (e) {
         $('#vendor_table').DataTable({
             "ajax": {
