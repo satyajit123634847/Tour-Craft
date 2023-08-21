@@ -22,7 +22,7 @@ const ejs = require('ejs');
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
-const pdf = require('html-pdf');
+
 
 
 // ---------register---------------------//
@@ -1992,7 +1992,7 @@ exports.test_api = async (req, res) => {
 
 }
 
-exports.download_pdf_it_old = async (req, res) => {
+exports.download_pdf_it = async (req, res) => {
 
 
 
@@ -2104,122 +2104,10 @@ exports.download_pdf_it_old = async (req, res) => {
 
 }
 
-const PDFDocument = require('pdfkit');
 
 
-exports.download_pdf_it = async (req, res) => {
-
-    console.log("skds")
-    try {
-        var firm_data1 = await firmDataModel.aggregate([
-            {
-                $match: { $and: [{ vendor_id: new ObjectId(req.params.id) }, { status: true }] }
-            },
-            {
-                $lookup: {
-                    from: "vendors",
-                    localField: "vendor_id",
-                    foreignField: "_id",
-                    as: "vendor_id"
-    
-                }
-            },
-    
-            {
-                $unwind: {
-                    path: "$vendor_id",
-                    preserveNullAndEmptyArrays: true
-                }
-            },
-            {
-                $lookup: {
-                    from: "sign_masters",
-                    let: {
-                        vendor_id: '$vendor_id._id',//Main table value
-                        status: true
-                    },
-                    pipeline: [
-    
-                        {
-                            $match: {
-                                $and: [
-                                    { $expr: { $eq: ["$vendor_id", "$$vendor_id"] } },
-                                    { $expr: { $eq: ["$status", "$$status"] } },
-    
-                                ]
-                            }
-                        },
-                        {
-                            $lookup: {
-                                from: "adminusers",
-                                localField: "approved_user",
-                                foreignField: "_id",
-                                as: "admin_users"
-                            }
-                        },
-                        {
-                            $unwind: {
-                                path: "$admin_users",
-                                preserveNullAndEmptyArrays: true
-                            }
-                        },
-    
-    
-    
-                    ],
-                    as: "sign_masters"
-                }
-            },
-        ])
-        
-        var firm_data = firm_data1[0];
-        firm_data.base_url = process.env.base_url;
-
-        const userData = firm_data;
-
-        // Render the EJS template with dynamic data
-        const templatePath = 'views/admin/pdf_it.ejs';
-        ejs.renderFile(templatePath, { userData }, async (err, renderedHtml) => {
-            if (err) {
-                console.error('Error rendering template:', err);
-                res.status(500).send('Error rendering template');
-                return;
-            }
-
-            // Generate PDF from the rendered HTML using PDFKit
-            const pdfBuffer = await generatePDF1(renderedHtml);
-
-            // Set response headers for file download
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', `attachment; filename=${userData.vendor_id.name}.pdf`);
-
-            // Send the PDF buffer as the response
-            res.send(pdfBuffer);
-        });
-    } catch (error) {
-        console.error('Error generating PDF:', error);
-        res.status(500).send('Error generating PDF');
-    }
-};
 
 
-// Function to generate PDF using PDFKit
-async function generatePDF1(renderedHtml) {
-    return new Promise((resolve, reject) => {
-        const pdfBuffer = [];
-        const doc = new PDFDocument();
-
-        // Pipe PDF output to the buffer
-        doc.on('data', chunk => pdfBuffer.push(chunk));
-        doc.on('end', () => resolve(Buffer.concat(pdfBuffer)));
-
-        // Embed HTML content into the PDF using PDFKit
-        doc.font('Helvetica').fontSize(12).text(renderedHtml, { align: 'left' });
-
-        // Finalize the PDF document
-        doc.end();
-    });
-}
 
 
 
