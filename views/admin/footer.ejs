@@ -44,19 +44,19 @@
 
 <script>
     var login = sessionStorage.getItem("admin_login")
-    // if (login == true || login == "true") {
-    //     var name = sessionStorage.getItem("user_name")
-    //     $("#user_name_show").text(name)
+    if (login == true || login == "true") {
+        var name = sessionStorage.getItem("user_name")
+        $("#user_name_show").text(name)
 
-    //     name = sessionStorage.getItem("name")
-    //     $("#name_show").text(name)
+        name = sessionStorage.getItem("name")
+        $("#name_show").text(name)
 
-    // } else if (login == "false" || login == false) {
-    //     window.location = "/login"
-    // }
-    // else {
-    //     window.location = "/login"
-    // }
+    } else if (login == "false" || login == false) {
+        window.location = "/login"
+    }
+    else {
+        window.location = "/login"
+    }
 
 
 
