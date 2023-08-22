@@ -1,136 +1,42 @@
 var vendor = {
-  base_url: null,
-  init: function () {
-    vendor.bind_events()
-    vendor.list_vendor()
+   base_url: null,
+   init: function () {
+      vendor.bind_events()
+      vendor.list_vendor()
 
 
 
 
 
-  },
-  bind_events: function (e) {
-  },
-  download_pdf: function (e) {
+   },
+   bind_events: function (e) {
+   },
+   download_pdf: function (e) {
 
-    let self = this;
-    let row = $(e).closest('tr');
-    let obj = $('#vendor_table').dataTable().fnGetData(row);
-    var id = obj._id
+      let self = this;
+      let row = $(e).closest('tr');
+      let obj = $('#vendor_table').dataTable().fnGetData(row);
+      var id = obj._id
 
 
 
-    var $request = $.ajax({
-        url: `${vendor.base_url}/vendor/download_pdf_it_data/${id}`,
-        type: "GET",
-        dataType: "json",
-        contentType: "application/json",
+      var $request = $.ajax({
+         url: `${vendor.base_url}/vendor/download_pdf_it_data/${id}`,
+         type: "GET",
+         dataType: "json",
+         contentType: "application/json",
 
-    });
+      });
 
-    $request.done(function (data) {
+      $request.done(function (data) {
 
-        if (data.status) {
-            console.log(data)
+         if (data.status) {
 
             var userData = data.data
 
-            var t = ""
+            console.log("userData", userData)
 
-            userData.contact_section_data.map(info => {
-
-                t += `<div class="row">
-                <div class="col-3" style="margin-bottom: -15px !important;">
-                   <p>&nbsp;&nbsp;Prop/Partner Name</p>
-                </div>
-                <div class="col-9" style="margin-bottom: -15px !important;">
-                   <b>:&nbsp;</b> <span>
-                   ${info.d_name}
-                   </span>
-                </div>
-                <div class="col-3" style="margin-bottom: -15px !important;">
-                   <p>&nbsp;&nbsp;Prop/Partner Contact</p>
-                </div>
-                <div class="col-9" style="margin-bottom: -15px !important;">
-                   <b>:&nbsp;</b> <span>
-                  
-                   ${info.d_contact}
-                   </span>
-                </div>
-                <div class="col-3" style="margin-bottom: -15px !important;">
-                   <p> &nbsp;&nbsp;Prop/Partner Alt </p>
-                </div>
-                <div class="col-9" style="margin-bottom: -15px !important;">
-                   <b>:&nbsp;</b> <span>
-                   
-                   ${info.d_contact_alternate}
-                   </span>
-                </div>
-                <div class="col-3" style="margin-bottom: -15px !important;">
-                   <p>&nbsp;&nbsp;Prop/Partner Email</p>
-                </div>
-                <div class="col-9" style="margin-bottom: -15px !important;">
-                   <b>:&nbsp;</b> <span>
-                 
-                   ${info.d_email}
-                   </span>
-                </div>
-                <div class="col-3" style="margin-bottom: -15px !important;">
-                   <p>&nbsp;&nbsp;Prop/Partner Alt Email</p>
-                </div>
-                <div class="col-9" style="margin-bottom: -15px !important;">
-                   <b>:&nbsp;</b> <span>
-                 
-                   ${info.d_email_alternate}
-                   </span>
-                </div>
-             </div>
-             <hr>`
-
-            })
-
-
-            var t2 = ""
-
-            userData.sign_masters.map((info) => {
-                t2 += `<div class="col-4 border mt-3">
-                <img src=" ${userData.base_url}/files/${info.admin_users.sign}" width="100%" alt="">
-                <p class="text-center">${info.admin_users.name} (${info.admin_users.user_status})</p>
-                <p class="text-center">${info.admin_users.name}></p>
-             </div>`
-
-            })
-
-            var value = "${userData.vendor_id.firm_type ? userData.vendor_id.firm_type : ''}";
-            var t3 = ""
-            if (value == 1) {
-                $("#firm_type").text("Proprietorship")
-                t3 = "Proprietorship"
-
-            } else if (value == 2) {
-                $("#firm_type").text("Partnership")
-                t3 = "Partnership"
-
-
-
-            } else if (value == 3) {
-
-                $("#firm_type").text("Private Ltd")
-                t3 = "Private Ltd"
-
-
-            } else {
-                $("#firm_type").text("Public Ltd")
-                t3 = "Public Ltd"
-
-
-            }
-
-
-
-            
-
-            const dateObj = new Date();
+            const dateObj = new Date(userData.createdAt);
 
             const year = dateObj.getFullYear().toString();
             const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
@@ -144,757 +50,797 @@ var vendor = {
             let period = "AM";
 
             if (hours >= 12) {
-                period = "PM";
-                if (hours > 12) {
-                    hours -= 12;
-                }
+               period = "PM";
+               if (hours > 12) {
+                  hours -= 12;
+               }
             } else if (hours === 0) {
-                hours = 12;
+               hours = 12;
             }
 
             const convertedTime = `${hours}.${minutes}`;
 
             const desiredFormat = `${convertedDate}`;
 
-            console.log(desiredFormat);
 
-            const invoice = `<!doctype html>
-            <html lang="en">
-               <head>
-                  <!-- Required meta tags -->
-                  <meta charset="utf-8">
-                  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                  <!-- Bootstrap CSS -->
-                  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-                     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-                  <link rel="preconnect" href="https://fonts.googleapis.com">
-                  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500&display=swap" rel="stylesheet">
-                  <title>Vendor Register Form</title>
-                  <style>
-                     body {
-                     font-family: 'Rajdhani', sans-serif;
-                     font-weight: 500;
-                     }
-                     p {
-                     font-size: 18px;
-                     }
-                     span {
-                     font-size: 16px;
-                     }
-                  </style>
-               </head>
-               <body>
-                  <div class="container mt-3 ">
-                     <div class="row">
-                        <div class="col-4">
-                           <p style="margin: 0px;"><b>Date : <span id="date_text">${desiredFormat}</span></b></p>
-                           <p style="margin: 0px;">Cryolor Asia Pacific Pvt Ltd</p>
-                        </div>
-                        <div class="col-5">
-                           <h5> <b>Vendor Registration Details</b></h5>
-                        </div>
-                        <div class="col-3" id="logo_section">
-                        <img src="${userData.base_url}/images/logo.jpg" width="100%" alt="logo">
-                        </div>
-                     </div>
-                     <hr>
-                     <div class="row border p-2">
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>BAAN Number</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.vendor_id.ban_number_input ? userData.vendor_id.ban_number_input : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Supplier</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b><span>
-                           <b>
-                           ${userData.vendor_id.name ? userData.vendor_id.name : ''}
-                           </b>
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Address</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.address ? userData.address : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Address2</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.address1 ? userData.address1 : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>City</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.city ? userData.city : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>City2</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.city1 ? userData.city1 : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Zip Code</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.zip_code ? userData.zip_code : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Accounting Reference</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.accounting_ref ? userData.accounting_ref : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Sales Reference</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.sales_ref ? userData.sales_ref : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Terms of Payment</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.payment_terms ? userData.payment_terms : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Terms of Delivery</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.delivery_terms ? userData.delivery_terms : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Country</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.country ? userData.country : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Currency</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.default_currency ? userData.default_currency : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Financial Supplier Group </p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.vendor_id.financial_supplier ? userData.vendor_id.financial_supplier : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Email </p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.vendor_id.email ? userData.vendor_id.email : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Telephone </p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.vendor_id.mobile_number ? userData.vendor_id.mobile_number : ''}
-                           </span>
-                        </div>
-                     </div>
-                     <div class="row border p-2 mt-3">
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Sup. Name as per Bank</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.s_name_as_per_name ? userData.s_name_as_per_name : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Bank Name</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.bank_name  ? userData.bank_name  : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Bank Account No</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.account_no ? userData.account_no : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Bank Address</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.bank_address ? userData.bank_address : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Country</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.country ? userData.country : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>IFSC Code</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.ifsc_code ? userData.ifsc_code : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>IBAN No.</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.account_no ? userData.account_no : '' }
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>MICR</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.micr_code ? userData.micr_code : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Vendor Callback</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span></span>
-                        </div>
-                     </div>
-                     <div class="row border p-2 ">
-                            ${t}
-                     </div>
-                     <div class="row border p-2 ">
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Sale Name</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.sale_data[0].s_name ? userData.sale_data[0].s_name : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Sale Contact</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
+            var value = userData.vendor_id.firm_type;
+            var t3 = "-"
+            if (value == 1) {
+               $("#firm_type").text("Proprietorship")
+               t3 = "Proprietorship"
 
-                           ${userData.sale_data[0].s_number ? userData.sale_data[0].s_number : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Sale Alternate Contact</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.sale_data[0].s_number_alternate ? userData.sale_data[0].s_number_alternate : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Sale Email</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.sale_data[0].s_email ? userData.sale_data[0].s_email : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Sale Alternate Email</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.sale_data[0].s_email_alternate ? userData.sale_data[0].s_email_alternate : ''}
-                           </span>
-                        </div>
-                     </div>
-                     <div class="row border p-2 ">
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Account Person Name</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.p_name ? userData.p_name : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Account Person Contact</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           
-                           ${userData.p_contact ? userData.p_contact : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Account Person Alternate Contact</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.p_alternate_contact ? userData.p_alternate_contact : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Account Person Email</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.p_email ? userData.p_email : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Account Person Alternate Email</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.p_alternate_email ? userData.p_alternate_email : ''}
-                           </span>
-                        </div>
-                     </div>
-                     <div class="row border p-2 ">
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>GST Registration No.</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           
-                           ${userData.gst_number ? userData.gst_number : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Range</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.gst_range ? userData.gst_range : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Supplier Type</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
+            } else if (value == 2) {
+               $("#firm_type").text("Partnership")
+               t3 = "Partnership"
+
+
+
+            } else if (value == 3) {
+
+               $("#firm_type").text("Private Ltd")
+               t3 = "Private Ltd"
+
+
+            } else {
+               $("#firm_type").text("Public Ltd")
+               t3 = "Public Ltd"
+
+
+            }
+
+            var t = ""
+            userData.contact_section_data.map(info => {
+
+               t += `<div class="row border">
+               <div class="col-3 border-right">
+                   <p>${info.d_name}</p>
+               </div>
+   
+               <div class="col-3 border-right">
+   
+                   <p> ${info.d_designation}</p>
+               </div>
+               <div class="col-3 border-right">
+                   <p> ${info.d_contact}</p>
+               </div>
+               <div class="col-3 p-1">
+                   <p>${info.d_email}</p>
+               </div>
+   
+           </div>`
+
+            })
+
+            var t2 = ""
+            userData.sign_masters.map((info) => {
+               t2 += `<div class="col-2 text-center border">
+               <img src=" ${vendor.base_url}/files/${info.admin_users.sign}" width="100%" alt="logo">
+               <p>${info.admin_users.name} (${info.admin_users.user_status}) </p>
+           </div>`
+
+            })
+
+
+            var invoice = `<!doctype html>
+           <html lang="en">
+              <head>
+                 <!-- Required meta tags -->
+                 <meta charset="utf-8">
+                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                 <!-- Bootstrap CSS -->
+                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+                    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                 <title>Vendor Registrations Format </title>
+                 <style>
+                    p {
+                    margin-bottom: 0px;
+                    font-size: 12px;
+                    }
+                 </style>
+              </head>
+              <body>
+                 <div class="container my-1 border  ">
+                    <div class="row ">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <img src="${vendor.base_url}/images/logo.jpg" width="100%" alt="logo">
+                       </div>
+                       <div class="col-6 text-center border-left border-right border-bottom ">
+                          <h5><b>Vendor Registrations Format</b></h5>
+                       </div>
+                       <div class="col-3 border-left  border-bottom ">
+                          <p><b>Reference:</b>-</p>
+                          <p><b>Revision:</b>-</p>
+                          <p><b>Date:</b>${desiredFormat}</p>
+                          <p><b>Page:</b>1</p>
+                          <p><b>Owner:</b>-</p>
+                       </div>
+                    </div>
+                    <div class="row ">
+                       <div class="col-9 border-right border-left border-bottom border-top">
+                          <div class="row border">
+                             <div class="col-4 border-right border-left">
+                                <p><b>Request for</b></p>
+                             </div>
+                             <div class="col-8 border-left ">
+                                <p> &nbsp; New Code &nbsp; &nbsp; &nbsp; Modification &nbsp; &nbsp; &nbsp; Existing
+                                   Code
+                                </p>
+                             </div>
+                          </div>
+                          <div class="row border">
+                             <div class="col-4 border-right border-left ">
+                                <p><b>Vendor Group</b></p>
+                             </div>
+                             <div class="col-8 border-left ">
+                                <p> &nbsp; Non AL Group(D) Non AL Group(I) AL Group(D) AL Group(I) </p>
+                             </div>
+                          </div>
+                          <div class="row border">
+                             <div class="col-4 border-right border-left ">
+                                <p><b>Scope Of Supply</b></p>
+                             </div>
+                             <div class="col-8 border-left">
+                                <p> &nbsp;Raw Materials &nbsp; &nbsp; &nbsp;Sub Contacting &nbsp; &nbsp; &nbsp;
+                                   Other Services
+                                </p>
+                             </div>
+                          </div>
+                          <div class="row border">
+                             <div class="col-4 border-right border-left">
+                                <p><b>Inspection is required</b></p>
+                             </div>
+                             <div class="col-8 border-left ">
+                                <p> &nbsp;Yes &nbsp; &nbsp; &nbsp;No </p>
+                             </div>
+                          </div>
+                       </div>
+                       <div class="col-3 border-right border-left border-bottom border-top">
+                          <p>To be filed by Cryolor</p>
+                       </div>
+                    </div>
+                    <div class="row border  bg-light">
+                       <p><b>Vendor Name and Address Details</b></p>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Name</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>  ${userData.vendor_id.name ? userData.vendor_id.name : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Address Line 1</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>  ${userData.address ? userData.address : '-'}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Address Line 2</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>${userData.address1 ? userData.address1 : '-'}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>City</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.city ? userData.city : '-'}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>State</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.state ? userData.state : '-'},</p>
                          
-                           ${userData.supplier_type ? userData.supplier_type : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>HSN/SAC</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.hsn_sac ? userData.hsn_sac : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>GST Division</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                          
-                           ${userData.gst_division ? userData.gst_division : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Pan Number</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.pan_card_number ? userData.pan_card_number : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>GST Commissionerate</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.gst_commissionerate ? userData.gst_commissionerate : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Type of Item</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.type_of_item ? userData.type_of_item : ''}
-                           </span>
-                        </div>
-                     </div>
-                     <div class="row border p-2 ">
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>MSME Registered</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.msme_no ? userData.msme_no : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>SSI Registered</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.ssi_no ? userData.ssi_no : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Entity Type</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span id="firm_type">${t3} </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Name Of Owner</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.vendor_id.name ? userData.vendor_id.name : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Owner Contact</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.vendor_id.mobile_number ? userData.vendor_id.mobile_number : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Date Of Entry</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.type_of_item ? userData.type_of_item : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Created by</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span>
-                           ${userData.type_of_item ? userData.type_of_item : ''}
-                           </span>
-                        </div>
-                        <div class="col-3" style="margin-bottom: -15px !important;">
-                           <p>Code of Conduct Ack.Done</p>
-                        </div>
-                        <div class="col-9" style="margin-bottom: -15px !important;">
-                           <b>:&nbsp;</b> <span></span>
-                        </div>
-                     </div>
-                     <hr>
-                     <div class="row" id="sign_section_area">
-                        ${t2}
-                     </div>
-                  </div>
-                  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-                     crossorigin="anonymous"></script>
-                  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-                     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                     crossorigin="anonymous"></script>
-                  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-                     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-                     crossorigin="anonymous"></script>
-                  <script>
-                     $(document).ready(function () {
-                         $(function () {
-                             
-                     
-                     
-                     
-                          
-                     
-                            
-                     
-                     
-                            
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                         });
-                     });
-                  </script>
-               </body>
-            </html>`
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Country, Zip Code</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.country ? userData.country : ''},  ${userData.zip_code ? userData.zip_code : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Entity Type</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>${t3}</p>
+                       </div>
+                    </div>
+                    <div class="row border  bg-light">
+                       <p><b class="">Bank Details(Supporting document required)</b></p>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Mode of Payment</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>${userData.mode_of_payment}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Bank Name</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>${userData.bank_name ? userData.bank_name : '-'}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Bank Address Line 1</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.bank_address ? userData.bank_address : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Bank Country</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>${userData.country ? userData.country : '-'}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Zip Code</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.zip_code ? userData.zip_code : '-'}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Bank Account No</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>  ${userData.account_no ? userData.account_no : '-'}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>IFSC Code</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.ifsc_code ? userData.ifsc_code : '-'}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>MICR Code</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.micr_code ? userData.micr_code : '-'}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Swift Code</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p></p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Cancelled Cheque</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p></p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>IBAN No.</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>${userData.vendor_id.ban_number_input ? userData.vendor_id.ban_number_input : ''}</p>
+                       </div>
+                    </div>
+
+
+
+                    <div class="row border  bg-light">
+                    <div class="col-3 border-right">
+                        <p><b>Pro/Par/Dir Name</b></p>
+                    </div>
+        
+                    <div class="col-3 border-right">
+        
+                        <p> <b>Pro/Par/Dir Designation</b></p>
+                    </div>
+                    <div class="col-3 border-right">
+                        <p> <b>Pro/Par/Dir Mobile </b></p>
+                    </div>
+                    <div class="col-3">
+                        <p><b>Pro/Par/Dir Email</b></p>
+                    </div>
+        
+                </div>
+                ${t}
+                <div class="row border  bg-light">
+                    <div class="col-3 border-right">
+                        <p><b>Sales/ Mkt Name</b></p>
+                    </div>
+        
+                    <div class="col-3 border-right">
+        
+                        <p> <b>Sales/ Mkt Designation</b></p>
+                    </div>
+                    <div class="col-3 border-right">
+                        <p> <b>Sales/ Mkt Mobile </b></p>
+                    </div>
+                    <div class="col-3">
+                        <p><b>Sales/ Mkt Email</b></p>
+                    </div>
+        
+                </div>
+                <div class="row border">
+                    <div class="col-3 border-right">
+                        <p>${userData.sale_data[0].s_name}</p>
+                    </div>
+        
+                    <div class="col-3 border-right">
+        
+                        <p> ${userData.sale_data[0].s_designation}</p>
+                    </div>
+                    <div class="col-3 border-right">
+                        <p> ${userData.sale_data[0].s_number}</p>
+                    </div>
+                    <div class="col-3 p-1">
+                        <p>${userData.sale_data[0].s_email}</p>
+                    </div>
+        
+                </div>
+                <div class="row border  bg-light">
+                    <div class="col-3 border-right">
+                        <p><b>Accounts Person Name</b></p>
+                    </div>
+        
+                    <div class="col-3 border-right">
+        
+                        <p> <b>Accounts Person Designation</b></p>
+                    </div>
+                    <div class="col-3 border-right">
+                        <p> <b>Accounts Person Mobile </b></p>
+                    </div>
+                    <div class="col-3">
+                        <p><b>Accounts Person Email</b></p>
+                    </div>
+        
+                </div>
+                <div class="row border">
+                    <div class="col-3 border-right">
+                        <p> ${userData.p_name ? userData.p_name : ''}</p>
+                    </div>
+        
+                    <div class="col-3 border-right">
+        
+                        <p> ${userData.p_designation ? userData.p_designation : ''}</p>
+                    </div>
+                    <div class="col-3 border-right ">
+                    <p>${userData.p_contact ? userData.p_contact : ''}</p>
+                    </div>
+                    <div class="col-3 p-1">
+                        <p>${userData.p_email ? userData.p_email : ''}</p>
+                    </div>
+        
+                </div>
+
+
+                    
+
+
+                    <div class="row border  bg-light">
+                       <p><b class="">Purchasing Data</b></p>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Default Currency</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.default_currency ? userData.default_currency : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Payment Terms </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.payment_terms ? userData.payment_terms : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Incoterms/Location </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>${userData.incoterms_location ? userData.incoterms_location : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row border  bg-light">
+                       <p><b class="">Control</b></p>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>GST Number </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <div class="row">
+                             <div class="col-7">
+                                <p>  ${userData.gst_number ? userData.gst_number : ''}</p>
+                             </div>
+                             <div class="col-1 border"></div>
+                             <div class="col-4">
+                                <p><b>GST Regn Certificate </b></p>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>GST Range </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>${userData.gst_range ? userData.gst_range : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>GST Division </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.gst_division ? userData.gst_division : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>GST Commissionerate </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p> ${userData.gst_commissionerate ? userData.gst_commissionerate : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>HSN Code/SAC Code </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <p>${userData.hsn_sac ? userData.hsn_sac : ''}</p>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>PAN Number </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <div class="row">
+                             <div class="col-7">
+                                <p> ${userData.pan_card_number ? userData.pan_card_number : ''}</p>
+                             </div>
+                             <div class="col-1 border"></div>
+                             <div class="col-4">
+                                <p><b>Copy of PAN attach</b></p>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>MSME no.(if applicable) </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <div class="row">
+                             <div class="col-7">
+                                <p>${userData.msme_no ? userData.msme_no : ''}</p>
+                             </div>
+                             <div class="col-1 border"></div>
+                             <div class="col-4">
+                                <p><b>MSME Regn Certificate </b></p>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>SSI Reg no.(if applicable) </b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <div class="row">
+                             <div class="col-7">
+                                <p> ${userData.ssi_no ? userData.ssi_no : ''}</p>
+                             </div>
+                             <div class="col-1 border"></div>
+                             <div class="col-4">
+                                <p><b>SSI Regn Certificate </b></p>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="row ">
+                       <div class="col-3 border-left border-right border-bottom ">
+                          <p><b>Supplier Code Conduct</b></p>
+                       </div>
+                       <div class="col-9  border-left border-right border-bottom  ">
+                          <div class="row">
+                             <div class="col-7">
+                                <p>${userData.code_of_conduct ? userData.code_of_conduct : ''}</p>
+                             </div>
+                             <div class="col-1 border"></div>
+                             <div class="col-4">
+                                <p><b>acknowledgment attach</b></p>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="row border">
+                       <div class="col-12">
+                          <p><span style="color: red;">*</span> Mandatory input</p>
+                       </div>
+                       <div class="col-12">
+                          <p><span style="color: red;">***</span> Please Provide the cancelled cheque or bank details in latter
+                             head duly authorized by appropriate person
+                          </p>
+                       </div>
+                    </div>
+                    <div class="row border">
+                    ${t2}
+                       
+                    </div>
+                 </div>
+                 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                    crossorigin="anonymous"></script>
+                 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+                    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                    crossorigin="anonymous"></script>
+                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+                    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                    crossorigin="anonymous"></script>
+              </body>
+           </html>`
 
             var opt = {
-                margin: 1,
-                filename: `${userData.vendor_id.name}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+               margin: 0.2,
+               filename: `${userData.vendor_id.name}.pdf`,
+               image: { type: 'jpeg', quality: 0.98 },
+               html2canvas: { scale: 1 },  // Adjust the scale to fit all content on one page
+               jsPDF: {
+                  unit: 'in',
+                  format: 'letter',
+                  orientation: 'portrait'
+               },
+               pagebreak: { mode: 'avoid-all' }
             };
+
+
+
             html2pdf().from(invoice).set(opt).save();
-        }
 
-    })
+         }
+
+      })
 
 
-},
-  list_vendor: function (e) {
-    $('#vendor_table').DataTable({
-      "ajax": {
-        "url": this.base_url + "/vendor/list_vendor",
-        "type": "GET",
-        "datatype": "json"
-      },
-      "buttons": [
-        {
-          extend: 'excelHtml5',
-          text: 'Export to Excel',
-          exportOptions: {
-            columns: [1, 2, 3, 4] // indexes of the columns to export
-          }
-        }
-      ], "columns": [
-        {
-          'data': '_id',
-          'visible': false
-        },
-        {
-          'data': null,
-          'sTitle': 'Sr.no',
+   },
+   list_vendor: function (e) {
+      $('#vendor_table').DataTable({
+         "ajax": {
+            "url": this.base_url + "/vendor/list_vendor",
+            "type": "GET",
+            "datatype": "json"
+         },
+         "buttons": [
+            {
+               extend: 'excelHtml5',
+               text: 'Export to Excel',
+               exportOptions: {
+                  columns: [1, 2, 3, 4] // indexes of the columns to export
+               }
+            }
+         ], "columns": [
+            {
+               'data': '_id',
+               'visible': false
+            },
+            {
+               'data': null,
+               'sTitle': 'Sr.no',
 
-        },
-        {
-          'data': 'name',
-          'sTitle': 'Name',
-          'render': function (data, type, row) {
+            },
+            {
+               'data': 'name',
+               'sTitle': 'Name',
+               'render': function (data, type, row) {
 
-            if (data == null || data == "") {
-              return '-';
-            } else {
-              return data;
+                  if (data == null || data == "") {
+                     return '-';
+                  } else {
+                     return data;
+                  }
+
+               }
+
+            },
+
+            // {
+            //   'data': 'username',
+            //   'sTitle': 'Username',
+            //   'render': function (data, type, row) {
+
+            //     if (data == null || data == "") {
+            //       return '-';
+            //     } else {
+            //       return data;
+            //     }
+
+            //   }
+
+            // },
+            // {
+            //     'data': 'mobile_number',
+            //     'sTitle': 'Mobile Number',
+            //     'render': function (data, type, row) {
+
+            //         if (data == null || data == "") {
+            //             return '-';
+            //         } else {
+            //             return data;
+            //         }
+
+            //     }
+
+            // },
+            {
+               'data': 'email',
+               'sTitle': 'Email',
+               'render': function (data, type, row) {
+
+                  if (data == null || data == "") {
+                     return '-';
+                  } else {
+                     return data;
+                  }
+
+               }
+
+            },
+            {
+               'data': 'remark',
+               'sTitle': 'Status',
+               'render': function (data, type, row) {
+
+                  if (data == null || data == "") {
+                     return '-';
+                  } else {
+                     return data;
+                  }
+
+               }
+
+            },
+            {
+               'data': 'download_attachment',
+               'visible': false,
+               'class': 'download_attachment',
+            },
+
+            {
+               'data': '_id',
+               'sTitle': 'View',
+               'class': 'center',
+               'render': function (data, type, row) {
+                  var downloadAttachment = row['download_attachment'];
+
+                  console.log("downloadAttachment", downloadAttachment)
+
+                  return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a onclick="vendor.download_pdf(this)"><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                  // if (downloadAttachment == "" || downloadAttachment == undefined) {
+                  // } else {
+                  //   return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+
+                  // }
+               }
+            },
+            {
+               'data': 'null',
+               'sTitle': 'Action',
+               //'class': 'center',
+               'render': function (data, type, row) {
+                  if (sessionStorage.getItem("user_status") == "Initiator Login" || sessionStorage.getItem("user_status") == "Super Admin") {
+
+                     return '<a class="btn btn-danger" onclick="vendor.delete_vendor(this)" title="delete"> Delete </a>'
+                  } else {
+                     return "-"
+                  }
+               }
             }
 
-          }
-
-        },
-
-        // {
-        //   'data': 'username',
-        //   'sTitle': 'Username',
-        //   'render': function (data, type, row) {
-
-        //     if (data == null || data == "") {
-        //       return '-';
-        //     } else {
-        //       return data;
-        //     }
-
-        //   }
-
-        // },
-        // {
-        //     'data': 'mobile_number',
-        //     'sTitle': 'Mobile Number',
-        //     'render': function (data, type, row) {
-
-        //         if (data == null || data == "") {
-        //             return '-';
-        //         } else {
-        //             return data;
-        //         }
-
-        //     }
-
-        // },
-        {
-          'data': 'email',
-          'sTitle': 'Email',
-          'render': function (data, type, row) {
-
-            if (data == null || data == "") {
-              return '-';
-            } else {
-              return data;
-            }
-
-          }
-
-        },
-        {
-          'data': 'remark',
-          'sTitle': 'Status',
-          'render': function (data, type, row) {
-
-            if (data == null || data == "") {
-              return '-';
-            } else {
-              return data;
-            }
-
-          }
-
-        },
-        {
-          'data': 'download_attachment',
-          'visible': false,
-          'class': 'download_attachment',
-        },
-
-        {
-          'data': '_id',
-          'sTitle': 'View',
-          'class': 'center',
-          'render': function (data, type, row) {
-            var downloadAttachment = row['download_attachment'];
-
-            console.log("downloadAttachment", downloadAttachment)
-
-            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a onclick="vendor.download_pdf(this)"><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-            // if (downloadAttachment == "" || downloadAttachment == undefined) {
-            // } else {
-            //   return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-
-            // }
-          }
-        },
-        {
-          'data': 'null',
-          'sTitle': 'Action',
-          //'class': 'center',
-          'render': function (data, type, row) {
-            if (sessionStorage.getItem("user_status") == "Initiator Login" || sessionStorage.getItem("user_status") == "Super Admin") {
-
-              return '<a class="btn btn-danger" onclick="vendor.delete_vendor(this)" title="delete"> Delete </a>'
-            } else {
-              return "-"
-            }
-          }
-        }
 
 
 
 
+         ],
+         "rowCallback": function (nRow, aData, iDisplayIndex) {
+            var oSettings = this.fnSettings();
+            $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+            return nRow;
+         },
+      });
 
-      ],
-      "rowCallback": function (nRow, aData, iDisplayIndex) {
-        var oSettings = this.fnSettings();
-        $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-        return nRow;
-      },
-    });
+   },
+   delete_vendor: function (e) {
+      let self = this;
+      let row = $(e).closest('tr');
+      let obj = $('#vendor_table').dataTable().fnGetData(row);
 
-  },
-  delete_vendor: function (e) {
-    let self = this;
-    let row = $(e).closest('tr');
-    let obj = $('#vendor_table').dataTable().fnGetData(row);
+      var id = obj._id
+      Swal.fire({
+         title: 'Are you sure?',
+         text: "You won't be able to revert this!",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+         if (result.isConfirmed) {
+            var $request = $.ajax({
+               url: `${vendor.base_url}/vendor/delete_vendor/${id}`,
+               type: "PUT",
+               dataType: "json",
+               contentType: "application/json",
 
-    var id = obj._id
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        var $request = $.ajax({
-          url: `${vendor.base_url}/vendor/delete_vendor/${id}`,
-          type: "PUT",
-          dataType: "json",
-          contentType: "application/json",
+            });
 
-        });
-
-        $request.done(function (data) {
-          if (data.status) {
-            toastr.options.positionClass = 'toast-bottom-right';
-            toastr.success(data.message, '', { timeOut: 3000 },)
-            setTimeout(() => {
-              window.location = '/vendor';
-            }, 1000);
-
-
-          }
-
-        })
-
-      }
-    })
-
-  },
-  view_vendor: function (e) {
-    let self = this;
-    let row = $(e).closest('tr');
-    let obj = $('#vendor_table').dataTable().fnGetData(row);
-    var id = obj._id
+            $request.done(function (data) {
+               if (data.status) {
+                  toastr.options.positionClass = 'toast-bottom-right';
+                  toastr.success(data.message, '', { timeOut: 3000 },)
+                  setTimeout(() => {
+                     window.location = '/vendor';
+                  }, 1000);
 
 
+               }
 
-    var $request = $.ajax({
-        url: `${vendor.base_url}/vendor/get_firm_data_by_vendor_id/${id}`,
-        type: "GET",
-        dataType: "json",
-        contentType: "application/json",
+            })
 
-    });
+         }
+      })
 
-    $request.done(function (data) {
+   },
+   view_vendor: function (e) {
+      let self = this;
+      let row = $(e).closest('tr');
+      let obj = $('#vendor_table').dataTable().fnGetData(row);
+      var id = obj._id
 
-        if (data.status) {
+
+
+      var $request = $.ajax({
+         url: `${vendor.base_url}/vendor/get_firm_data_by_vendor_id/${id}`,
+         type: "GET",
+         dataType: "json",
+         contentType: "application/json",
+
+      });
+
+      $request.done(function (data) {
+
+         if (data.status) {
 
 
             var info = data.data[0]
@@ -967,11 +913,11 @@ var vendor = {
             var value = info.country
 
             if (value != "") {
-                if (value == "India") {
+               if (value == "India") {
 
-                } else {
-                    $(".ifsc_label").text("Swift Code")
-                }
+               } else {
+                  $(".ifsc_label").text("Swift Code")
+               }
 
             }
 
@@ -984,27 +930,27 @@ var vendor = {
 
             if (info.gst_url.length > 0) {
 
-                info.gst_url.map(info => {
-                    var ex = info.split('.').pop()
+               info.gst_url.map(info => {
+                  var ex = info.split('.').pop()
 
-                    if (ex == "mp4") {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  if (ex == "mp4") {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                    
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    } else if (ex == "pdf") {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                  } else if (ex == "pdf") {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                    
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    }
-                    else {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  }
+                  else {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                
                 </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                    }
+                  }
 
 
-                })
+               })
 
 
             }
@@ -1019,26 +965,26 @@ var vendor = {
 
             if (info.pan_url.length > 0) {
 
-                info.pan_url.map(info => {
-                    var ex = info.split('.').pop()
+               info.pan_url.map(info => {
+                  var ex = info.split('.').pop()
 
-                    if (ex == "mp4") {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  if (ex == "mp4") {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
 
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    } else if (ex == "pdf") {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                  } else if (ex == "pdf") {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                    
                         </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    }
-                    else {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  }
+                  else {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                
                 </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                    }
+                  }
 
-                })
+               })
 
             }
             $("#pan_documents_section").html("")
@@ -1049,25 +995,25 @@ var vendor = {
             var img = ""
             if (info.noc_url.length > 0) {
 
-                info.noc_url.map(info => {
-                    var ex = info.split('.').pop()
-                    if (ex == "mp4") {
-                        img += `<div class="mx-1 remove_img_section noc_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+               info.noc_url.map(info => {
+                  var ex = info.split('.').pop()
+                  if (ex == "mp4") {
+                     img += `<div class="mx-1 remove_img_section noc_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                         
                         </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    } else if (ex == "pdf") {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                  } else if (ex == "pdf") {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                    
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    }
-                    else {
-                        img += `<div class="mx-1 remove_img_section noc_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  }
+                  else {
+                     img += `<div class="mx-1 remove_img_section noc_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                    
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                    }
+                  }
 
-                })
+               })
 
 
             }
@@ -1079,28 +1025,28 @@ var vendor = {
 
             var html = ""
             if (info.cheque_url.length > 0) {
-                info.cheque_url.map(info => {
-                    var ex = info.split('.').pop()
+               info.cheque_url.map(info => {
+                  var ex = info.split('.').pop()
 
-                    if (ex == "mp4") {
-                        img += `<div class="mx-1 remove_img_section cheque_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  if (ex == "mp4") {
+                     img += `<div class="mx-1 remove_img_section cheque_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                    
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    } else if (ex == "pdf") {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                  } else if (ex == "pdf") {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                    
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    }
-                    else {
-                        img += `<div class="mx-1 remove_img_section cheque_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  }
+                  else {
+                     img += `<div class="mx-1 remove_img_section cheque_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                 
                 </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                    }
+                  }
 
 
 
-                })
+               })
 
 
 
@@ -1116,26 +1062,26 @@ var vendor = {
 
             if (info.msme_attachment.length > 0) {
 
-                info.msme_attachment.map(info => {
-                    var ex = info.split('.').pop()
+               info.msme_attachment.map(info => {
+                  var ex = info.split('.').pop()
 
-                    if (ex == "mp4") {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  if (ex == "mp4") {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
 
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    } else if (ex == "pdf") {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                  } else if (ex == "pdf") {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                    
                         </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    }
-                    else {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  }
+                  else {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                
                 </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                    }
+                  }
 
-                })
+               })
 
             }
             $("#msme_documents_section").html("")
@@ -1150,26 +1096,26 @@ var vendor = {
 
             if (info.ssi_attachment.length > 0) {
 
-                info.ssi_attachment.map(info => {
-                    var ex = info.split('.').pop()
+               info.ssi_attachment.map(info => {
+                  var ex = info.split('.').pop()
 
-                    if (ex == "mp4") {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  if (ex == "mp4") {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
 
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    } else if (ex == "pdf") {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                  } else if (ex == "pdf") {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                    
                         </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    }
-                    else {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  }
+                  else {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                
                 </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                    }
+                  }
 
-                })
+               })
 
             }
             $("#ssi_documents_section").html("")
@@ -1182,26 +1128,26 @@ var vendor = {
 
             if (info.code_of_conduct_attachment.length > 0) {
 
-                info.code_of_conduct_attachment.map(info => {
-                    var ex = info.split('.').pop()
+               info.code_of_conduct_attachment.map(info => {
+                  var ex = info.split('.').pop()
 
-                    if (ex == "mp4") {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  if (ex == "mp4") {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
 
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    } else if (ex == "pdf") {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                  } else if (ex == "pdf") {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                    
                         </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    }
-                    else {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  }
+                  else {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                
                 </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                    }
+                  }
 
-                })
+               })
 
             }
             $("#code_of_conduct_attachment").html("")
@@ -1214,26 +1160,26 @@ var vendor = {
 
             if (info.it_deceleration_attachment.length > 0) {
 
-                info.it_deceleration_attachment.map(info => {
-                    var ex = info.split('.').pop()
+               info.it_deceleration_attachment.map(info => {
+                  var ex = info.split('.').pop()
 
-                    if (ex == "mp4") {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  if (ex == "mp4") {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info}'   width=100px alt="Img">
 
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    } else if (ex == "pdf") {
-                        img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
+                  } else if (ex == "pdf") {
+                     img += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${info}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${info}'    width=100px alt="Img"></a>
                    
                         </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                    }
-                    else {
-                        img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
+                  }
+                  else {
+                     img += `<div class="mx-1 remove_img_section pan_array_class"><img src="${vendor.base_url}/files/${info}" class="get_img_section" data-img='${info}'   width=100px alt="Img">
                
                 </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                    }
+                  }
 
-                })
+               })
 
             }
             $("#it_deceleration_attachment").html("")
@@ -1245,44 +1191,44 @@ var vendor = {
 
             if (info.contact_section_data.length > 0) {
 
-                info.contact_section_data.map((data, i) => {
+               info.contact_section_data.map((data, i) => {
 
-                    var pan_section = ""
-                    if (data.pan_url.length > 0) {
-                        data.pan_url.map(img_url => {
-                            var ex = img_url.split('.').pop()
+                  var pan_section = ""
+                  if (data.pan_url.length > 0) {
+                     data.pan_url.map(img_url => {
+                        var ex = img_url.split('.').pop()
 
-                            if (ex == "mp4") {
-                                pan_section += `<div class="mx-1 remove_img_section pan_array_class_property"><img src="images/video.jpg" class="get_img_section" data-img='${img_url}'   width=100px alt="Img">
+                        if (ex == "mp4") {
+                           pan_section += `<div class="mx-1 remove_img_section pan_array_class_property"><img src="images/video.jpg" class="get_img_section" data-img='${img_url}'   width=100px alt="Img">
                         
                           </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                            } else if (ex == "pdf") {
-                                pan_section += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${img_url}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${img_url}'    width=100px alt="Img"></a>
+                        } else if (ex == "pdf") {
+                           pan_section += `<div class="mx-1 remove_img_section gst_array_class"><a href="${vendor.base_url}/files/${img_url}" target="_blank"><img src="images/pdf.png" class="get_img_section" data-img='${img_url}'    width=100px alt="Img"></a>
                    
                     </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                            }
-                            else {
-                                pan_section += `<div class="mx-1 remove_img_section pan_array_class_property"><img src="${vendor.base_url}/files/${img_url}" class="get_img_section" data-img='${img_url}'   width=100px alt="Img">
+                        }
+                        else {
+                           pan_section += `<div class="mx-1 remove_img_section pan_array_class_property"><img src="${vendor.base_url}/files/${img_url}" class="get_img_section" data-img='${img_url}'   width=100px alt="Img">
                       
                       </div><a href="${vendor.base_url}/files/${info}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                            }
+                        }
 
 
 
 
 
-                        })
+                     })
 
-                    }
+                  }
 
-                    if (i != 0) {
-                        add_more = ` <div class="col-md-12 remove" style="text-align: end;">
+                  if (i != 0) {
+                     add_more = ` <div class="col-md-12 remove" style="text-align: end;">
                         <a class="btn btn-danger mb-3" onclick="vendor.remove_block(this)">Remove</a>
                       </div>`
 
-                    }
-                    html += ` <div class="row get_contact_section">
+                  }
+                  html += ` <div class="row get_contact_section">
                    
                     <div class="col-md-6">
                       <div class="form-group row">
@@ -1377,10 +1323,10 @@ var vendor = {
 
                   </div>
                   </div>`
-                })
+               })
 
-                $("#contact_section").html("")
-                $("#contact_section").append(html)
+               $("#contact_section").html("")
+               $("#contact_section").append(html)
 
             }
 
@@ -1389,15 +1335,15 @@ var vendor = {
 
             if (info.sale_data.length > 0) {
 
-                info.sale_data.map((data, i) => {
+               info.sale_data.map((data, i) => {
 
-                    if (i != 0) {
-                        add_more = ` <div class="col-md-12 remove" style="text-align: end;">
+                  if (i != 0) {
+                     add_more = ` <div class="col-md-12 remove" style="text-align: end;">
                         <a class="btn btn-danger mb-3" onclick="register.remove_block(this)">Remove</a>
                       </div>`
 
-                    }
-                    html += `  <div class="row get_sale_data">
+                  }
+                  html += `  <div class="row get_sale_data">
                    
                     <div class="col-md-6">
                       <div class="form-group row">
@@ -1456,16 +1402,16 @@ var vendor = {
                       </div>
                     </div>
                   </div>`
-                })
+               })
 
-                $("#sales_section").html("")
-                $("#sales_section").append(html)
+               $("#sales_section").html("")
+               $("#sales_section").append(html)
 
             }
 
             if (info.vendor_id.firm_type == 1) {
 
-                $(".add_more").css("display", "none")
+               $(".add_more").css("display", "none")
 
             }
 
@@ -1473,37 +1419,37 @@ var vendor = {
             var value = 0
 
             if (info.vendor_id != undefined) {
-                value = info.vendor_id.firm_type
+               value = info.vendor_id.firm_type
             }
 
 
             if (value == 1) {
-                $(".d_name_label").text("Proprietor Name")
-                $(".d_designation_label").text("Proprietor Designation")
-                $(".d_contact_label").text("Proprietor Contact")
-                $(".d_contact_alternate_label").text("Proprietor Alternate Contact")
-                $(".d_email_label").text("Proprietor Email")
-                $(".d_email_alternate_label").text("Proprietor Alternate Email")
+               $(".d_name_label").text("Proprietor Name")
+               $(".d_designation_label").text("Proprietor Designation")
+               $(".d_contact_label").text("Proprietor Contact")
+               $(".d_contact_alternate_label").text("Proprietor Alternate Contact")
+               $(".d_email_label").text("Proprietor Email")
+               $(".d_email_alternate_label").text("Proprietor Alternate Email")
 
 
             } else if (value == 2) {
 
-                $(".d_name_label").text("Partner Name")
-                $(".d_designation_label").text("Partner Designation")
-                $(".d_contact_label").text("Partner Contact")
-                $(".d_contact_alternate_label").text("Partner Alternate Contact")
-                $(".d_email_label").text("Partner Email")
-                $(".d_email_alternate_label").text("Partner Alternate Email")
-                $(".pan_for_partnership").css("display", "block")
+               $(".d_name_label").text("Partner Name")
+               $(".d_designation_label").text("Partner Designation")
+               $(".d_contact_label").text("Partner Contact")
+               $(".d_contact_alternate_label").text("Partner Alternate Contact")
+               $(".d_email_label").text("Partner Email")
+               $(".d_email_alternate_label").text("Partner Alternate Email")
+               $(".pan_for_partnership").css("display", "block")
 
             } else if (value == 3 || value == 4) {
 
-                $(".d_name_label").text("Director Name")
-                $(".d_designation_label").text("Director Designation")
-                $(".d_contact_label").text("Director Contact")
-                $(".d_contact_alternate_label").text("Director Alternate Contact")
-                $(".d_email_label").text("Director Email")
-                $(".d_email_alternate_label").text("Director Alternate Email")
+               $(".d_name_label").text("Director Name")
+               $(".d_designation_label").text("Director Designation")
+               $(".d_contact_label").text("Director Contact")
+               $(".d_contact_alternate_label").text("Director Alternate Contact")
+               $(".d_email_label").text("Director Email")
+               $(".d_email_alternate_label").text("Director Alternate Email")
             }
 
             vendor.load_sign(info.vendor_id._id)
@@ -1513,89 +1459,86 @@ var vendor = {
 
 
 
-        }
+         }
 
 
 
-    })
+      })
 
 
 
-},
-  load_sign: function (id) {
+   },
+   load_sign: function (id) {
 
-    var $request = $.ajax({
-      url: `${vendor.base_url}/vendor/get_sign_section/${id}`,
-      type: "GET",
-      dataType: "json",
-      contentType: "application/json",
+      var $request = $.ajax({
+         url: `${vendor.base_url}/vendor/get_sign_section/${id}`,
+         type: "GET",
+         dataType: "json",
+         contentType: "application/json",
 
-    });
+      });
 
-    $request.done(function (data) {
-      console.log(data)
+      $request.done(function (data) {
+         console.log(data)
 
-      if (data.status) {
+         if (data.status) {
 
-        var html = ""
-        data.data.map(info => {
+            var html = ""
+            data.data.map(info => {
 
-          // Given timestamp
-          const timestamp = info.createdAt
+               // Given timestamp
+               const timestamp = info.createdAt
 
-          // Convert timestamp to Date object
-          const date = new Date(timestamp);
+               // Convert timestamp to Date object
+               const date = new Date(timestamp);
 
-          // Extract date components
-          const day = date.getDate();
-          const month = date.getMonth() + 1; // Months are zero-based, so we add 1
-          const year = date.getFullYear();
+               // Extract date components
+               const day = date.getDate();
+               const month = date.getMonth() + 1; // Months are zero-based, so we add 1
+               const year = date.getFullYear();
 
-          // Extract time components
-          let hours = date.getHours();
-          const minutes = date.getMinutes();
-          let amOrPm = "AM";
+               // Extract time components
+               let hours = date.getHours();
+               const minutes = date.getMinutes();
+               let amOrPm = "AM";
 
-          // Adjust hours to 12-hour format and determine AM/PM
-          if (hours >= 12) {
-            amOrPm = "PM";
-            hours -= 12;
-          }
+               // Adjust hours to 12-hour format and determine AM/PM
+               if (hours >= 12) {
+                  amOrPm = "PM";
+                  hours -= 12;
+               }
 
-          // Format hours with leading zero if necessary
-          const formattedHours = hours.toString().padStart(2, "0");
+               // Format hours with leading zero if necessary
+               const formattedHours = hours.toString().padStart(2, "0");
 
-          // Format date and time in the desired format
-          const formattedDate = `${day}-${month}-${year}`;
-          const formattedTime = `${formattedHours}:${minutes.toString().padStart(2, "0")} ${amOrPm}`;
+               // Format date and time in the desired format
+               const formattedDate = `${day}-${month}-${year}`;
+               const formattedTime = `${formattedHours}:${minutes.toString().padStart(2, "0")} ${amOrPm}`;
 
-          // Output the converted timestamp
-          const convertedTimestamp = `${formattedDate} ${formattedTime}`;
-          console.log(convertedTimestamp);
+               // Output the converted timestamp
+               const convertedTimestamp = `${formattedDate} ${formattedTime}`;
+               console.log(convertedTimestamp);
 
 
-          html += ` <div class="col-3 border mt-2">
+               html += ` <div class="col-3 border mt-2">
                 <img src="${vendor.base_url}/files/${info.approved_user.sign}" width="100%" alt="">
                 <p class="text-center">${info.approved_user.name} (${info.approved_user.user_status})</p>
                 <p  class="text-center">${convertedTimestamp}</p>
 
             </div>`
 
-        })
+            })
 
 
-        $("#sign_section_area").html("")
-        $("#sign_section_area").append(html)
+            $("#sign_section_area").html("")
+            $("#sign_section_area").append(html)
 
-      } else {
+         } else {
 
-      }
-    })
+         }
+      })
 
-  },
-
-
-
+   },
 
 
 
@@ -1619,25 +1562,28 @@ var vendor = {
 
 
 
-  view_time_line: function (e) {
-    let self = this;
-    let row = $(e).closest('tr');
-    let obj = $('#vendor_table').dataTable().fnGetData(row);
-    var id = obj._id
 
 
-    $("#timeline_btn").click()
-    var $request = $.ajax({
-        url: `${vendor.base_url}/vendor/get_timeline_data_by_vendor_id/${id}`,
-        type: "GET",
-        dataType: "json",
-        contentType: "application/json",
 
-    });
+   view_time_line: function (e) {
+      let self = this;
+      let row = $(e).closest('tr');
+      let obj = $('#vendor_table').dataTable().fnGetData(row);
+      var id = obj._id
 
-    $request.done(function (data) {
 
-        if (data.status) {
+      $("#timeline_btn").click()
+      var $request = $.ajax({
+         url: `${vendor.base_url}/vendor/get_timeline_data_by_vendor_id/${id}`,
+         type: "GET",
+         dataType: "json",
+         contentType: "application/json",
+
+      });
+
+      $request.done(function (data) {
+
+         if (data.status) {
 
             var html = ""
 
@@ -1645,44 +1591,44 @@ var vendor = {
             data.data.map(info => {
 
 
-                var img = ""
-                if (info.attachment != undefined) {
+               var img = ""
+               if (info.attachment != undefined) {
 
-                    if (info.attachment.length > 0) {
-                        info.attachment.map(info1 => {
-                            console.log("info1", info1)
+                  if (info.attachment.length > 0) {
+                     info.attachment.map(info1 => {
+                        console.log("info1", info1)
 
-                            var ex = info1.split('.').pop()
-                            if (ex == "mp4") {
-                                img += `<div class="mx-1 remove_img_section revert_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info1}'   style="max-width:100%" alt="Img">
+                        var ex = info1.split('.').pop()
+                        if (ex == "mp4") {
+                           img += `<div class="mx-1 remove_img_section revert_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info1}'   style="max-width:100%" alt="Img">
                                 <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info1}' onclick="vendor.remove_project_images(this)"></i></a>
                                 </div>`
-                            } else if (ex == "pdf") {
-                                img += `<div class="mx-1 remove_img_section revert_array_class"><a class="a_tag" href="${vendor.base_url}/files/${info1}" target="_blank" download="new-filename"><img src="images/pdf.png" class="get_img_section" data-img='${info1}'  style="max-width:100%" alt="Img"></a>
+                        } else if (ex == "pdf") {
+                           img += `<div class="mx-1 remove_img_section revert_array_class"><a class="a_tag" href="${vendor.base_url}/files/${info1}" target="_blank" download="new-filename"><img src="images/pdf.png" class="get_img_section" data-img='${info1}'  style="max-width:100%" alt="Img"></a>
                                 </div>`
-                            } else if (ex == "mp3" || ex == "ogg") {
-                                img += `<div class="mx-1 remove_img_section revert_array_class" >
+                        } else if (ex == "mp3" || ex == "ogg") {
+                           img += `<div class="mx-1 remove_img_section revert_array_class" >
                       <audio controls class="get_img_section" data-img='${info1}'>
                       <source src="${vendor.base_url}/files/${info1}" type="audio/mpeg">
                      
                     </audio>
                                   <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info}' onclick="vendor.remove_project_images(this)"></i></a>
                                   </div>`
-                            }
-                            else {
-                                img += ` <img src="${vendor.base_url}/files/${info1}" onclick="vendor.show_img(this)" data-url="${vendor.base_url}/files/${info1}"    style="cursor: pointer;max-width:100%" class="my-2 mx-2"
+                        }
+                        else {
+                           img += ` <img src="${vendor.base_url}/files/${info1}" onclick="vendor.show_img(this)" data-url="${vendor.base_url}/files/${info1}"    style="cursor: pointer;max-width:100%" class="my-2 mx-2"
                                 alt="">`
 
-                            }
-                          
-                        })
+                        }
+
+                     })
 
 
-                    }
+                  }
 
-                }
+               }
 
-                html += `    <div class="card1">
+               html += `    <div class="card1">
                 <div class="info">
                     <h3 class="title">${info.type ? info.type : "-"}</h3>
                     <ul>
@@ -1706,27 +1652,27 @@ var vendor = {
             $("#timeline_data").html("")
             $("#timeline_data").append(html)
 
-        }
-    })
+         }
+      })
 
 
 
 
-},
-  show_img: function (e) {
-    var url = $(e).attr("data-url")
+   },
+   show_img: function (e) {
+      var url = $(e).attr("data-url")
 
 
-    Swal.fire({
-      imageUrl: `${url}`,
-      imageAlt: 'Image',
-      showCloseButton: true,
-      showConfirmButton: false,
-      customClass: {
-        image: 'mt-5'
-      }
-    });
-  },
+      Swal.fire({
+         imageUrl: `${url}`,
+         imageAlt: 'Image',
+         showCloseButton: true,
+         showConfirmButton: false,
+         customClass: {
+            image: 'mt-5'
+         }
+      });
+   },
 
 
 
