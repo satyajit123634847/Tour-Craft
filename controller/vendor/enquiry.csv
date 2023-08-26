@@ -1,10 +1,53 @@
 Header,Value
-Sup. Name as per Bank,satyajit
-Bank Name,aaknaknsa
-Bank Account No,123445678
-Bank Address,skdkdsk
+Supplier,BALMER LAWRIE AND COMPANY LTD
+Address,NO 628 BALMER LAWRIE HOUSE
+Address2,ANNA SALAI TEYNAMPET
+City,CHENNAI
+City1,CHENNAI
+Zip Code,600018
+Accounting Reference,VIDHYA
+Sales Reference,J THIYAGARAJAN
+Terms of Payment,30 Days
+Terms of Delivery,Ex-Works
 Country,India
-IFSC Code,78438459
-IBAN No.,123445678
-MICR,yu8878
+Currency,INR
+Financial Supplier Group,
+Email,paarthaa077@gmail.com
+Telephone,-
+Sup. Name as per Bank,BALMER LAWRIE AND COMPANY LTD
+Bank Name,HDFC BANK LTD
+Bank Account No,40310007525
+Bank Address,759 ITC CENTRE
+Country,India
+IFSC Code,HDFC0000004 
+IBAN No.,40310007525
+MICR,HDFC0000004 
 Vendor Callback,
+Prop/Partner/Director Name 1 ,J THIYAGARAJAN
+Prop/Partner/Director Designation 1,ED
+Prop/Partner/Director Contact 1,9940015440
+Prop/Partner/Director Alternate Contact 1,9940015440
+Prop/Partner/Director Email 1,thiyagarajan.j@balmerlawrie.com
+Prop/Partner/Director Alternate Email 1,thiyagarajan.j@balmerlawrie.com
+BAAN Number,
+Sale Name,J THIYAGARAJAN
+Sale Contact,9940015440
+Sale Alternate Contact,9940015440
+Sale Email,thiyagarajan.j@balmerlawrie.com
+Sale Alternate Email,thiyagarajan.j@balmerlawrie.com
+Account Person Name,VIDHYA
+Account Person Contact,9787234402
+Account Person Alternate Contact,9787234402
+Account Person Email,thiyagarajan.j@balmerlawrie.com
+Account Person Alternate Email,thiyagarajan.j@balmerlawrie.com
+GST Registration No.,33AABCB0984E1Z2
+Range,RANGE V
+Supplier Type,30 Days
+HSN/SAC,99405
+GST Division,THIRUVOTTIYUR 
+Pan Number,AABCB0984E
+GST Commissionerate,CHENNAI-NORTH
+Type of Item,Mtrl
+MSME Registered,-
+SSI Registered,-
+Entity Type,Public Ltd
