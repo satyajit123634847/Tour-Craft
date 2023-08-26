@@ -1209,12 +1209,12 @@
                                 <div class="form-group" id="ban_section" style="display: none;">
                                     <label for="exampleTextarea1">Enter BAAN Number</label>
                                     <input type="number" class="form-control" id="ban_number_input"
-                                        placeholder="Enter BAN Number">
+                                        placeholder="Enter BAN Number" disabled>
                                 </div>
                                 <div class="form-group" id="finanical_section" style="display: none;">
                                     <label for="exampleTextarea1">Financial Supplier Group</label>
                                     <input type="text" class="form-control" id="financial_supplier"
-                                        placeholder="Enter Financial Supplier">
+                                        placeholder="Enter Financial Supplier" disabled>
                                 </div>
 
 
@@ -1227,7 +1227,7 @@
                                     <label for="exampleInputCity1">Attachment</label>
                                     <input type="file" class="form-control"
                                         onchange="vendor.upload_forward_attachment_files(this)" id="attachment_forword"
-                                        placeholder="Location" accept="image/*,application/pdf,audio/*,video/mp4">
+                                        placeholder="Location" multiple accept="image/*,application/pdf,audio/*,video/mp4">
 
                                     <div class="img_pre mt-2" style="display: flex;">
                                     </div>
@@ -1273,6 +1273,55 @@
             </div>
 
             <!-- -----------------end forward and revert model----------------------------// -->
+
+                 <!-- -----------------ban model----------------------------// -->
+            <!-- Button trigger modal -->
+            <button type="button" id="action_mdole_btn1" class="btn btn-primary" data-toggle="modal"
+                data-target="#action_model1" style="display: none;">
+                Launch demo modal
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="action_model1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">BAAN Creation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="hidden" id="vendor_action_id1">
+                            <div id="forword_section">
+                                <div class="form-group"  >
+                                    <label for="exampleTextarea1">Enter BAAN Number</label>
+                                    <input type="number" class="form-control" id="ban_number_input1"
+                                        placeholder="Enter BAN Number">
+                                </div>
+                                <div class="form-group" >
+                                    <label for="exampleTextarea1">Financial Supplier Group</label>
+                                    <input type="text" class="form-control" id="financial_supplier1"
+                                        placeholder="Enter Financial Supplier">
+                                </div>
+                            </div>
+                         
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="button" id="save_ban" onclick="vendor.save_ban_data()"
+                                class="btn btn-primary">Submit</button>
+                           
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- -----------------ban model----------------------------// -->
 
 
             <!-- -------time line  model---------------- -->

@@ -76,34 +76,6 @@ var vendor = {
 
                 },
 
-                // {
-                //     'data': 'username',
-                //     'sTitle': 'Username',
-                //     'render': function (data, type, row) {
-
-                //         if (data == null || data == "") {
-                //             return '-';
-                //         } else {
-                //             return data;
-                //         }
-
-                //     }
-
-                // },
-                // {
-                //     'data': 'mobile_number',
-                //     'sTitle': 'Mobile Number',
-                //     'render': function (data, type, row) {
-
-                //         if (data == null || data == "") {
-                //             return '-';
-                //         } else {
-                //             return data;
-                //         }
-
-                //     }
-
-                // },
                 {
                     'data': 'email',
                     'sTitle': 'Email',
@@ -163,6 +135,7 @@ var vendor = {
                     'class': 'download_attachment',
                 },
 
+
                 {
                     'data': '_id',
                     'sTitle': 'View',
@@ -176,22 +149,28 @@ var vendor = {
                             it_csv = ""
                         }
                         return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a  onclick="vendor.download_pdf(this)" ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> ${it_csv}`
-                        // var downloadAttachment = row['download_attachment'];
-                        // if (downloadAttachment == "" || downloadAttachment == undefined) {
-                        // } else {
-                        //     return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> ${it_csv}`
 
-                        // }
                     }
-                }
+                },
 
+                {
+                    'data': 'is_ban',
+                    'sTitle': 'View',
+                    'visible': false,
+                    'render': function (data, type, row) {
+                        return data
+                    }
 
-                ,
+                },
+
                 {
                     'data': 'operator_by',
                     'sTitle': 'Action',
                     //'class': 'center',
                     'render': function (data, type, row) {
+
+
+
 
                         if (data == "" || data == null || data == undefined) {
                             return '<i class="mdi mdi-account-check mx-2"  onclick="vendor.forward(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-account-remove mx-2 it_team_remove"   style="font-size:24px;color:red;cursor:pointer" onclick="vendor.revert(this)" title="Revert"></i>'
@@ -199,8 +178,14 @@ var vendor = {
                             if (data._id == sessionStorage.getItem("user_id")) {
 
                                 if (sessionStorage.getItem("user_status") == "IT Team") {
+                                    var isBan = row['is_ban'];
 
-                                    return '<i class="mdi mdi-account-check mx-2"  onclick="vendor.forward(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i> '
+                                    if (isBan) {
+                                        return '<i class="mdi mdi-account-check mx-2"  onclick="vendor.forward(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i> '
+                                    } else {
+                                        return '<i class="mdi mdi-checkbox-multiple-marked-circle mx-2"  onclick="vendor.ban_create(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i> '
+
+                                    }
                                 } else {
                                     return '<i class="mdi mdi-account-check mx-2"  onclick="vendor.forward(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-account-remove mx-2 it_team_remove"   style="font-size:24px;color:red;cursor:pointer" onclick="vendor.revert(this)" title="Revert"></i>'
 
@@ -373,620 +358,692 @@ var vendor = {
         let obj = $('#vendor_table').dataTable().fnGetData(row);
         var id = obj._id
 
+        console.log("sd",obj)
 
+        if(obj.is_ban){
+            var files = obj.download_attachment
 
-        var $request = $.ajax({
-            url: `${vendor.base_url}/vendor/download_pdf_it_data/${id}`,
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json",
-
-        });
-
-        $request.done(function (data) {
-
-            if (data.status) {
-
-                var userData = data.data
-
-                console.log("userData", userData)
-
-                const dateObj = new Date(userData.createdAt);
-
-                const year = dateObj.getFullYear().toString();
-                const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-                const day = dateObj.getDate().toString().padStart(2, '0');
-
-                const convertedDate = `${day}-${month}-${year}`;
-
-                let hours = dateObj.getHours();
-                const minutes = dateObj.getMinutes().toString().padStart(2, '0');
-
-                let period = "AM";
-
-                if (hours >= 12) {
-                    period = "PM";
-                    if (hours > 12) {
-                        hours -= 12;
-                    }
-                } else if (hours === 0) {
-                    hours = 12;
-                }
-
-                const convertedTime = `${hours}.${minutes}`;
-
-                const desiredFormat = `${convertedDate}`;
-
-
-                var value = userData.vendor_id.firm_type;
-                var t3 = "-"
-                if (value == 1) {
-                    $("#firm_type").text("Proprietorship")
-                    t3 = "Proprietorship"
-
-                } else if (value == 2) {
-                    $("#firm_type").text("Partnership")
-                    t3 = "Partnership"
-
-
-
-                } else if (value == 3) {
-
-                    $("#firm_type").text("Private Ltd")
-                    t3 = "Private Ltd"
-
-
-                } else {
-                    $("#firm_type").text("Public Ltd")
-                    t3 = "Public Ltd"
-
-
-                }
-
-                var t = ""
-                userData.contact_section_data.map(info => {
-
-                    t += `<div class="row border">
-                    <div class="col-3 border-right">
-                        <p>${info.d_name}</p>
-                    </div>
-        
-                    <div class="col-3 border-right">
-        
-                        <p> ${info.d_designation}</p>
-                    </div>
-                    <div class="col-3 border-right">
-                        <p> ${info.d_contact}</p>
-                    </div>
-                    <div class="col-3 p-1">
-                        <p>${info.d_email}</p>
-                    </div>
-        
-                </div>`
-
-                })
-
-                var t2 = ""
-                userData.sign_masters.map((info) => {
-                    t2 += `<div class="col-2 text-center border">
-                    <img src=" ${vendor.base_url}/files/${info.admin_users.sign}" width="100%" alt="logo">
-                    <p>${info.admin_users.name} (${info.admin_users.user_status}) </p>
-                </div>`
-
-                })
-
-
-                var invoice = `<!doctype html>
-                <html lang="en">
-                   <head>
-                      <!-- Required meta tags -->
-                      <meta charset="utf-8">
-                      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                      <!-- Bootstrap CSS -->
-                      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-                         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-                      <title>Vendor Registrations Format </title>
-                      <style>
-                         p {
-                         margin-bottom: 0px;
-                         font-size: 12px;
-                         }
-                      </style>
-                   </head>
-                   <body>
-                      <div class="container my-1 border  ">
-                         <div class="row ">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <img src="${vendor.base_url}/images/logo.jpg" width="100%" alt="logo">
-                            </div>
-                            <div class="col-6 text-center border-left border-right border-bottom ">
-                               <h5><b>Vendor Registrations Format</b></h5>
-                            </div>
-                            <div class="col-3 border-left  border-bottom ">
-                               <p><b>Reference:</b>-</p>
-                               <p><b>Revision:</b>-</p>
-                               <p><b>Date:</b>${desiredFormat}</p>
-                               <p><b>Page:</b>1</p>
-                               <p><b>Owner:</b>-</p>
-                            </div>
-                         </div>
-                         <div class="row ">
-                            <div class="col-9 border-right border-left border-bottom border-top">
-                               <div class="row border">
-                                  <div class="col-4 border-right border-left">
-                                     <p><b>Request for</b></p>
-                                  </div>
-                                  <div class="col-8 border-left ">
-                                     <p> &nbsp; New Code &nbsp; &nbsp; &nbsp; Modification &nbsp; &nbsp; &nbsp; Existing
-                                        Code
-                                     </p>
-                                  </div>
-                               </div>
-                               <div class="row border">
-                                  <div class="col-4 border-right border-left ">
-                                     <p><b>Vendor Group</b></p>
-                                  </div>
-                                  <div class="col-8 border-left ">
-                                     <p> &nbsp; Non AL Group(D) Non AL Group(I) AL Group(D) AL Group(I) </p>
-                                  </div>
-                               </div>
-                               <div class="row border">
-                                  <div class="col-4 border-right border-left ">
-                                     <p><b>Scope Of Supply</b></p>
-                                  </div>
-                                  <div class="col-8 border-left">
-                                     <p> &nbsp;Raw Materials &nbsp; &nbsp; &nbsp;Sub Contacting &nbsp; &nbsp; &nbsp;
-                                        Other Services
-                                     </p>
-                                  </div>
-                               </div>
-                               <div class="row border">
-                                  <div class="col-4 border-right border-left">
-                                     <p><b>Inspection is required</b></p>
-                                  </div>
-                                  <div class="col-8 border-left ">
-                                     <p> &nbsp;Yes &nbsp; &nbsp; &nbsp;No </p>
-                                  </div>
-                               </div>
-                            </div>
-                            <div class="col-3 border-right border-left border-bottom border-top">
-                               <p>To be filed by Cryolor</p>
-                            </div>
-                         </div>
-                         <div class="row border  bg-light">
-                            <p><b>Vendor Name and Address Details</b></p>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Name</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>  ${userData.vendor_id.name ? userData.vendor_id.name : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Address Line 1</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>  ${userData.address ? userData.address : '-'}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Address Line 2</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>${userData.address1 ? userData.address1 : '-'}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>City</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.city ? userData.city : '-'}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>State</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.state ? userData.state : '-'},</p>
-                              
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Country, Zip Code</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.country ? userData.country : ''},  ${userData.zip_code ? userData.zip_code : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Entity Type</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>${t3}</p>
-                            </div>
-                         </div>
-                         <div class="row border  bg-light">
-                            <p><b class="">Bank Details(Supporting document required)</b></p>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Mode of Payment</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>${userData.mode_of_payment}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Bank Name</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>${userData.bank_name ? userData.bank_name : '-'}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Bank Address Line 1</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.bank_address ? userData.bank_address : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Bank Country</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>${userData.country ? userData.country : '-'}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Zip Code</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.zip_code ? userData.zip_code : '-'}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Bank Account No</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>  ${userData.account_no ? userData.account_no : '-'}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>IFSC Code</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.ifsc_code ? userData.ifsc_code : '-'}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>MICR Code</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.micr_code ? userData.micr_code : '-'}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Swift Code</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p></p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Cancelled Cheque</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p></p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>IBAN No.</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>${userData.vendor_id.ban_number_input ? userData.vendor_id.ban_number_input : ''}</p>
-                            </div>
-                         </div>
-
-
-
-                         <div class="row border  bg-light">
-                         <div class="col-3 border-right">
-                             <p><b>Pro/Par/Dir Name</b></p>
-                         </div>
-             
-                         <div class="col-3 border-right">
-             
-                             <p> <b>Pro/Par/Dir Designation</b></p>
-                         </div>
-                         <div class="col-3 border-right">
-                             <p> <b>Pro/Par/Dir Mobile </b></p>
-                         </div>
-                         <div class="col-3">
-                             <p><b>Pro/Par/Dir Email</b></p>
-                         </div>
-             
-                     </div>
-                     ${t}
-                     <div class="row border  bg-light">
-                         <div class="col-3 border-right">
-                             <p><b>Sales/ Mkt Name</b></p>
-                         </div>
-             
-                         <div class="col-3 border-right">
-             
-                             <p> <b>Sales/ Mkt Designation</b></p>
-                         </div>
-                         <div class="col-3 border-right">
-                             <p> <b>Sales/ Mkt Mobile </b></p>
-                         </div>
-                         <div class="col-3">
-                             <p><b>Sales/ Mkt Email</b></p>
-                         </div>
-             
-                     </div>
-                     <div class="row border">
-                         <div class="col-3 border-right">
-                             <p>${userData.sale_data[0].s_name}</p>
-                         </div>
-             
-                         <div class="col-3 border-right">
-             
-                             <p> ${userData.sale_data[0].s_designation}</p>
-                         </div>
-                         <div class="col-3 border-right">
-                             <p> ${userData.sale_data[0].s_number}</p>
-                         </div>
-                         <div class="col-3 p-1">
-                             <p>${userData.sale_data[0].s_email}</p>
-                         </div>
-             
-                     </div>
-                     <div class="row border  bg-light">
-                         <div class="col-3 border-right">
-                             <p><b>Accounts Person Name</b></p>
-                         </div>
-             
-                         <div class="col-3 border-right">
-             
-                             <p> <b>Accounts Person Designation</b></p>
-                         </div>
-                         <div class="col-3 border-right">
-                             <p> <b>Accounts Person Mobile </b></p>
-                         </div>
-                         <div class="col-3">
-                             <p><b>Accounts Person Email</b></p>
-                         </div>
-             
-                     </div>
-                     <div class="row border">
-                         <div class="col-3 border-right">
-                             <p> ${userData.p_name ? userData.p_name : ''}</p>
-                         </div>
-             
-                         <div class="col-3 border-right">
-             
-                             <p> ${userData.p_designation ? userData.p_designation : ''}</p>
-                         </div>
-                         <div class="col-3 border-right ">
-                         <p>${userData.p_contact ? userData.p_contact : ''}</p>
-                         </div>
-                         <div class="col-3 p-1">
-                             <p>${userData.p_email ? userData.p_email : ''}</p>
-                         </div>
-             
-                     </div>
-
-
-                         
-
-
-                         <div class="row border  bg-light">
-                            <p><b class="">Purchasing Data</b></p>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Default Currency</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.default_currency ? userData.default_currency : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Payment Terms </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.payment_terms ? userData.payment_terms : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Incoterms/Location </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>${userData.incoterms_location ? userData.incoterms_location : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row border  bg-light">
-                            <p><b class="">Control</b></p>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>GST Number </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <div class="row">
-                                  <div class="col-7">
-                                     <p>  ${userData.gst_number ? userData.gst_number : ''}</p>
-                                  </div>
-                                  <div class="col-1 border"></div>
-                                  <div class="col-4">
-                                     <p><b>GST Regn Certificate </b></p>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>GST Range </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>${userData.gst_range ? userData.gst_range : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>GST Division </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.gst_division ? userData.gst_division : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>GST Commissionerate </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p> ${userData.gst_commissionerate ? userData.gst_commissionerate : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>HSN Code/SAC Code </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <p>${userData.hsn_sac ? userData.hsn_sac : ''}</p>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>PAN Number </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <div class="row">
-                                  <div class="col-7">
-                                     <p> ${userData.pan_card_number ? userData.pan_card_number : ''}</p>
-                                  </div>
-                                  <div class="col-1 border"></div>
-                                  <div class="col-4">
-                                     <p><b>Copy of PAN attach</b></p>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>MSME no.(if applicable) </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <div class="row">
-                                  <div class="col-7">
-                                     <p>${userData.msme_no ? userData.msme_no : ''}</p>
-                                  </div>
-                                  <div class="col-1 border"></div>
-                                  <div class="col-4">
-                                     <p><b>MSME Regn Certificate </b></p>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>SSI Reg no.(if applicable) </b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <div class="row">
-                                  <div class="col-7">
-                                     <p> ${userData.ssi_no ? userData.ssi_no : ''}</p>
-                                  </div>
-                                  <div class="col-1 border"></div>
-                                  <div class="col-4">
-                                     <p><b>SSI Regn Certificate </b></p>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="row ">
-                            <div class="col-3 border-left border-right border-bottom ">
-                               <p><b>Supplier Code Conduct</b></p>
-                            </div>
-                            <div class="col-9  border-left border-right border-bottom  ">
-                               <div class="row">
-                                  <div class="col-7">
-                                     <p>${userData.code_of_conduct ? userData.code_of_conduct : ''}</p>
-                                  </div>
-                                  <div class="col-1 border"></div>
-                                  <div class="col-4">
-                                     <p><b>acknowledgment attach</b></p>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="row border">
-                            <div class="col-12">
-                               <p><span style="color: red;">*</span> Mandatory input</p>
-                            </div>
-                            <div class="col-12">
-                               <p><span style="color: red;">***</span> Please Provide the cancelled cheque or bank details in latter
-                                  head duly authorized by appropriate person
-                               </p>
-                            </div>
-                         </div>
-                         <div class="row border">
-                         ${t2}
-                            
-                         </div>
-                      </div>
-                      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-                         crossorigin="anonymous"></script>
-                      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-                         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                         crossorigin="anonymous"></script>
-                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-                         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-                         crossorigin="anonymous"></script>
-                   </body>
-                </html>`
-
-                var opt = {
-                    margin: 0.2,
-                    filename: `${userData.vendor_id.name}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 1 },  // Adjust the scale to fit all content on one page
-                    jsPDF: {
-                        unit: 'in',
-                        format: 'letter',
-                        orientation: 'portrait'
-                    },
-                    pagebreak: { mode: 'avoid-all' }
-                };
-
-               
-
-                html2pdf().from(invoice).set(opt).save();
-
+            function downloadFiles(files) {
+                files.forEach(file => {
+                    const link = document.createElement("a");
+                    link.href = `${vendor.base_url}/files/${file}`;
+                    link.download = file;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
             }
 
-        })
+            downloadFiles(files);
+
+
+        }else{
+
+            var $request = $.ajax({
+                url: `${vendor.base_url}/vendor/download_pdf_it_data/${id}`,
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json",
+    
+            });
+    
+            $request.done(function (data) {
+    
+                if (data.status) {
+    
+                    var userData = data.data
+    
+                    console.log("userData", userData)
+    
+                   
+    
+                    var timeline_attachment = []
+                    if (userData.vendor_timelines_data != undefined && userData.vendor_timelines_data.length > 0) {
+    
+                        userData.vendor_timelines_data.map(info1 => {
+    
+                            if (info1.attachment.length > 0) {
+                                info1.attachment.map(info2 => {
+                                    timeline_attachment.push(info2)
+    
+    
+                                })
+                            }
+    
+                        })
+                    }
+    
+                    
+    
+                    function downloadFiles(files) {
+                        files.forEach(file => {
+                            const link = document.createElement("a");
+                            link.href = `${vendor.base_url}/files/${file}`;
+                            link.download = file;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        });
+                    }
+    
+                    downloadFiles(timeline_attachment);
+    
+    
+                    const dateObj = new Date(userData.createdAt);
+    
+                    const year = dateObj.getFullYear().toString();
+                    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+                    const day = dateObj.getDate().toString().padStart(2, '0');
+    
+                    const convertedDate = `${day}-${month}-${year}`;
+    
+                    let hours = dateObj.getHours();
+                    const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+    
+                    let period = "AM";
+    
+                    if (hours >= 12) {
+                        period = "PM";
+                        if (hours > 12) {
+                            hours -= 12;
+                        }
+                    } else if (hours === 0) {
+                        hours = 12;
+                    }
+    
+                    const convertedTime = `${hours}.${minutes}`;
+    
+                    const desiredFormat = `${convertedDate}`;
+    
+                    var ban_section = ""
+    
+                    var is_ban =  userData.vendor_id.is_ban;
+                    if(is_ban){
+    
+                        ban_section = `<h6><b>BAAN Number :</b> ${userData.vendor_id.ban_number_input}</h6>`
+    
+                    }else{
+    
+                    }
+    
+                    var value = userData.vendor_id.firm_type;
+                    var t3 = "-"
+                    if (value == 1) {
+                        $("#firm_type").text("Proprietorship")
+                        t3 = "Proprietorship"
+    
+                    } else if (value == 2) {
+                        $("#firm_type").text("Partnership")
+                        t3 = "Partnership"
+    
+    
+    
+                    } else if (value == 3) {
+    
+                        $("#firm_type").text("Private Ltd")
+                        t3 = "Private Ltd"
+    
+    
+                    } else {
+                        $("#firm_type").text("Public Ltd")
+                        t3 = "Public Ltd"
+    
+    
+                    }
+    
+                    var t = ""
+                    userData.contact_section_data.map(info => {
+    
+                        t += `<div class="row border">
+                        <div class="col-3 border-right">
+                            <p>${info.d_name}</p>
+                        </div>
+            
+                        <div class="col-3 border-right">
+            
+                            <p> ${info.d_designation}</p>
+                        </div>
+                        <div class="col-3 border-right">
+                            <p> ${info.d_contact}</p>
+                        </div>
+                        <div class="col-3 p-1">
+                            <p>${info.d_email}</p>
+                        </div>
+            
+                    </div>`
+    
+                    })
+    
+                    var t2 = ""
+                    userData.sign_masters.map((info) => {
+                        t2 += `<div class="col-2 text-center border">
+                        <img src=" ${vendor.base_url}/files/${info.admin_users.sign}" width="100%" alt="logo">
+                        <p>${info.admin_users.name} (${info.admin_users.user_status}) </p>
+                    </div>`
+    
+                    })
+    
+    
+                    var invoice = `<!doctype html>
+                    <html lang="en">
+                       <head>
+                          <!-- Required meta tags -->
+                          <meta charset="utf-8">
+                          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                          <!-- Bootstrap CSS -->
+                          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+                             integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                          <title>Vendor Registrations Format </title>
+                          <style>
+                             p {
+                             margin-bottom: 0px;
+                             font-size: 12px;
+                             }
+                          </style>
+                       </head>
+                       <body>
+                          <div class="container my-1 border  ">
+                             <div class="row ">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <img src="${vendor.base_url}/images/logo.jpg" width="100%" alt="logo">
+                                 
+                                </div>
+                                <div class="col-6 text-center border-left border-right border-bottom ">
+                                   <h5><b>Vendor Registrations Format</b></h5>
+                                   <hr>
+                                   ${ban_section}
+                                </div>
+                                <div class="col-3 border-left  border-bottom ">
+                                   <p><b>Reference:</b>-</p>
+                                   <p><b>Revision:</b>-</p>
+                                   <p><b>Date:</b>${desiredFormat}</p>
+                                   <p><b>Page:</b>1</p>
+                                   <p><b>Owner:</b>-</p>
+                                </div>
+                             </div>
+                             <div class="row ">
+                                <div class="col-9 border-right border-left border-bottom border-top">
+                                   <div class="row border">
+                                      <div class="col-4 border-right border-left">
+                                         <p><b>Request for</b></p>
+                                      </div>
+                                      <div class="col-8 border-left ">
+                                         <p> New Code &nbsp; &nbsp; &nbsp; Modification &nbsp; &nbsp; &nbsp; Existing
+                                            Code
+                                         </p>
+                                      </div>
+                                   </div>
+                                   <div class="row border">
+                                      <div class="col-4 border-right border-left ">
+                                         <p><b>Vendor Group</b></p>
+                                      </div>
+                                      <div class="col-8 border-left ">
+                                         <p> Non AL Group(D) Non AL Group(I) AL Group(D) AL Group(I) </p>
+                                      </div>
+                                   </div>
+                                   <div class="row border">
+                                      <div class="col-4 border-right border-left ">
+                                         <p><b>Scope Of Supply</b></p>
+                                      </div>
+                                      <div class="col-8 border-left">
+                                         <p> Raw Materials &nbsp; &nbsp; &nbsp;Sub Contacting &nbsp; &nbsp; &nbsp;
+                                            Other Services
+                                         </p>
+                                      </div>
+                                   </div>
+                                   <div class="row border">
+                                      <div class="col-4 border-right border-left">
+                                         <p><b>Inspection is required</b></p>
+                                      </div>
+                                      <div class="col-8 border-left ">
+                                         <p> Yes &nbsp; &nbsp; &nbsp;No </p>
+                                      </div>
+                                   </div>
+                                </div>
+                                <div class="col-3 border-right border-left border-bottom border-top">
+                                   <p>To be filed by Cryolor</p>
+                                </div>
+                             </div>
+                             <div class="row border  bg-light">
+                                <p><b>Vendor Name and Address Details</b></p>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Name</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>  ${userData.vendor_id.name ? userData.vendor_id.name : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Address Line 1</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>  ${userData.address ? userData.address : '-'}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Address Line 2</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>${userData.address1 ? userData.address1 : '-'}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>City</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.city ? userData.city : '-'}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>State</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.state ? userData.state : '-'},</p>
+                                  
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Country, Zip Code</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.country ? userData.country : ''},  ${userData.zip_code ? userData.zip_code : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Entity Type</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>${t3}</p>
+                                </div>
+                             </div>
+                             <div class="row border  bg-light">
+                                <p><b class="">Bank Details(Supporting document required)</b></p>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Mode of Payment</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>${userData.mode_of_payment}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Bank Name</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>${userData.bank_name ? userData.bank_name : '-'}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Bank Address Line 1</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.bank_address ? userData.bank_address : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Bank Country</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>${userData.country ? userData.country : '-'}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Zip Code</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.zip_code ? userData.zip_code : '-'}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Bank Account No</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>  ${userData.account_no ? userData.account_no : '-'}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>IFSC Code</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.ifsc_code ? userData.ifsc_code : '-'}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>MICR Code</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.micr_code ? userData.micr_code : '-'}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Swift Code</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p></p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Cancelled Cheque</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p></p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>IBAN No.</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>${userData.vendor_id.ban_number_input ? userData.vendor_id.ban_number_input : ''}</p>
+                                </div>
+                             </div>
+    
+    
+    
+                             <div class="row border  bg-light">
+                             <div class="col-3 border-right">
+                                 <p><b>Pro/Par/Dir Name</b></p>
+                             </div>
+                 
+                             <div class="col-3 border-right">
+                 
+                                 <p> <b>Pro/Par/Dir Designation</b></p>
+                             </div>
+                             <div class="col-3 border-right">
+                                 <p> <b>Pro/Par/Dir Mobile </b></p>
+                             </div>
+                             <div class="col-3">
+                                 <p><b>Pro/Par/Dir Email</b></p>
+                             </div>
+                 
+                         </div>
+                         ${t}
+                         <div class="row border  bg-light">
+                             <div class="col-3 border-right">
+                                 <p><b>Sales/ Mkt Name</b></p>
+                             </div>
+                 
+                             <div class="col-3 border-right">
+                 
+                                 <p> <b>Sales/ Mkt Designation</b></p>
+                             </div>
+                             <div class="col-3 border-right">
+                                 <p> <b>Sales/ Mkt Mobile </b></p>
+                             </div>
+                             <div class="col-3">
+                                 <p><b>Sales/ Mkt Email</b></p>
+                             </div>
+                 
+                         </div>
+                         <div class="row border">
+                             <div class="col-3 border-right">
+                                 <p>${userData.sale_data[0].s_name}</p>
+                             </div>
+                 
+                             <div class="col-3 border-right">
+                 
+                                 <p> ${userData.sale_data[0].s_designation}</p>
+                             </div>
+                             <div class="col-3 border-right">
+                                 <p> ${userData.sale_data[0].s_number}</p>
+                             </div>
+                             <div class="col-3 p-1">
+                                 <p>${userData.sale_data[0].s_email}</p>
+                             </div>
+                 
+                         </div>
+                         <div class="row border  bg-light">
+                             <div class="col-3 border-right">
+                                 <p><b>Accounts Person Name</b></p>
+                             </div>
+                 
+                             <div class="col-3 border-right">
+                 
+                                 <p> <b>Accounts Person Designation</b></p>
+                             </div>
+                             <div class="col-3 border-right">
+                                 <p> <b>Accounts Person Mobile </b></p>
+                             </div>
+                             <div class="col-3">
+                                 <p><b>Accounts Person Email</b></p>
+                             </div>
+                 
+                         </div>
+                         <div class="row border">
+                             <div class="col-3 border-right">
+                                 <p> ${userData.p_name ? userData.p_name : ''}</p>
+                             </div>
+                 
+                             <div class="col-3 border-right">
+                 
+                                 <p> ${userData.p_designation ? userData.p_designation : ''}</p>
+                             </div>
+                             <div class="col-3 border-right ">
+                             <p>${userData.p_contact ? userData.p_contact : ''}</p>
+                             </div>
+                             <div class="col-3 p-1">
+                                 <p>${userData.p_email ? userData.p_email : ''}</p>
+                             </div>
+                 
+                         </div>
+    
+    
+                             
+    
+    
+                             <div class="row border  bg-light">
+                                <p><b class="">Purchasing Data</b></p>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Default Currency</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.default_currency ? userData.default_currency : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Payment Terms </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.payment_terms ? userData.payment_terms : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Incoterms/Location </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>${userData.incoterms_location ? userData.incoterms_location : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row border  bg-light">
+                                <p><b class="">Control</b></p>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>GST Number </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <div class="row">
+                                      <div class="col-7">
+                                         <p>  ${userData.gst_number ? userData.gst_number : ''}</p>
+                                      </div>
+                                      <div class="col-1 border"></div>
+                                      <div class="col-4">
+                                         <p><b>GST Regn Certificate </b></p>
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>GST Range </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>${userData.gst_range ? userData.gst_range : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>GST Division </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.gst_division ? userData.gst_division : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>GST Commissionerate </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p> ${userData.gst_commissionerate ? userData.gst_commissionerate : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>HSN Code/SAC Code </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <p>${userData.hsn_sac ? userData.hsn_sac : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>PAN Number </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <div class="row">
+                                      <div class="col-7">
+                                         <p> ${userData.pan_card_number ? userData.pan_card_number : ''}</p>
+                                      </div>
+                                      <div class="col-1 border"></div>
+                                      <div class="col-4">
+                                         <p><b>Copy of PAN attach</b></p>
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>MSME no.(if applicable) </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <div class="row">
+                                      <div class="col-7">
+                                         <p>${userData.msme_no ? userData.msme_no : ''}</p>
+                                      </div>
+                                      <div class="col-1 border"></div>
+                                      <div class="col-4">
+                                         <p><b>MSME Regn Certificate </b></p>
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>SSI Reg no.(if applicable) </b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <div class="row">
+                                      <div class="col-7">
+                                         <p> ${userData.ssi_no ? userData.ssi_no : ''}</p>
+                                      </div>
+                                      <div class="col-1 border"></div>
+                                      <div class="col-4">
+                                         <p><b>SSI Regn Certificate </b></p>
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                             <div class="row ">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Supplier Code Conduct</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                   <div class="row">
+                                      <div class="col-7">
+                                         <p>${userData.code_of_conduct ? userData.code_of_conduct : ''}</p>
+                                      </div>
+                                      <div class="col-1 border"></div>
+                                      <div class="col-4">
+                                         <p><b>acknowledgment attach</b></p>
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                             <div class="row border">
+                                <div class="col-12">
+                                   <p><span style="color: red;">*</span> Mandatory input</p>
+                                </div>
+                                <div class="col-12">
+                                   <p><span style="color: red;">***</span> Please Provide the cancelled cheque or bank details in latter
+                                      head duly authorized by appropriate person
+                                   </p>
+                                </div>
+                             </div>
+                             <div class="row border">
+                             ${t2}
+                                
+                             </div>
+                          </div>
+                          <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                             crossorigin="anonymous"></script>
+                          <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+                             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                             crossorigin="anonymous"></script>
+                          <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+                             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                             crossorigin="anonymous"></script>
+                       </body>
+                    </html>`
+    
+                    var opt = {
+                        margin: 0.2,
+                        filename: `${userData.vendor_id.name}.pdf`,
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 1 },  // Adjust the scale to fit all content on one page
+                        jsPDF: {
+                            unit: 'in',
+                            format: 'letter',
+                            orientation: 'portrait'
+                        },
+                        pagebreak: { mode: 'avoid-all' }
+                    };
+    
+    
+    
+                    html2pdf().from(invoice).set(opt).save();
+    
+                }
+    
+            })
+
+        }
+
+
+
+      
 
 
     },
@@ -1744,11 +1801,11 @@ var vendor = {
 
                                 var ex = info1.split('.').pop()
                                 if (ex == "mp4") {
-                                    img += `<div class="mx-1 remove_img_section revert_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info1}'   style="max-width:100%" alt="Img">
+                                    img += `<div class="mx-1 remove_img_section revert_array_class"><img src="images/video.jpg" class="get_img_section" data-img='${info1}'   style="max-width:100%;    max-height: 150px;" alt="Img">
                                     <a class="a_tag" download="new-filename"><i class="fa-check" style="cursor: pointer;" data-img-name='${info1}' onclick="vendor.remove_project_images(this)"></i></a>
                                     </div>`
                                 } else if (ex == "pdf") {
-                                    img += `<div class="mx-1 remove_img_section revert_array_class"><a class="a_tag" href="${vendor.base_url}/files/${info1}" target="_blank" download="new-filename"><img src="images/pdf.png" class="get_img_section" data-img='${info1}'  style="max-width:100%" alt="Img"></a>
+                                    img += `<div class="mx-1 remove_img_section revert_array_class"><a class="a_tag" href="${vendor.base_url}/files/${info1}" target="_blank" download="new-filename"><img src="images/pdf.png" class="get_img_section" data-img='${info1}'  style="max-width:100%;    max-height: 150px;" alt="Img"></a>
                                     </div>`
                                 } else if (ex == "mp3" || ex == "ogg") {
                                     img += `<div class="mx-1 remove_img_section revert_array_class" >
@@ -1760,7 +1817,7 @@ var vendor = {
                                       </div>`
                                 }
                                 else {
-                                    img += ` <img src="${vendor.base_url}/files/${info1}" onclick="vendor.show_img(this)" data-url="${vendor.base_url}/files/${info1}"    style="cursor: pointer;max-width:100%" class="my-2 mx-2"
+                                    img += ` <img src="${vendor.base_url}/files/${info1}" onclick="vendor.show_img(this)" data-url="${vendor.base_url}/files/${info1}"    style="cursor: pointer;max-width:100%;    max-height: 150px;" class="my-2 mx-2"
                                     alt="">`
 
                                 }
@@ -1874,6 +1931,70 @@ var vendor = {
 
 
         $("#action_mdole_btn").click()
+
+    },
+    ban_create: function (e) {
+
+        let self = this;
+        let row = $(e).closest('tr');
+        let obj = $('#vendor_table').dataTable().fnGetData(row);
+
+        console.log(obj)
+
+        $("#vendor_action_id1").val(obj._id)
+
+        $("#action_mdole_btn1").click()
+
+
+
+    },
+    save_ban_data: function () {
+       
+        if ($("#ban_number_input1").val() == "") {
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.error("Please Enter BAAN Number...", '', { timeOut: 3000 })
+
+        } else if ($("#financial_supplier1").val() == "") {
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.error("Please Enter Financial Supplier...", '', { timeOut: 3000 })
+
+        } else {
+            var obj = new Object()
+            obj.ban_number_input = $("#ban_number_input1").val()
+            obj.financial_supplier = $("#financial_supplier1").val()
+            obj.vendor_id = $("#vendor_action_id1").val()
+
+            var $request = $.ajax({
+                url: `${vendor.base_url}/vendor/save_data_baan`,
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(obj),
+            });
+
+            $request.done(function (data) {
+                if (data.status) {
+
+                    Swal.fire(
+                        "BANN Created Successfully..!",
+                        "",
+                        'success'
+                    ).then(() => {
+                        window.location = '/existing-vendor';
+
+                    })
+
+
+                } else {
+
+
+                    toastr.options.positionClass = 'toast-bottom-right';
+                    toastr.error(data.message, '', { timeOut: 3000 })
+
+                }
+            })
+
+        }
 
     },
     revert: function (e) {
@@ -2082,8 +2203,9 @@ var vendor = {
         else {
 
 
-
-            if (vendor.is_valid == true && forward_url.length == 0) {
+            var is_final_check = false
+            
+            if (vendor.is_valid == true && forward_url.length == 0  && is_final_check == true) {
                 toastr.options.positionClass = 'toast-bottom-right';
                 toastr.error("Please Upload Document...", '', { timeOut: 3000 })
 
@@ -2126,14 +2248,30 @@ var vendor = {
                 $request.done(function (data) {
                     if (data.status) {
 
-                        Swal.fire(
-                            'Request Send Successfully',
-                            '',
-                            'success'
-                        ).then(() => {
-                            window.location = '/existing-vendor';
+                        var type = sessionStorage.getItem("user_status")
 
-                        })
+                        if (type == "CFO") {
+                           
+                            Swal.fire(
+                                "Verified Successfully",
+                                "",
+                                'success'
+                            ).then(() => {
+                                window.location = '/existing-vendor';
+    
+                            })
+
+                        }else{
+                            Swal.fire(
+                                "Approved Successfully",
+                                "",
+                                'success'
+                            ).then(() => {
+                                window.location = '/existing-vendor';
+    
+                            })
+                        }
+                       
 
                     } else {
                         $("#forword_btn").attr("disabled", false);

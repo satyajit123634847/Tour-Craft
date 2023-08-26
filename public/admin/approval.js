@@ -118,44 +118,66 @@ var vendor = {
 
                 },
                 {
-                  'data': 'download_attachment',
-                  'visible': false,
-                  'class': 'download_attachment',
-              },
+                    'data': 'download_attachment',
+                    'visible': false,
+                    'class': 'download_attachment',
+                },
+                {
+                    'data': 'is_cfo',
+                    'visible': false,
+                    'class': 'is_cfo',
+                },
+                {
+                    'data': 'final_approval',
+                    'visible': false,
+                    'class': 'final_approval',
+                },
 
-              {
-                  'data': '_id',
-                  'sTitle': 'View',
-                  'class': 'center',
-                  'render': function (data, type, row) {
-                      var downloadAttachment = row['download_attachment'];
+                {
+                    'data': '_id',
+                    'sTitle': 'View',
+                    'class': 'center',
+                    'render': function (data, type, row) {
+                        var downloadAttachment = row['download_attachment'];
 
-                      console.log("downloadAttachment", downloadAttachment)
+                        console.log("downloadAttachment", downloadAttachment)
 
-                      if (downloadAttachment == "" || downloadAttachment == undefined) {
-                          return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a onclick="vendor.download_pdf(this)" ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                      } else {
-                          return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        if (downloadAttachment == "" || downloadAttachment == undefined) {
+                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a onclick="vendor.download_pdf(this)" ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        } else {
+                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                      }
-                  }
-              },
-               
+                        }
+                    }
+                },
+
                 {
                     'data': 'remark',
                     'sTitle': 'Status',
                     'render': function (data, type, row) {
+                        var isCFO = row['is_cfo'];
+                        var isFinal = row['final_approval'];
+                        console.log(isCFO)
+                        console.log(isFinal)
+
+
+                        var t = '<a class="btn btn-success"> Approved </a>'
+                        if(isCFO == true && isFinal == false ){
+                            t = '<a class="btn btn-success"> CFO Verified </a>'
+
+                        }
+
 
                         if (data == null || data == "") {
                             return '-';
                         } else {
-                            return  `<a class="btn btn-success"> Approved </a>`;
+                            return t;
                         }
 
                     }
 
                 },
-                
+
                 // {
                 //     'data': 'link_status',
                 //     'sTitle': 'Action',
@@ -848,7 +870,7 @@ var vendor = {
                     pagebreak: { mode: 'avoid-all' }
                 };
 
-               
+
 
                 html2pdf().from(invoice).set(opt).save();
 
@@ -1631,7 +1653,7 @@ var vendor = {
                                     alt="">`
 
                                 }
-                              
+
                             })
 
 

@@ -18,7 +18,7 @@ exports.upload_files = multer({
             cb(null, `./media/files/`)
         },
         filename: function (req, file, cb) {
-            cb(null, `file_` + `${Date.now()}` + `_` + file.originalname)
+            cb(null,file.originalname)
         }
     }),
 }).any('files')
