@@ -50,6 +50,12 @@ router.get('/approval-vendors', function(req, res, next) {
   res.render('admin/approvalVendors', { title: 'Approval-Vendors', base_url: process.env.base_url });
 });
 
+// -----cfo_approval.ejs------------//
+
+router.get('/cfo-approval-vendors', function(req, res, next) {
+  res.render('admin/cfo_approval', { title: 'CFO-Approval-Vendors', base_url: process.env.base_url });
+});
+
 
 
 

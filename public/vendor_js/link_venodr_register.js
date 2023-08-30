@@ -1586,12 +1586,12 @@ var register = {
     // $(".add_more_section").css("text-align","end")
 
     if (value == 1) {
-      $(".d_name_label").text("Proprietor Name")
-      $(".d_designation_label").text("Proprietor Designation")
-      $(".d_contact_label").text("Proprietor Contact")
-      $(".d_contact_alternate_label").text("Proprietor Alternate Contact")
-      $(".d_email_label").text("Proprietor Email")
-      $(".d_email_alternate_label").text("Proprietor Alternate Email")
+      $(".d_name_label").html("Proprietor Name <span style='color:red'>*</span> ")
+      $(".d_designation_label").html("Proprietor Designation <span style='color:red'>*</span>")
+      $(".d_contact_label").html("Proprietor Contact <span style='color:red'>*</span>")
+      $(".d_contact_alternate_label").html("Proprietor Alternate Contact")
+      $(".d_email_label").html("Proprietor Email <span style='color:red'>*</span>")
+      $(".d_email_alternate_label").html("Proprietor Alternate Email")
 
       $(".add_more").css("display", "none")
       $(".pan_for_partnership").css("display", "block")
@@ -1600,23 +1600,23 @@ var register = {
 
     } else if (value == 2) {
 
-      $(".d_name_label").text("Partner/Director Name")
-      $(".d_designation_label").text("Partner/Director Designation")
-      $(".d_contact_label").text("Partner/Director Contact")
-      $(".d_contact_alternate_label").text("Partner/Director Alternate Contact")
-      $(".d_email_label").text("Partner/Director Email")
-      $(".d_email_alternate_label").text("Partner/Director Alternate Email")
+      $(".d_name_label").html("Partner/Director Name <span style='color:red'>*</span>")
+      $(".d_designation_label").html("Partner/Director Designation <span style='color:red'>*</span>")
+      $(".d_contact_label").html("Partner/Director Contact <span style='color:red'>*</span>")
+      $(".d_contact_alternate_label").html("Partner/Director Alternate Contact")
+      $(".d_email_label").html("Partner/Director Email <span style='color:red'>*</span>")
+      $(".d_email_alternate_label").html("Partner/Director Alternate Email")
 
       $(".add_more").css("display", "")
       $(".pan_for_partnership").css("display", "block")
     } else if (value == 3 || value == 4) {
 
-      $(".d_name_label").text("Director Name")
-      $(".d_designation_label").text("Director Designation")
-      $(".d_contact_label").text("Director Contact")
-      $(".d_contact_alternate_label").text("Director Alternate Contact")
-      $(".d_email_label").text("Director Email")
-      $(".d_email_alternate_label").text("Director Alternate Email")
+      $(".d_name_label").html("Director Name <span style='color:red'>*</span>")
+      $(".d_designation_label").html("Director Designation <span style='color:red'>*</span>")
+      $(".d_contact_label").html("Director Contact <span style='color:red'>*</span>")
+      $(".d_contact_alternate_label").html("Director Alternate Contact")
+      $(".d_email_label").html("Director Email <span style='color:red'>*</span>")
+      $(".d_email_alternate_label").html("Director Alternate Email")
       $(".add_more").css("display", "")
       $(".pan_for_partnership").css("display", "none")
 
