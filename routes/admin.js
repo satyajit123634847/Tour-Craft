@@ -34,6 +34,10 @@ router.put('/delete_admin/:id', adminController.delete_admin);
 // ---------list_admin_by_role--------------------------/
 router.get('/list_admin_by_role/:id', adminController.list_admin_by_role);
 
+// ------reset_password---------//
+router.post('/reset_password', adminController.reset_password);
+
+
 
 
 

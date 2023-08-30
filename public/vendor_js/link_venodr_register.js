@@ -92,6 +92,9 @@ var register = {
       obj.bank_name = $("#bank_name").val()
       obj.account_no = $("#account_no").val()
       obj.bank_address = $("#bank_address").val()
+      obj.bank_address2 = $("#bank_address2").val()
+      obj.bank_address3 = $("#bank_address3").val()
+
       obj.ifsc_code = $("#ifsc_code").val()
 
       obj.p_name = $("#p_name").val()
@@ -503,7 +506,7 @@ var register = {
 
         })
 
-        $(e).siblings(".img_pre").html("")
+        // $(e).siblings(".img_pre").html("")
         $(e).siblings(".img_pre").append(img)
 
       }
@@ -745,6 +748,9 @@ var register = {
         $("#bank_name").val(info.bank_name ? info.bank_name : "")
         $("#account_no").val(info.account_no ? info.account_no : "")
         $("#bank_address").val(info.bank_address ? info.bank_address : "")
+        $("#bank_address2").val(info.bank_address2 ? info.bank_address2 : "")
+        $("#bank_address3").val(info.bank_address3 ? info.bank_address3 : "")
+
         $("#ifsc_code").val(info.ifsc_code ? info.ifsc_code : "")
         $("#d_name").val(info.d_name ? info.d_name : "")
         $("#d_contact").val(info.d_contact ? info.d_contact : "")
@@ -1376,7 +1382,7 @@ var register = {
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label d_name_label">
-              Name</label>
+              Name <span style="color: red;"> *</span></label>
             <div class="col-sm-9">
               <input type="text" class="form-control d_name"  placeholder="Enter Name" required=""
                 data-parsley-required-message="Please Enter Name" />
@@ -1385,7 +1391,7 @@ var register = {
         </div>
         <div class="col-md-6">
           <div class="form-group row">
-            <label class="col-sm-3 col-form-label d_designation_label">Designation</label>
+            <label class="col-sm-3 col-form-label d_designation_label">Designation <span style="color: red;"> *</span></label>
             <div class="col-sm-9">
               <input type="text" class="form-control d_designation"  placeholder="Enter Designation" required=""
                 data-parsley-required-message="Please Enter Designation" />
@@ -1395,7 +1401,7 @@ var register = {
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label d_contact_label">
-              Contact</label>
+              Contact <span style="color: red;"> *</span></label>
             <div class="col-sm-9">
               <input type="number" class="form-control d_contact" id="" placeholder="Enter Contact Number"
                 required="" data-parsley-required-message="Please Enter Contact" />
@@ -1418,7 +1424,7 @@ var register = {
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label d_email_label">
-              Email</label>
+              Email <span style="color: red;"> *</span></label>
             <div class="col-sm-9">
               <input type="email" class="form-control d_email" id="" placeholder="Enter Email" required=""
                 data-parsley-required-message="Please Enter Email" />
@@ -1428,7 +1434,7 @@ var register = {
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label d_email_alternate_label">
-              Alternate Email</label>
+              Alternate Email </label>
             <div class="col-sm-9">
               <input type="email" class="form-control d_email_alternate" id="" placeholder="Enter Email"
                  data-parsley-required-message="Please Enter Email" />
@@ -1438,7 +1444,7 @@ var register = {
         <div class="col-md-6 pan_for_partnership" style="display: none;">
 
         <div class="form-group row">
-          <label class="col-sm-3 col-form-label">Pan Card Number</label>
+          <label class="col-sm-3 col-form-label">Pan Card Number <span style="color: red;"> *</span></label>
           <div class="col-sm-6  pan_verify_btn_section_input">
             <input type="text" class="form-control pan_verify_input" id=""
               placeholder="Enter Pan Card Number" maxlength="10" oninput="convertToUppercase(this)" required=""
@@ -1455,7 +1461,7 @@ var register = {
       </div>
       <div class="col-md-6 pan_for_partnership"   style="display: none;">
         <div class="form-group row">
-          <label class="col-sm-3 col-form-label">PAN Card</label>
+          <label class="col-sm-3 col-form-label">PAN Card <span style="color: red;"> *</span></label>
           <div class="col-sm-9">
             <input type="file" class="form-control" 
               onchange="register.upload_pan_files1(this)"  />
@@ -1476,32 +1482,32 @@ var register = {
 
 
     if (value == 1) {
-      $(".d_name_label").text("Proprietor Name")
-      $(".d_designation_label").text("Proprietor Designation")
-      $(".d_contact_label").text("Proprietor Contact")
-      $(".d_contact_alternate_label").text("Proprietor Alternate Contact")
-      $(".d_email_label").text("Proprietor Email")
-      $(".d_email_alternate_label").text("Proprietor Alternate Email")
+      $(".d_name_label").html("Proprietor Name <span style='color: red;'> *</span>")
+      $(".d_designation_label").html("Proprietor Designation <span style='color: red;'> *</span>")
+      $(".d_contact_label").html("Proprietor Contact <span style='color: red;'> *</span>")
+      $(".d_contact_alternate_label").html("Proprietor Alternate Contact")
+      $(".d_email_label").html("Proprietor Email <span style='color: red;'> *</span>")
+      $(".d_email_alternate_label").html("Proprietor Alternate Email")
 
 
     } else if (value == 2) {
 
-      $(".d_name_label").text("Partner Name")
-      $(".d_designation_label").text("Partner Designation")
-      $(".d_contact_label").text("Partner Contact")
-      $(".d_contact_alternate_label").text("Partner Alternate Contact")
-      $(".d_email_label").text("Partner Email")
-      $(".d_email_alternate_label").text("Partner Alternate Email")
+      $(".d_name_label").html("Partner Name <span style='color: red;'> *</span>")
+      $(".d_designation_label").html("Partner Designation <span style='color: red;'> *</span>")
+      $(".d_contact_label").html("Partner Contact <span style='color: red;'> *</span>")
+      $(".d_contact_alternate_label").html("Partner Alternate Contact")
+      $(".d_email_label").html("Partner Email <span style='color: red;'> *</span>")
+      $(".d_email_alternate_label").html("Partner Alternate Email")
 
       $(".pan_for_partnership").css("display", "block")
     } else if (value == 3 || value == 4) {
 
-      $(".d_name_label").text("Director Name")
-      $(".d_designation_label").text("Director Designation")
-      $(".d_contact_label").text("Director Contact")
-      $(".d_contact_alternate_label").text("Director Alternate Contact")
-      $(".d_email_label").text("Director Email")
-      $(".d_email_alternate_label").text("Director Alternate Email")
+      $(".d_name_label").html("Director Name <span style='color: red;'> *</span>")
+      $(".d_designation_label").html("Director Designation <span style='color: red;'> *</span>")
+      $(".d_contact_label").html("Director Contact <span style='color: red;'> *</span>")
+      $(".d_contact_alternate_label").html("Director Alternate Contact")
+      $(".d_email_label").html("Director Email <span style='color: red;'> *</span>")
+      $(".d_email_alternate_label").html("Director Alternate Email")
     }
 
   },
@@ -1796,10 +1802,10 @@ var register = {
     var value = $("#country").val()
 
     if (value == "India") {
-      $(".ifsc_label").text("IFSC Code")
+      $(".ifsc_label").html("IFSC Code <span style='color:red'>*</span>")
 
     } else {
-      $(".ifsc_label").text("Swift Code")
+      $(".ifsc_label").html("Swift Code <span style='color:red'>*</span>")
     }
   },
   upload_msme_files: function (e) {

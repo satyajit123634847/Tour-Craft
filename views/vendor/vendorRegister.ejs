@@ -100,13 +100,10 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Firm Type <span style="color: red;"> *</span></label>
                           <div class="col-sm-9">
-                            <select class="form-control" id="firm_type" onchange="register.change_details(this)">
-                              <option value=0>Select firm type</option>
-                              <option value=1>Proprietorship</option>
-                              <option value=2>Partnership</option>
-                              <option value=3>Private Ltd</option>
-                              <option value=4>Public Ltd</option>
-                            </select>
+                            
+                            <input type="text" class="form-control" id="firm_type"
+                            placeholder="Enter Accounting Reference.." required=""
+                            data-parsley-required-message="Please Enter Accounting Reference" />
                           </div>
                         </div>
                       </div>
@@ -302,11 +299,31 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Bank Address <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Bank Address1 <span style="color: red;"> *</span></label>
                           <div class="col-sm-9">
-                            <!-- <input type="text" class="form-control" id="bank_address" placeholder="Enter Bank Address"
-                              required="" data-parsley-required-message="Please Enter Bank Address" /> -->
-                              <textarea name="" cols="10" rows="3" style="width: 100%;" id="bank_address" required="" data-parsley-required-message="Please Enter Bank Address" placeholder="Enter Bank Address "></textarea>
+                            <input type="text" class="form-control" id="bank_address" placeholder="Enter Bank Address"
+                              required="" data-parsley-required-message="Please Enter Bank Address" />
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Bank Address2 <span style="color: red;"> *</span></label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" id="bank_address2" placeholder="Enter Bank Address"
+                              required="" data-parsley-required-message="Please Enter Bank Address" />
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Bank Address3 <span style="color: red;"> *</span></label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" id="bank_address3" placeholder="Enter Bank Address"
+                              required="" data-parsley-required-message="Please Enter Bank Address" />
+                            
                           </div>
                         </div>
                       </div>
@@ -590,9 +607,9 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label ">MICR Code <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label ">MICR Code </label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" id="micr_code" placeholder="Enter code" required=""
+                            <input type="text" class="form-control" id="micr_code" placeholder="Enter code" 
                               data-parsley-required-message="Please Enter MICR Code" />
                           </div>
                         </div>
@@ -1076,7 +1093,7 @@
                       <div class="col-md-6">
 
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Pan Card Number <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label"> Firm Pan Card Number <span style="color: red;"> *</span></label>
                           <div class="col-sm-6">
                             <input type="text" class="form-control" id="pan_card_number"
                               placeholder="Enter Pan Card Number" maxlength="10" oninput="convertToUppercase(this)"
@@ -1093,7 +1110,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">PAN Card <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Firm PAN Card <span style="color: red;"> *</span></label>
                           <div class="col-sm-9">
                             <input type="file" class="form-control" id="pan_card"
                               onchange="register.upload_pan_files(this)" multiple />
