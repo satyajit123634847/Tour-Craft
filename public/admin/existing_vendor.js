@@ -30,6 +30,7 @@ var vendor = {
         } else if (sessionStorage.getItem("user_status") == "Finance Compliance Verification") {
             level_status = 3
         } else if (sessionStorage.getItem("user_status") == "IT Team") {
+            $("#merge_pdf").css("display","block")
             level_status = 4
         } else if (sessionStorage.getItem("user_status") == "CFO") {
             level_status = 5

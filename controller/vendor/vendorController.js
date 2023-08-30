@@ -199,7 +199,29 @@ exports.new_list_vendor = async (req, res) => {
 // ---------list_vendor_approved--------------//
 exports.list_vendor_approved = async (req, res) => {
 
-    vendorsModel.find({ $and: [{ status: true }, { $or:[{final_approval: true },{is_cfo: true} ]}] })
+    vendorsModel.find({ $and: [{ status: true },{final_approval: true }] })
+        .then((data) => {
+            return res.json({
+                status: true,
+                data: data,
+                message: "Vendor list"
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            return res.json({
+                status: false,
+                data: err,
+                message: "Somethings went wrong...!"
+            })
+        })
+
+}
+
+// ---------list_vendor_approved--------------//
+exports.list_vendor_approved_by_cfo = async (req, res) => {
+
+    vendorsModel.find({ $and: [{ status: true }, {is_cfo: true}, {final_approval: false }] })
         .then((data) => {
             return res.json({
                 status: true,

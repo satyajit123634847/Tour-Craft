@@ -62,6 +62,10 @@ router.post('/resend_revert_to_vendor', vendorController.resend_revert_to_vendor
 // --------list_vendor_approved-----------------------------//
 router.get('/list_vendor_approved', vendorController.list_vendor_approved);
 
+// ------list_vendor_approved_by_cfo---------------------//
+router.get('/list_vendor_approved_by_cfo', vendorController.list_vendor_approved_by_cfo);
+
+
 // ------list_all_approval_by_id-------------------------//
 router.get('/list_all_approval_by_id/:id', vendorController.list_all_approval_by_id);
 
