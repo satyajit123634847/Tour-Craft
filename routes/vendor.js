@@ -97,6 +97,10 @@ router.get('/test_api/:id', vendorController.test_api);
 // --------download_pdf_it_data---------//
 router.get('/download_pdf_it_data/:id', vendorController.download_pdf_it_data);
 
+// ----------save_data_baan----------//
+router.post('/save_data_baan', vendorController.save_data_baan);
+
+
 
 
 

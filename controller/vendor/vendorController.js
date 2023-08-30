@@ -199,7 +199,7 @@ exports.new_list_vendor = async (req, res) => {
 // ---------list_vendor_approved--------------//
 exports.list_vendor_approved = async (req, res) => {
 
-    vendorsModel.find({ $and: [{ status: true }, { final_approval: true }] })
+    vendorsModel.find({ $and: [{ status: true }, { $or:[{final_approval: true },{is_cfo: true} ]}] })
         .then((data) => {
             return res.json({
                 status: true,
@@ -503,6 +503,7 @@ exports.vendor_by_id = async (req, res) => {
 
 
 exports.list_vendor_by_status = async (req, res) => {
+
 
     var query = ""
     if (req.params.id == 0) {
@@ -1169,8 +1170,6 @@ exports.forward_to_admin = async (req, res) => {
     }
 
 
-    console.log(req.body)
-
     var admin_data = await adminModel.findById({ _id: forwarded_to })
 
     if (admin_data.user_status == "Initiator Login") {
@@ -1200,7 +1199,7 @@ exports.forward_to_admin = async (req, res) => {
             ban_number_input: ban_number_input,
             financial_supplier: financial_supplier,
             final_approval: final,
-            download_attachment: attachment_forword[0]
+            download_attachment: attachment_forword
         })
 
 
@@ -1215,7 +1214,7 @@ exports.forward_to_admin = async (req, res) => {
             remark: remark,
             is_cfo: true,
             final_approval: final,
-            download_attachment: attachment_forword[0]
+            // download_attachment: attachment_forword
         })
 
 
@@ -1232,7 +1231,7 @@ exports.forward_to_admin = async (req, res) => {
             operator_by: forwarded_to,
             remark: remark,
             final_approval: final,
-            download_attachment: attachment_forword[0]
+            // download_attachment: attachment_forword
         })
 
     }
@@ -1316,7 +1315,7 @@ exports.forward_to_admin = async (req, res) => {
 
     var sign_data = await sign_master.find({ vendor_id: vendor_id, operator_type: operator_type, status: true })
 
-    console.log("sign_data", sign_data)
+
 
     if (sign_data.length > 0) {
 
@@ -1339,6 +1338,30 @@ exports.forward_to_admin = async (req, res) => {
 
 }
 
+exports.save_data_baan = async (req, res) => {
+    
+   
+    vendorsModel.findByIdAndUpdate({ _id: req.body.vendor_id }, {
+        ban_number_input: req.body.ban_number_input,
+        financial_supplier: req.body.financial_supplier,
+        is_ban:true
+
+    }).then(data => {
+        return res.json({
+            status: true,
+            data: data,
+            message: "Updated"
+        })
+    }).catch(err => {
+
+        return res.json({
+            status: false,
+            err: err,
+            message: "Somethings went wrong...!"
+        })
+
+    })
+}
 // --------get_timeline_data_by_vendor_id---------------//
 
 exports.get_timeline_data_by_vendor_id = async (req, res) => {
@@ -2125,16 +2148,34 @@ exports.download_pdf_it_data = async (req, res) => {
                     localField: "vendor_id",
                     foreignField: "_id",
                     as: "vendor_id"
-    
+
                 }
             },
-    
+
             {
                 $unwind: {
                     path: "$vendor_id",
                     preserveNullAndEmptyArrays: true
                 }
             },
+
+            {
+                $lookup: {
+                    from: "vendor_timelines",
+                    localField: "vendor_id._id",
+                    foreignField: "vendor_id",
+                    as: "vendor_timelines_data"
+
+                }
+            },
+
+            // {
+            //     $unwind: {
+            //         path: "$vendor_timelines_data",
+            //         preserveNullAndEmptyArrays: true
+            //     }
+            // },
+
             {
                 $lookup: {
                     from: "sign_masters",
@@ -2143,13 +2184,13 @@ exports.download_pdf_it_data = async (req, res) => {
                         status: true
                     },
                     pipeline: [
-    
+
                         {
                             $match: {
                                 $and: [
                                     { $expr: { $eq: ["$vendor_id", "$$vendor_id"] } },
                                     { $expr: { $eq: ["$status", "$$status"] } },
-    
+
                                 ]
                             }
                         },
@@ -2167,33 +2208,33 @@ exports.download_pdf_it_data = async (req, res) => {
                                 preserveNullAndEmptyArrays: true
                             }
                         },
-    
-    
-    
+
+
+
                     ],
                     as: "sign_masters"
                 }
             },
-        ]).then((data)=>{
+        ]).then((data) => {
 
             var firm_data = data[0];
             firm_data.base_url = process.env.base_url;
-    
+
             const userData = firm_data;
             return res.json({
-                status:true,
-                data:firm_data
+                status: true,
+                data: firm_data
             })
         })
-        .catch(err=>{
-            return res.json({
-                status:false,
-                data:err
+            .catch(err => {
+                return res.json({
+                    status: false,
+                    data: err
+                })
+
             })
 
-        })
-        
-    
+
     } catch (error) {
         console.error('Error generating PDF:', error);
         res.status(500).send('Error generating PDF');

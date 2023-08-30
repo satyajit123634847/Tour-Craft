@@ -34,8 +34,7 @@ const vendorSchema = new mongoose.Schema({
 
   },
   download_attachment: {
-    type: String,
-    default: ""
+    type: []
 
   },
 
