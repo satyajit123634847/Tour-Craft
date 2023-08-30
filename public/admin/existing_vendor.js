@@ -136,13 +136,22 @@ var vendor = {
                     'visible': false,
                     'class': 'download_attachment',
                 },
+                {
+                    'data': 'is_ban',
+                    'sTitle': 'View',
+                    'visible': false,
+                    'render': function (data, type, row) {
+                        return data
+                    }
 
+                },
 
                 {
                     'data': '_id',
                     'sTitle': 'View',
                     'class': 'center',
                     'render': function (data, type, row) {
+                        var is_ban = row['is_ban'];
                         var it_csv = ""
                         if (level_status == 4) {
 
@@ -150,7 +159,13 @@ var vendor = {
                         } else {
                             it_csv = ""
                         }
-                        return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a  onclick="vendor.download_pdf(this)" ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> ${it_csv}`
+
+                        var is_ban_section = ``
+                        if(is_ban){
+                            is_ban_section = `<i class="mdi mdi-arrow-down-bold mx-2" title="Final File" onclick="vendor.downloaded_final_file(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>`
+
+                        }
+                        return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a  onclick="vendor.download_pdf(this)" ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> ${it_csv} ${is_ban_section}`
 
                     }
                 },
@@ -183,7 +198,7 @@ var vendor = {
                                     var is_download_pdf = row['is_download_pdf'];
 
                                     if (is_download_pdf) {
-                                        return '<i class="mdi mdi-account-check mx-2"  onclick="vendor.forward(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i> '
+                                        return ' <i class="mdi mdi-account-check mx-2"  onclick="vendor.forward(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i> '
                                     } else {
                                         return '<i class="mdi mdi-checkbox-multiple-marked-circle mx-2"  onclick="vendor.ban_create(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i> '
 
@@ -353,6 +368,7 @@ var vendor = {
 
     },
 
+
     download_pdf: function (e) {
 
         let self = this;
@@ -362,27 +378,27 @@ var vendor = {
 
        
 
-        if(obj.is_ban){
+        // if(obj.is_ban){
 
             
 
-            var files = obj.download_attachment
+        //     var files = obj.download_attachment
 
-            function downloadFiles(files) {
-                files.forEach(file => {
-                    const link = document.createElement("a");
-                    link.href = `${vendor.base_url}/files/${file}`;
-                    link.download = file;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                });
-            }
+        //     function downloadFiles(files) {
+        //         files.forEach(file => {
+        //             const link = document.createElement("a");
+        //             link.href = `${vendor.base_url}/files/${file}`;
+        //             link.download = file;
+        //             document.body.appendChild(link);
+        //             link.click();
+        //             document.body.removeChild(link);
+        //         });
+        //     }
 
-            downloadFiles(files);
+        //     downloadFiles(files);
 
 
-        }else{
+        // }
 
            
 
@@ -524,12 +540,14 @@ var vendor = {
                         });
                     }
     
-                    if(userData.vendor_id.is_download_pdf){
+                    // if(userData.vendor_id.is_download_pdf){
 
-                    }else{
+                    // }else{
 
-                        downloadFiles(timeline_attachment);
-                    }
+                    //     downloadFiles(timeline_attachment);
+                    // }
+
+                    downloadFiles(timeline_attachment);
     
     
                     const dateObj = new Date(userData.createdAt);
@@ -563,7 +581,7 @@ var vendor = {
                     var is_download_pdf =  userData.vendor_id.is_download_pdf;
                     if(is_download_pdf){
     
-                        ban_section = `<h6><b>BAAN Number :</b> ${userData.vendor_id.ban_number_input}</h6>`
+                        ban_section = `<h6><b>Supplier Code :</b> ${userData.vendor_id.ban_number_input}</h6>`
     
                     }else{
     
@@ -788,10 +806,26 @@ var vendor = {
                              </div>
                              <div class="row">
                                 <div class="col-3 border-left border-right border-bottom ">
-                                   <p><b>Bank Address Line 1</b></p>
+                                   <p><b>Bank Address Line</b></p>
                                 </div>
                                 <div class="col-9  border-left border-right border-bottom  ">
                                    <p> ${userData.bank_address ? userData.bank_address : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Bank Address Line2</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                <p> ${userData.bank_address2 ? userData.bank_address2 : ''}</p>
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class="col-3 border-left border-right border-bottom ">
+                                   <p><b>Bank Address Line3</b></p>
+                                </div>
+                                <div class="col-9  border-left border-right border-bottom  ">
+                                <p> ${userData.bank_address3 ? userData.bank_address3 : ''}</p>
                                 </div>
                              </div>
                              <div class="row">
@@ -1142,12 +1176,35 @@ var vendor = {
     
             })
 
-        }
+        
 
 
 
       
 
+
+    },
+    downloaded_final_file:function(e){
+
+        let self = this;
+        let row = $(e).closest('tr');
+        let obj = $('#vendor_table').dataTable().fnGetData(row);
+        var id = obj._id
+
+             var files = obj.download_attachment
+
+            function downloadFiles(files) {
+                files.forEach(file => {
+                    const link = document.createElement("a");
+                    link.href = `${vendor.base_url}/files/${file}`;
+                    link.download = file;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            }
+
+            downloadFiles(files);
 
     },
 
@@ -1197,6 +1254,9 @@ var vendor = {
                 $("#bank_name").val(info.bank_name ? info.bank_name : "")
                 $("#account_no").val(info.account_no ? info.account_no : "")
                 $("#bank_address").val(info.bank_address ? info.bank_address : "")
+                $("#bank_address2").val(info.bank_address2 ? info.bank_address2 : "")
+                $("#bank_address3").val(info.bank_address3 ? info.bank_address3 : "")
+
                 $("#ifsc_code").val(info.ifsc_code ? info.ifsc_code : "")
                 $("#d_name").val(info.d_name ? info.d_name : "")
                 $("#d_contact").val(info.d_contact ? info.d_contact : "")
@@ -2540,7 +2600,7 @@ var vendor = {
 
                 })
 
-                $(e).siblings(".img_pre").html("")
+                // $(e).siblings(".img_pre").html("")
                 $(e).siblings(".img_pre").append(img)
 
             }

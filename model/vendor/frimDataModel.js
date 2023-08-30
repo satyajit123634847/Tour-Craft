@@ -4,85 +4,93 @@ const bcrypt = require('bcryptjs');
 const vendorSchema = new mongoose.Schema({
     address: {
         type: String,
-        required: true,
+       
 
     },
     state: {
         type: String,
-        required: true,
+        
 
     },
     zip_code: {
         type: Number,
-        required: true,
+       
 
     },
     address1: {
         type: String,
-        required: true,
+        
 
     },
     city: {
         type: String,
-        required: true
+       
     },
     city1: {
         type: String,
-        required: true
+       
     },
     gst_number: {
         type: String,
-        required: true
+       
     },
     pan_card_number: {
         type: String,
-        required: true
+       
     },
     bank_name: {
         type: String,
-        required: true
+       
     },
     account_no: {
         type: Number,
-        required: true
+        
     },
     bank_address: {
         type: String,
-        required: true
+       
+    },
+    bank_address2: {
+        type: String,
+       
+    },
+    bank_address3: {
+        type: String,
+       
     },
     ifsc_code: {
         type: String,
-        required: true
+       
     },
 
     p_name: {
         type: String,
-        required: true
+        
     },
     p_contact: {
         type: Number,
-        required: true
+        
     },
     p_alternate_contact: {
         type: Number,
-        required: true
+      
     },
     p_email: {
         type: String,
-        required: true
+       
     },
     p_alternate_email: {
         type: String,
-        required: true
+       
     },
     country: {
         type: String,
-        required: true
+       
     },
 
     p_designation: {
         type: String,
-        required: true
+       
     },
 
 

@@ -123,6 +123,34 @@ exports.update_admin = async (req, res) => {
 
 }
 
+// ----reset_password-----------//
+exports.reset_password = async (req, res) => {
+    const {  password, admin_id } = req.body;
+
+ 
+    var query = null
+
+    query ={ password}
+  
+    adminUsers.findByIdAndUpdate({ _id: admin_id },query)
+        .then((data) => {
+            return res.json({
+                status: true,
+                data: data,
+                message: "Password reset successfully..!"
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            return res.json({
+                status: false,
+                data: err,
+                message: "Somethings went wrong...!"
+            })
+        })
+
+}
+
 // -----------delete_admin------------//
 exports.delete_admin = async (req, res) => {
 
