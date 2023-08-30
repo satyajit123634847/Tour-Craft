@@ -1152,7 +1152,7 @@ var register = {
                               Alternate Contact</label>
                             <div class="col-sm-9">
                               <input type="number" class="form-control d_contact_alternate" id=""
-                                placeholder="Enter Contact Number" required=""
+                                placeholder="Enter Contact Number" 
                                 data-parsley-required-message="Please Enter Contact" value="${data.d_contact_alternate}" />
                             </div>
                           </div>
@@ -1174,7 +1174,7 @@ var register = {
                               Alternate Email</label>
                             <div class="col-sm-9">
                               <input type="email" class="form-control d_email_alternate" id="" placeholder="Enter Email"
-                                required="" data-parsley-required-message="Please Enter Email" value="${data.d_email_alternate}" />
+                                 data-parsley-required-message="Please Enter Email" value="${data.d_email_alternate}" />
                             </div>
                           </div>
                         </div>
@@ -1268,7 +1268,7 @@ var register = {
                             <label class="col-sm-3 col-form-label">Sales/ Mkt Alternate Contact </label>
                             <div class="col-sm-9">
                               <input type="number" class="form-control s_number_alternate" value="${data.s_number_alternate}" id=""
-                                placeholder="Enter Contact Number" required=""
+                                placeholder="Enter Contact Number" 
                                 data-parsley-required-message="Please Enter Contact" />
                             </div>
                           </div>
@@ -1409,7 +1409,7 @@ var register = {
               Alternate Contact</label>
             <div class="col-sm-9">
               <input type="number" class="form-control d_contact_alternate" id=""
-                placeholder="Enter Contact Number" required=""
+                placeholder="Enter Contact Number" 
                 data-parsley-required-message="Please Enter Contact" />
             </div>
           </div>
@@ -1431,7 +1431,7 @@ var register = {
               Alternate Email</label>
             <div class="col-sm-9">
               <input type="email" class="form-control d_email_alternate" id="" placeholder="Enter Email"
-                required="" data-parsley-required-message="Please Enter Email" />
+                 data-parsley-required-message="Please Enter Email" />
             </div>
           </div>
         </div>
@@ -1543,7 +1543,7 @@ var register = {
             <label class="col-sm-3 col-form-label">Sales/ Mkt Alternate Contact </label>
             <div class="col-sm-9">
               <input type="number" class="form-control s_number_alternate" id=""
-                placeholder="Enter Contact Number" required=""
+                placeholder="Enter Contact Number" 
                 data-parsley-required-message="Please Enter Contact" />
             </div>
           </div>
@@ -1562,7 +1562,7 @@ var register = {
           <div class="form-group row">
             <label class="col-sm-3 col-form-label">Sales/ Mkt Alternate Email </label>
             <div class="col-sm-9">
-              <input type="email" class="form-control s_email_alternate" id="" placeholder="Enter Email" required=""
+              <input type="email" class="form-control s_email_alternate" id="" placeholder="Enter Email" 
                 data-parsley-required-message="Please Enter Email" />
             </div>
           </div>

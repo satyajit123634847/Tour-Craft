@@ -4,6 +4,7 @@ var vendor = {
     is_ban: false,
     is_final: false,
     is_valid: false,
+    required_doc:false,
 
     init: function () {
         vendor.bind_events()
@@ -154,7 +155,7 @@ var vendor = {
                 },
 
                 {
-                    'data': 'is_ban',
+                    'data': 'is_download_pdf',
                     'sTitle': 'View',
                     'visible': false,
                     'render': function (data, type, row) {
@@ -178,9 +179,9 @@ var vendor = {
                             if (data._id == sessionStorage.getItem("user_id")) {
 
                                 if (sessionStorage.getItem("user_status") == "IT Team") {
-                                    var isBan = row['is_ban'];
+                                    var is_download_pdf = row['is_download_pdf'];
 
-                                    if (isBan) {
+                                    if (is_download_pdf) {
                                         return '<i class="mdi mdi-account-check mx-2"  onclick="vendor.forward(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i> '
                                     } else {
                                         return '<i class="mdi mdi-checkbox-multiple-marked-circle mx-2"  onclick="vendor.ban_create(this)" title="Forward"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i> '
@@ -358,9 +359,12 @@ var vendor = {
         let obj = $('#vendor_table').dataTable().fnGetData(row);
         var id = obj._id
 
-        console.log("sd",obj)
+       
 
         if(obj.is_ban){
+
+            
+
             var files = obj.download_attachment
 
             function downloadFiles(files) {
@@ -379,6 +383,8 @@ var vendor = {
 
         }else{
 
+           
+
             var $request = $.ajax({
                 url: `${vendor.base_url}/vendor/download_pdf_it_data/${id}`,
                 type: "GET",
@@ -390,14 +396,105 @@ var vendor = {
             $request.done(function (data) {
     
                 if (data.status) {
+
+
+                    var login_type = sessionStorage.getItem("user_status")
+
+                    console.log("login_type", login_type)
     
                     var userData = data.data
     
                     console.log("userData", userData)
-    
+                    var timeline_attachment = []
+
+                    if(login_type == "IT Team"){
+
+                        userData.contact_section_data.map(info=>{
+
+                            if(info.pan_url.length > 0 ){
+                                timeline_attachment.push(info.pan_url[0])
+                            }
+
+                        })
+
+
+
+                        if(userData.cheque_url.length > 0){
+                            userData.cheque_url.map(info =>{
+                                timeline_attachment.push(info)
+
+                            })
+
+                        }
+
+
+                        if(userData.code_of_conduct_attachment.length > 0){
+                            userData.code_of_conduct_attachment.map(info =>{
+                                timeline_attachment.push(info)
+
+                            })
+
+                        }
+
+                        if(userData.gst_url.length > 0){
+                            userData.gst_url.map(info =>{
+                                timeline_attachment.push(info)
+
+                            })
+
+                        }
+
+
+                        if(userData.it_deceleration_attachment.length > 0){
+                            userData.it_deceleration_attachment.map(info =>{
+                                timeline_attachment.push(info)
+
+                            })
+
+                        }
+
+
+
+                        if(userData.msme_attachment.length > 0){
+                            userData.msme_attachment.map(info =>{
+                                timeline_attachment.push(info)
+
+                            })
+
+                        }
+
+
+                        if(userData.noc_url.length > 0){
+                            userData.noc_url.map(info =>{
+                                timeline_attachment.push(info)
+
+                            })
+
+                        }
+
+
+                        if(userData.pan_url.length > 0){
+                            userData.pan_url.map(info =>{
+                                timeline_attachment.push(info)
+
+                            })
+
+                        }
+
+
+                        if(userData.ssi_attachment.length > 0){
+                            userData.ssi_attachment.map(info =>{
+                                timeline_attachment.push(info)
+
+                            })
+
+                        }
+
+
+                    }
                    
     
-                    var timeline_attachment = []
+                  
                     if (userData.vendor_timelines_data != undefined && userData.vendor_timelines_data.length > 0) {
     
                         userData.vendor_timelines_data.map(info1 => {
@@ -426,7 +523,12 @@ var vendor = {
                         });
                     }
     
-                    downloadFiles(timeline_attachment);
+                    if(userData.vendor_id.is_download_pdf){
+
+                    }else{
+
+                        downloadFiles(timeline_attachment);
+                    }
     
     
                     const dateObj = new Date(userData.createdAt);
@@ -457,8 +559,8 @@ var vendor = {
     
                     var ban_section = ""
     
-                    var is_ban =  userData.vendor_id.is_ban;
-                    if(is_ban){
+                    var is_download_pdf =  userData.vendor_id.is_download_pdf;
+                    if(is_download_pdf){
     
                         ban_section = `<h6><b>BAAN Number :</b> ${userData.vendor_id.ban_number_input}</h6>`
     
@@ -1055,6 +1157,8 @@ var vendor = {
         let obj = $('#vendor_table').dataTable().fnGetData(row);
         var id = obj._id
 
+        
+
 
 
         var $request = $.ajax({
@@ -1415,6 +1519,7 @@ var vendor = {
 
                 var html = ""
                 var add_more = ""
+                var is_check = false
 
                 if (info.contact_section_data.length > 0) {
 
@@ -1422,7 +1527,9 @@ var vendor = {
 
                         var pan_section = ""
                         if (data.pan_url.length > 0) {
+                            is_check = true
                             data.pan_url.map(img_url => {
+
                                 var ex = img_url.split('.').pop()
 
                                 if (ex == "mp4") {
@@ -1519,7 +1626,7 @@ var vendor = {
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 pan_for_partnership" style="display: none;">
+                        <div class="col-md-6 pan_for_partnership" id="pan_section_view1" style="display: none;">
 
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Pan Card Number</label>
@@ -1533,7 +1640,7 @@ var vendor = {
   
   
                       </div>
-                      <div class="col-md-6 pan_for_partnership"   style="display: none;">
+                      <div class="col-md-6 pan_for_partnership" id="pan_section_view"  style="display: none;">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">PAN Card</label>
                           <div class="col-sm-9">
@@ -1554,6 +1661,14 @@ var vendor = {
 
                     $("#contact_section").html("")
                     $("#contact_section").append(html)
+
+                    if(is_check){
+
+                        $("#pan_section_view").css("display","block")
+                        $("#pan_section_view1").css("display","block")
+
+
+                    }
 
                 }
 
@@ -1873,7 +1988,10 @@ var vendor = {
 
 
 
+        if(obj.is_download_pdf == true && obj.is_ban == false){
 
+            vendor.required_doc = true
+        } 
 
 
 
@@ -1903,7 +2021,7 @@ var vendor = {
             $("#finanical_section").css("display", "block")
 
 
-            if (obj.is_ban == true) {
+            if (obj.is_download_pdf== true) {
 
                 $("#ban_number_input").val(obj.ban_number_input)
                 $("#financial_supplier").val(obj.financial_supplier)
@@ -2182,7 +2300,12 @@ var vendor = {
     },
     forward_to: function (e) {
 
-
+        // let self = this;
+        // let row = $(e).closest('tr');
+        // let obj1 = $('#vendor_table').dataTable().fnGetData(row);
+        
+        // console.log(obj1)
+        // return
 
         var forward_url = []
         $(".forward_array_class").each(async function () {
@@ -2203,9 +2326,11 @@ var vendor = {
         else {
 
 
-            var is_final_check = false
             
-            if (vendor.is_valid == true && forward_url.length == 0  && is_final_check == true) {
+         
+            
+            if (vendor.required_doc == true && forward_url.length == 0  ) {
+
                 toastr.options.positionClass = 'toast-bottom-right';
                 toastr.error("Please Upload Document...", '', { timeOut: 3000 })
 
@@ -2253,7 +2378,7 @@ var vendor = {
                         if (type == "CFO") {
                            
                             Swal.fire(
-                                "Verified Successfully",
+                                "CFO Approved Successfully",
                                 "",
                                 'success'
                             ).then(() => {
@@ -2263,7 +2388,7 @@ var vendor = {
 
                         }else{
                             Swal.fire(
-                                "Approved Successfully",
+                                "Verified Successfully...!",
                                 "",
                                 'success'
                             ).then(() => {

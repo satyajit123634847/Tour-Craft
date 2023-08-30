@@ -94,6 +94,10 @@ const vendorSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  is_download_pdf: {
+    type: Boolean,
+    default: false
+  },
   operator_by: {
     type: mongoose.Types.ObjectId,
     ref: "adminUSers",

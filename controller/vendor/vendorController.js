@@ -1344,7 +1344,8 @@ exports.save_data_baan = async (req, res) => {
     vendorsModel.findByIdAndUpdate({ _id: req.body.vendor_id }, {
         ban_number_input: req.body.ban_number_input,
         financial_supplier: req.body.financial_supplier,
-        is_ban:true
+        is_download_pdf:true
+      
 
     }).then(data => {
         return res.json({
