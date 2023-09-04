@@ -9,8 +9,8 @@ exports.sendmail = (to, cc, subject, text, attachment, url) => {
         port: 465,
         secure: true, // use SSL
         auth: {
-            user: 'satyajitvarpe45@gmail.com',
-            pass: 'imbdgnxvlttzuxxv'
+            user: 'parthasarathy.ranganathan@airliquide.com',
+            pass: 'Thiru@081980'
         }
     })
 
