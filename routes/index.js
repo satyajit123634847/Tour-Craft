@@ -5,7 +5,7 @@ const firmDataModel = require('../model/vendor/frimDataModel');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', base_url: process.env.base_url });
+  res.render('admin/login', { title: 'Express', base_url: process.env.base_url });
 });
 
 // ------login----------------------//
