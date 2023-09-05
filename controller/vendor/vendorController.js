@@ -199,7 +199,7 @@ exports.new_list_vendor = async (req, res) => {
 // ---------list_vendor_approved--------------//
 exports.list_vendor_approved = async (req, res) => {
 
-    vendorsModel.find({ $and: [{ status: true },{final_approval: true }] })
+    vendorsModel.find({ $and: [{ status: true }, { final_approval: true }] })
         .then((data) => {
             return res.json({
                 status: true,
@@ -221,7 +221,7 @@ exports.list_vendor_approved = async (req, res) => {
 // ---------list_vendor_approved--------------//
 exports.list_vendor_approved_by_cfo = async (req, res) => {
 
-    vendorsModel.find({ $and: [{ status: true }, {is_cfo: true}, {final_approval: false }] })
+    vendorsModel.find({ $and: [{ status: true }, { is_cfo: true }, { final_approval: false }] })
         .then((data) => {
             return res.json({
                 status: true,
@@ -246,46 +246,90 @@ exports.send_vendor_link = async (req, res) => {
 
     console.log(req.body)
 
+    console.log("s...")
+
     var email = req.body.email
     var cc = ""
     var subject = "Vendor Information Request"
 
     var url = process.env.base_url
 
-    var path_url = ""
-    if (req.body.code_of_conduct[0] == "" || req.body.code_of_conduct.length == 0) {
+    // var path_url = ""
+    // if (req.body.code_of_conduct[0] == "" || req.body.code_of_conduct.length == 0) {
 
-        path_url = `${url}/images/CodeofConduct.pdf`
+    //     path_url = `${url}/images/CodeofConduct.pdf`
+
+    // } else {
+
+    //     path_url = `${url}/files/${req.body.code_of_conduct[0]}`
+
+    // }
+
+    // var path_url1 = ""
+    // if (req.body.it_deceleration[0] == "" || req.body.it_deceleration.length == 0) {
+
+    //     path_url1 = `${url}/images/ITDeclaration.pdf`
+
+    // } else {
+
+    //     path_url1 = `${url}/files/${req.body.it_deceleration[0]}`
+
+    // }
+
+    // const codeOfConductAttachment = {}
+
+    // const itDeclarationAttachment = {}
+    const attachments = [];
+
+
+    if (req.body.code_of_conduct.length == 0) {
+
+        attachments.push({
+            filename: 'code of conduct.pdf',
+            path: `${url}/images/CodeofConduct.pdf`
+        })
 
     } else {
 
-        path_url = `${url}/files/${req.body.code_of_conduct[0]}`
+        req.body.code_of_conduct.map(info => {
+            attachments.push({
+                filename: `${info}`,
+                path: `${url}/files/${info}`
+            })
+        })
+
 
     }
 
-    var path_url1 = ""
-    if (req.body.it_deceleration[0] == "" || req.body.it_deceleration.length == 0) {
+    if (req.body.it_deceleration.length == 0) {
 
-        path_url1 = `${url}/images/ITDeclaration.pdf`
+        attachments.push({
+            filename: 'it declaration.pdf',
+            path: `${url}/images/ITDeclaration.pdf`
+        })
+
+       
 
     } else {
 
-        path_url1 = `${url}/files/${req.body.it_deceleration[0]}`
+       
+
+        req.body.it_deceleration.map(info => {
+            attachments.push({
+                filename: `${info}`,
+                path: `${url}/files/${info}`
+            })
+        })
 
     }
 
-    const codeOfConductAttachment = {
-        filename: 'code of conduct.pdf',
-        path: path_url
-    };
+   
 
-    const itDeclarationAttachment = {
-        filename: 'it declaration.pdf',
-        path: path_url1
-    };
 
-    const attachments = [codeOfConductAttachment, itDeclarationAttachment];
+    console.log("attachments", attachments)
 
+
+    // return
 
 
 
@@ -338,7 +382,7 @@ exports.save_vendor_data = async (req, res) => {
 
     const existingUser = await firmDataModel.findOne({ pan_card_number: pan_card_number, status: true });
 
-    new firmDataModel({ mode_of_payment, msme_attachment, ssi_attachment, accounting_ref, it_deceleration_attachment, code_of_conduct_attachment, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address,bank_address2, bank_address3, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
+    new firmDataModel({ mode_of_payment, msme_attachment, ssi_attachment, accounting_ref, it_deceleration_attachment, code_of_conduct_attachment, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, bank_address2, bank_address3, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
         .save()
         .then(async (data) => {
             await new timelineVendor({ vendor_id: vendor_id, type: "Vendor Fill The Form.", action_status: 2 }).save()
@@ -421,9 +465,9 @@ exports.update_vendor_data = async (req, res) => {
 
     console.log(req.body)
 
-    const { mode_of_payment, accounting_ref, it_deceleration_attachment, code_of_conduct_attachment, delivery_terms, msme_attachment, ssi_attachment, financial_supplier, type_of_item, s_name_as_per_name, supplier_type, sales_ref, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address,bank_address2,bank_address3, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
+    const { mode_of_payment, accounting_ref, it_deceleration_attachment, code_of_conduct_attachment, delivery_terms, msme_attachment, ssi_attachment, financial_supplier, type_of_item, s_name_as_per_name, supplier_type, sales_ref, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, bank_address2, bank_address3, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
 
-    firmDataModel.findByIdAndUpdate({ _id: req.params.id }, { mode_of_payment, msme_attachment, it_deceleration_attachment, code_of_conduct_attachment, ssi_attachment, accounting_ref, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address,bank_address2,bank_address3, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
+    firmDataModel.findByIdAndUpdate({ _id: req.params.id }, { mode_of_payment, msme_attachment, it_deceleration_attachment, code_of_conduct_attachment, ssi_attachment, accounting_ref, supplier_type, type_of_item, sales_ref, delivery_terms, financial_supplier, s_name_as_per_name, micr_code, payment_terms, hsn_sac, msme_no, ssi_no, incoterms_location, gst_range, gst_division, gst_commissionerate, default_currency, vendor_id, address, state, country, zip_code, p_alternate_email, p_alternate_contact, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, bank_address2, bank_address3, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, p_designation })
         .then(async (data) => {
             await new timelineVendor({ vendor_id: vendor_id, type: " Update Vendor Form.", action_status: 2 }).save()
             var vendor_data = await vendorsModel.findByIdAndUpdate({ _id: vendor_id }, {
@@ -1361,13 +1405,13 @@ exports.forward_to_admin = async (req, res) => {
 }
 
 exports.save_data_baan = async (req, res) => {
-    
-   
+
+
     vendorsModel.findByIdAndUpdate({ _id: req.body.vendor_id }, {
         ban_number_input: req.body.ban_number_input,
         financial_supplier: req.body.financial_supplier,
-        is_download_pdf:true
-      
+        is_download_pdf: true
+
 
     }).then(data => {
         return res.json({

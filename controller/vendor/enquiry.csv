@@ -1,4 +1,5 @@
 Header,Value
+<<<<<<< HEAD
 Sup. Name as per Bank,DI ENGINEERING
 Bank Name,ICICI BANK
 Bank Account No,218505500089
@@ -16,4 +17,14 @@ Country,India
 IFSC Code,ICIC0002185
 IBAN No.,218505500089
 MICR,X
+=======
+Sup. Name as per Bank,satyajit
+Bank Name,aaknaknsa
+Bank Account No,9839849009
+Bank Address,Mata Mahakali Marg
+Country,India
+IFSC Code,dshgdhjjh
+IBAN No.,9839849009
+MICR,dsjdkjdkkld
+>>>>>>> 5127a64ae4c498f1a06151b18491f8c70a8fc9b1
 Vendor Callback,
