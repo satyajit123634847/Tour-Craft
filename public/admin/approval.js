@@ -12,6 +12,29 @@ var vendor = {
     bind_events: function (e) {
     },
     list_vendor: function (e) {
+
+        var level_status = 0
+        if (sessionStorage.getItem("user_status") == "Initiator Login") {
+            level_status = 1
+        }
+
+        else if (sessionStorage.getItem("user_status") == "SCM Head") {
+            level_status = 2
+        } else if (sessionStorage.getItem("user_status") == "Finance Compliance Verification") {
+            level_status = 3
+        } else if (sessionStorage.getItem("user_status") == "IT Team") {
+            $("#merge_pdf").css("display","block")
+            level_status = 4
+        } else if (sessionStorage.getItem("user_status") == "CFO") {
+            level_status = 5
+
+        } else {
+            level_status = 0
+
+        }
+
+
+
         $('#vendor_table').DataTable({
             "ajax": {
                 "url": this.base_url + "/vendor/list_vendor_approved",
@@ -133,23 +156,23 @@ var vendor = {
                     'class': 'final_approval',
                 },
 
-                {
-                    'data': '_id',
-                    'sTitle': 'View',
-                    'class': 'center',
-                    'render': function (data, type, row) {
-                        var downloadAttachment = row['download_attachment'];
+                // {
+                //     'data': '_id',
+                //     'sTitle': 'View',
+                //     'class': 'center',
+                //     'render': function (data, type, row) {
+                //         var downloadAttachment = row['download_attachment'];
 
-                        console.log("downloadAttachment", downloadAttachment)
+                //         console.log("downloadAttachment", downloadAttachment)
 
-                        if (downloadAttachment == "" || downloadAttachment == undefined) {
-                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a onclick="vendor.download_pdf(this)" ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                        } else {
-                            return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                //         if (downloadAttachment == "" || downloadAttachment == undefined) {
+                //             return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a onclick="vendor.download_pdf(this)" ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                //         } else {
+                //             return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a href="${vendor.base_url}/files/${downloadAttachment}" download><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
 
-                        }
-                    }
-                },
+                //         }
+                //     }
+                // },
 
                 {
                     'data': 'remark',
@@ -177,6 +200,60 @@ var vendor = {
                     }
 
                 },
+
+
+
+                {
+                    'data': 'download_attachment',
+                    'visible': false,
+                    'class': 'download_attachment',
+                },
+                {
+                    'data': 'is_ban',
+                    'sTitle': 'View',
+                    'visible': false,
+                    'render': function (data, type, row) {
+                        return data
+                    }
+
+                },
+
+                {
+                    'data': '_id',
+                    'sTitle': 'View',
+                    'class': 'center',
+                    'render': function (data, type, row) {
+                        var is_ban = row['is_ban'];
+                        var it_csv = ""
+                        if (level_status == 4) {
+
+                            it_csv = `<a href="vendor/download_pdf_it_csv/${data}"><i class="mdi mdi-file-document-box mx-2" title="Download CSV"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
+                        } else {
+                            it_csv = ""
+                        }
+
+                        var is_ban_section = ``
+                        if(is_ban){
+                            is_ban_section = `<i class="mdi mdi-arrow-down-bold mx-2" title="Final File" onclick="vendor.downloaded_final_file(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>`
+
+                        }
+                        return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a  onclick="vendor.download_pdf(this)" ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> ${it_csv} ${is_ban_section}`
+
+                    }
+                },
+
+                {
+                    'data': 'is_download_pdf',
+                    'sTitle': 'View',
+                    'visible': false,
+                    'render': function (data, type, row) {
+                        return data
+                    }
+
+                },
+
+              
+
 
                 // {
                 //     'data': 'link_status',
@@ -256,6 +333,7 @@ var vendor = {
         })
 
     },
+   
     download_pdf: function (e) {
 
         let self = this;
@@ -265,27 +343,27 @@ var vendor = {
 
        
 
-        if(obj.is_ban){
+        // if(obj.is_ban){
 
             
 
-            var files = obj.download_attachment
+        //     var files = obj.download_attachment
 
-            function downloadFiles(files) {
-                files.forEach(file => {
-                    const link = document.createElement("a");
-                    link.href = `${vendor.base_url}/files/${file}`;
-                    link.download = file;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                });
-            }
+        //     function downloadFiles(files) {
+        //         files.forEach(file => {
+        //             const link = document.createElement("a");
+        //             link.href = `${vendor.base_url}/files/${file}`;
+        //             link.download = file;
+        //             document.body.appendChild(link);
+        //             link.click();
+        //             document.body.removeChild(link);
+        //         });
+        //     }
 
-            downloadFiles(files);
+        //     downloadFiles(files);
 
 
-        }else{
+        // }
 
            
 
@@ -427,12 +505,14 @@ var vendor = {
                         });
                     }
     
-                    if(userData.vendor_id.is_download_pdf){
+                    // if(userData.vendor_id.is_download_pdf){
 
-                    }else{
+                    // }else{
 
-                        downloadFiles(timeline_attachment);
-                    }
+                    //     downloadFiles(timeline_attachment);
+                    // }
+
+                    downloadFiles(timeline_attachment);
     
     
                     const dateObj = new Date(userData.createdAt);
@@ -1061,7 +1141,7 @@ var vendor = {
     
             })
 
-        }
+        
 
 
 
@@ -1069,6 +1149,30 @@ var vendor = {
 
 
     },
+    downloaded_final_file:function(e){
+
+        let self = this;
+        let row = $(e).closest('tr');
+        let obj = $('#vendor_table').dataTable().fnGetData(row);
+        var id = obj._id
+
+             var files = obj.download_attachment
+
+            function downloadFiles(files) {
+                files.forEach(file => {
+                    const link = document.createElement("a");
+                    link.href = `${vendor.base_url}/files/${file}`;
+                    link.download = file;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            }
+
+            downloadFiles(files);
+
+    },
+
 
     view_vendor: function (e) {
         let self = this;

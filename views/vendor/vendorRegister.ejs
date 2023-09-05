@@ -66,7 +66,8 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Company Name <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Company Name <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="name" placeholder="Enter Your Company Name.."
                               required="" data-parsley-required-message="Please Enter Company Name" />
@@ -87,14 +88,9 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Email <span style="color: red;"> *</span></label>
                           <div class="col-sm-9">
-                            <select class="form-control" id="firm_type" onchange="register.change_details(this)" >
-                                <option value=0>Select firm type</option>
-                                <option value=1>Proprietorship</option>
-                                <option value=2>Partnership</option>
-                                <option value=3>Private Ltd</option>
-                                <option value=4>Public Ltd</option>
-                            </select>
-                        </div>
+                            <input type="email" class="form-control" id="email" placeholder="Enter Email Address.."
+                              required="" data-parsley-required-message="Please Enter Email" />
+                          </div>
                         </div>
                       </div>
 
@@ -104,17 +100,23 @@
                       <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Firm Type <span style="color: red;"> *</span></label>
+
                           <div class="col-sm-9">
-                            
-                            <input type="text" class="form-control" id="firm_type"
-                            placeholder="Enter Accounting Reference.." required=""
-                            data-parsley-required-message="Please Enter Accounting Reference" />
+                            <select class="form-control" id="firm_type" onchange="register.change_details(this)">
+                              <option value=0>Select firm type</option>
+                              <option value=1>Proprietorship</option>
+                              <option value=2>Partnership</option>
+                              <option value=3>Private Ltd</option>
+                              <option value=4>Public Ltd</option>
+                            </select>
                           </div>
+
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Accounting Reference  <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Accounting Reference <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="accounting_ref"
                               placeholder="Enter Accounting Reference.." required=""
@@ -124,7 +126,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Sales Reference  <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Sales Reference <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="sales_ref" placeholder="Enter Sales Reference.."
                               required="" data-parsley-required-message="Please Enter Sales Reference" />
@@ -133,7 +136,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Delivery Terms  <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Delivery Terms <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="delivery_terms"
                               placeholder="Enter Delivery Terms.." required=""
@@ -197,7 +201,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Landmark <span style="color: red;"> </span></label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" id="city" placeholder="Enter Landmark" 
+                            <input type="text" class="form-control" id="city" placeholder="Enter Landmark"
                               data-parsley-required-message="Please Enter Landmark" />
                           </div>
                         </div>
@@ -260,7 +264,8 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Mode Of Payment <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Mode Of Payment <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <select class="form-control" id="mode_of_payment">
                               <option value=0>Select mode of payment</option>
@@ -275,7 +280,8 @@
 
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Sup. Name As Per Name <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Sup. Name As Per Name <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="s_name_as_per_name"
                               placeholder="Enter Sup. Name As Per Name" required=""
@@ -304,37 +310,41 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Bank Address1 <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Bank Address1 <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="bank_address" placeholder="Enter Bank Address"
                               required="" data-parsley-required-message="Please Enter Bank Address" />
-                            
+
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Bank Address2 <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Bank Address2 <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="bank_address2" placeholder="Enter Bank Address"
                               required="" data-parsley-required-message="Please Enter Bank Address" />
-                            
+
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Bank Address3 <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Bank Address3 <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="bank_address3" placeholder="Enter Bank Address"
                               required="" data-parsley-required-message="Please Enter Bank Address" />
-                            
+
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label"> Select Country <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label"> Select Country <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <!-- Country names and Country Name -->
                             <select class="form-select form-control" id="country" name="country"
@@ -603,7 +613,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label ifsc_label">IFSC Code <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label ifsc_label">IFSC Code <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="ifsc_code" placeholder="Enter code" required=""
                               data-parsley-required-message="Please Enter Code" />
@@ -614,14 +625,15 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label ">MICR Code </label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" id="micr_code" placeholder="Enter code" 
+                            <input type="text" class="form-control" id="micr_code" placeholder="Enter code"
                               data-parsley-required-message="Please Enter MICR Code" />
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6" style="display: none;" id="old_bank_noc_section">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Old Bank NOC <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Old Bank NOC <span style="color: red;">
+                              *</span></label>
 
                           <div class="col-sm-9">
                             <input type="file" class="form-control" id="old_noc"
@@ -634,7 +646,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Cancelled Cheque <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Cancelled Cheque <span style="color: red;">
+                              *</span></label>
 
 
                           <div class="col-sm-9">
@@ -699,7 +712,8 @@
                         </div>
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label d_designation_label">Designation <span style="color: red;"> *</span></label>
+                            <label class="col-sm-3 col-form-label d_designation_label">Designation <span
+                                style="color: red;"> *</span></label>
                             <div class="col-sm-9">
                               <input type="text" class="form-control d_designation" placeholder="Enter Designation"
                                 required="" data-parsley-required-message="Please Enter Designation" />
@@ -724,7 +738,7 @@
                               Alternate Contact <span style="color: red;"> *</span></label>
                             <div class="col-sm-9">
                               <input type="number" class="form-control d_contact_alternate" id=""
-                                placeholder="Enter Contact Number" 
+                                placeholder="Enter Contact Number"
                                 data-parsley-required-message="Please Enter Contact" />
                             </div>
                           </div>
@@ -746,7 +760,7 @@
                               Alternate Email <span style="color: red;"> *</span></label>
                             <div class="col-sm-9">
                               <input type="email" class="form-control d_email_alternate" id="" placeholder="Enter Email"
-                                 data-parsley-required-message="Please Enter Email" />
+                                data-parsley-required-message="Please Enter Email" />
                             </div>
                           </div>
                         </div>
@@ -754,7 +768,8 @@
                         <div class="col-md-6 pan_for_partnership" style="display: none;">
 
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Pan Card Number <span style="color: red;"> *</span></label>
+                            <label class="col-sm-3 col-form-label">Pan Card Number <span style="color: red;">
+                                *</span></label>
                             <div class="col-sm-6  pan_verify_btn_section_input">
                               <input type="text" class="form-control pan_verify_input"
                                 oninput="convertToUppercase(this)" maxlength="10" id=""
@@ -827,7 +842,8 @@
                       <div class="row get_sale_data">
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Sales/ Mkt Name  <span style="color: red;"> *</span></label>
+                            <label class="col-sm-3 col-form-label">Sales/ Mkt Name <span style="color: red;">
+                                *</span></label>
                             <div class="col-sm-9">
                               <input type="text" class="form-control s_name" id="" placeholder="Enter Name" required=""
                                 data-parsley-required-message="Please Enter  Name" />
@@ -836,7 +852,8 @@
                         </div>
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Sales/ Mkt Designation <span style="color: red;"> *</span> </label>
+                            <label class="col-sm-3 col-form-label">Sales/ Mkt Designation <span style="color: red;">
+                                *</span> </label>
                             <div class="col-sm-9">
                               <input type="text" class="form-control s_designation" id=""
                                 placeholder="Enter Designation" required=""
@@ -846,7 +863,8 @@
                         </div>
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Sales/ Mkt Contact <span style="color: red;"> *</span></label>
+                            <label class="col-sm-3 col-form-label">Sales/ Mkt Contact <span style="color: red;">
+                                *</span></label>
                             <div class="col-sm-9">
                               <input type="number" class="form-control s_number" id=""
                                 placeholder="Enter Contact Number" required=""
@@ -859,7 +877,7 @@
                             <label class="col-sm-3 col-form-label">Sales/ Mkt Alternate Contact</label>
                             <div class="col-sm-9">
                               <input type="number" class="form-control s_number_alternate" id=""
-                                placeholder="Enter Contact Number" 
+                                placeholder="Enter Contact Number"
                                 data-parsley-required-message="Please Enter Contact" />
                             </div>
                           </div>
@@ -867,7 +885,8 @@
 
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Sales/ Mkt Email <span style="color: red;"> *</span></label>
+                            <label class="col-sm-3 col-form-label">Sales/ Mkt Email <span style="color: red;">
+                                *</span></label>
                             <div class="col-sm-9">
                               <input type="email" class="form-control s_email" id="" placeholder="Enter Email"
                                 required="" data-parsley-required-message="Please Enter Email" />
@@ -876,10 +895,10 @@
                         </div>
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Sales/ Mkt Alternate Email  </label>
+                            <label class="col-sm-3 col-form-label">Sales/ Mkt Alternate Email </label>
                             <div class="col-sm-9">
                               <input type="email" class="form-control s_email_alternate" id="" placeholder="Enter Email"
-                                 data-parsley-required-message="Please Enter Email" />
+                                data-parsley-required-message="Please Enter Email" />
                             </div>
                           </div>
                         </div>
@@ -909,7 +928,8 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Accounts Person Name <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Accounts Person Name <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="p_name" placeholder="Enter Name" required=""
                               data-parsley-required-message="Please Enter Name" />
@@ -918,7 +938,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Accounts Person Designation <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Accounts Person Designation <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="p_designation" placeholder="Enter Designation"
                               required="" data-parsley-required-message="Please Enter Designation" />
@@ -927,7 +948,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Accounts Person Contact <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Accounts Person Contact <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="number" class="form-control" id="p_contact" placeholder="Enter Contact Number"
                               required="" data-parsley-required-message="Please Enter Contact Number" />
@@ -940,7 +962,7 @@
                           <label class="col-sm-3 col-form-label">Accounts Person Alternate Contact </label>
                           <div class="col-sm-9">
                             <input type="number" class="form-control" id="p_alternate_contact"
-                              placeholder="Enter Contact Number" 
+                              placeholder="Enter Contact Number"
                               data-parsley-required-message="Please Enter Contact Number" />
                           </div>
                         </div>
@@ -950,7 +972,8 @@
 
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Accounts Person Email <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Accounts Person Email <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="email" class="form-control" id="p_email" placeholder="Enter Email" required=""
                               data-parsley-required-message="Please Enter Email" />
@@ -962,7 +985,7 @@
                           <label class="col-sm-3 col-form-label">Accounts Person Alternate Email </label>
                           <div class="col-sm-9">
                             <input type="email" class="form-control" id="p_alternate_email" placeholder="Enter Email"
-                               data-parsley-required-message="Please Enter Email" />
+                              data-parsley-required-message="Please Enter Email" />
                           </div>
                         </div>
                       </div>
@@ -990,7 +1013,8 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Default Currency <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Default Currency <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="default_currency"
                               placeholder="Enter Default Currency" required=""
@@ -1000,7 +1024,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Payment Terms  <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Payment Terms <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="payment_terms" placeholder="Enter Payment Terms"
                               required="" data-parsley-required-message="Please Enter Payment Terms" />
@@ -1009,7 +1034,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Incoterms / Location <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Incoterms / Location <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="incoterms_location"
                               placeholder="Enter Incoterms / Location"
@@ -1019,7 +1045,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Supplier Terms  <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Supplier Terms <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="supplier_type"
                               placeholder="Enter Supplier Terms" required=""
@@ -1029,7 +1056,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Type Of Item  <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Type Of Item <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="type_of_item" placeholder="Enter Type Of Item"
                               required="" data-parsley-required-message="Please Enter Type Of Item" />
@@ -1081,7 +1109,8 @@
                       <div class="col-md-6">
 
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Annexure in GST <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Annexure in GST <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="file" class="form-control" id="gst" onchange="register.upload_gst_files(this)"
                               multiple />
@@ -1098,7 +1127,8 @@
                       <div class="col-md-6">
 
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label"> Firm Pan Card Number <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label"> Firm Pan Card Number <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-6">
                             <input type="text" class="form-control" id="pan_card_number"
                               placeholder="Enter Pan Card Number" maxlength="10" oninput="convertToUppercase(this)"
@@ -1115,7 +1145,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Firm PAN Card <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Firm PAN Card <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="file" class="form-control" id="pan_card"
                               onchange="register.upload_pan_files(this)" multiple />
@@ -1139,7 +1170,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">GST Division <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">GST Division <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="gst_division" placeholder="Enter GST division"
                               data-parsley-required-message="Please Enter GST division" />
@@ -1148,7 +1180,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">GST Commissionerate <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">GST Commissionerate <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="gst_commissionerate"
                               placeholder="Enter GST Commissionerate" required=""
@@ -1158,7 +1191,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">HSN Code / SAC No. <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">HSN Code / SAC No. <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" id="hsn_sac" placeholder="Enter HSN Code / SAC No."
                               required="" data-parsley-required-message="Please Enter HSN Code / SAC No." />
@@ -1203,8 +1237,8 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">SSI Attachment</label>
                           <div class="col-sm-9">
-                            <input type="file" class="form-control" id=""
-                              onchange="register.upload_ssi_files(this)" multiple />
+                            <input type="file" class="form-control" id="" onchange="register.upload_ssi_files(this)"
+                              multiple />
                             <div class="img_pre mt-2" id="ssi_attachement" style="display: flex;">
                             </div>
                           </div>
@@ -1216,10 +1250,11 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Code of Conduct Attachment <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">Code of Conduct Attachment <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
-                            <input type="file" class="form-control" id=""
-                              onchange="register.upload_code_files(this)" multiple />
+                            <input type="file" class="form-control" id="" onchange="register.upload_code_files(this)"
+                              multiple />
                             <div class="img_pre mt-2" id="code_of_conduct_attachement" style="display: flex;">
                             </div>
                           </div>
@@ -1231,10 +1266,11 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">IT Declaration Attachment <span style="color: red;"> *</span></label>
+                          <label class="col-sm-3 col-form-label">IT Declaration Attachment <span style="color: red;">
+                              *</span></label>
                           <div class="col-sm-9">
-                            <input type="file" class="form-control" id=""
-                              onchange="register.upload_it_files(this)" multiple />
+                            <input type="file" class="form-control" id="" onchange="register.upload_it_files(this)"
+                              multiple />
                             <div class="img_pre mt-2" id="it_attachement" style="display: flex;">
                             </div>
                           </div>

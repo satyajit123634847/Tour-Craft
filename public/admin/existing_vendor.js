@@ -2380,6 +2380,7 @@ var vendor = {
             toastr.error("Please Enter Comment...", '', { timeOut: 3000 })
 
         } else if ($("#select_user").val() == "0") {
+            
             toastr.options.positionClass = 'toast-bottom-right';
             toastr.error("Please Select User...", '', { timeOut: 3000 })
         }
