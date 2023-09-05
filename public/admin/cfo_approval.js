@@ -220,21 +220,8 @@ var vendor = {
                     'sTitle': 'View',
                     'class': 'center',
                     'render': function (data, type, row) {
-                        var is_ban = row['is_ban'];
-                        var it_csv = ""
-                        if (level_status == 4) {
-
-                            it_csv = `<a href="vendor/download_pdf_it_csv/${data}"><i class="mdi mdi-file-document-box mx-2" title="Download CSV"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a>`
-                        } else {
-                            it_csv = ""
-                        }
-
-                        var is_ban_section = ``
-                        if(is_ban){
-                            is_ban_section = `<i class="mdi mdi-arrow-down-bold mx-2" title="Final File" onclick="vendor.downloaded_final_file(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>`
-
-                        }
-                        return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a  onclick="vendor.download_pdf(this)" ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> ${it_csv} ${is_ban_section}`
+                        var downloadAttachment = row['download_attachment'];
+                        return ` <i class="mdi mdi-eye mx-2" title="View" onclick="vendor.view_vendor(this)"   style="font-size:24px;color:#4B49AC; cursor: pointer;"></i>  <i class="mdi mdi-timer mx-2" title="Timeline"  style="font-size:24px;color:#4B49AC;cursor: pointer;" onclick="vendor.view_time_line(this)"></i><a  href="${vendor.base_url}/files/${downloadAttachment}" download ><i class="mdi mdi-arrow-down mx-2" title="Download"  style="font-size:24px;color:#4B49AC;cursor: pointer;" ></i></a> `
 
                     }
                 },

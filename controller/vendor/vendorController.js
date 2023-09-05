@@ -1223,7 +1223,7 @@ exports.forward_to_admin = async (req, res) => {
 
     console.log(req.body)
 
-    var { comment_forword, vendor_id, attachment_forword, operator_by, operator_type, forwarded_to, remark, ban_number_input, is_final, financial_supplier } = req.body
+    var { comment_forword, vendor_id,is_cfo_is_done_or_not, attachment_forword, operator_by, operator_type, forwarded_to, remark, ban_number_input, is_final, financial_supplier } = req.body
     var level_status = 0
 
 
@@ -1255,7 +1255,7 @@ exports.forward_to_admin = async (req, res) => {
 
     if (operator_type == "IT Team") {
 
-        var vendor_data = await vendorsModel.findByIdAndUpdate({ _id: vendor_id }, {
+        var query = {
             level_status: level_status,
             comment: comment_forword,
             attachment: attachment_forword,
@@ -1266,7 +1266,25 @@ exports.forward_to_admin = async (req, res) => {
             financial_supplier: financial_supplier,
             final_approval: final,
             download_attachment: attachment_forword
-        })
+        }
+
+        if(final){
+
+            query = {
+                level_status: level_status,
+                comment: comment_forword,
+                attachment: attachment_forword,
+                operator_by: forwarded_to,
+                is_ban: true,
+                remark: remark,
+                ban_number_input: ban_number_input,
+                financial_supplier: financial_supplier,
+                final_approval: final,
+               
+            }
+
+        }
+        var vendor_data = await vendorsModel.findByIdAndUpdate({ _id: vendor_id }, query)
 
 
 
