@@ -10,12 +10,12 @@ exports.sendmail = (to, cc, subject, text, attachment, url) => {
         secure: true, // use SSL
         auth: {
             user: 'parthasarathy.ranganathan@airliquide.com',
-            pass: 'Thiru@081980'
+            pass: 'wyoifhtonaotimhp'
         }
     })
 
     var mail = {
-        from: 'satyajitvarpe45@gmail.com',
+        from: 'parthasarathy.ranganathan@airliquide.com',
         to: to,
         subject: subject,
         html: text,
@@ -31,19 +31,49 @@ exports.sendmail = (to, cc, subject, text, attachment, url) => {
     });
 }
 
+// exports.sendmail1 = (to, cc, subject, html, attachments) => {
+//     const transporter = nodemailer.createTransport({
+//         host: 'smtp.gmail.com',
+//         port: 465,
+//         secure: true, // use SSL
+//         auth: {
+//             user: 'satyajitvarpe45@gmail.com',
+//             pass: 'imbdgnxvlttzuxxv'
+//         }
+//     });
+
+//     const mailOptions = {
+//         from: 'satyajitvarpe45@gmail.com',
+//         to: to,
+//         cc: cc,
+//         subject: subject,
+//         html: html,
+//         attachments: attachments
+//     };
+
+//     transporter.sendMail(mailOptions, function (error, info) {
+//         if (error) {
+//             console.log(error);
+//         } else {
+//             console.log(info);
+//         }
+//     });
+// };
+
+
 exports.sendmail1 = (to, cc, subject, html, attachments) => {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
         secure: true, // use SSL
         auth: {
-            user: 'satyajitvarpe45@gmail.com',
-            pass: 'imbdgnxvlttzuxxv'
+            user: 'parthasarathy.ranganathan@airliquide.com',
+            pass: 'wyoifhtonaotimhp'
         }
     });
 
     const mailOptions = {
-        from: 'satyajitvarpe45@gmail.com',
+        from: 'parthasarathy.ranganathan@airliquide.com',
         to: to,
         cc: cc,
         subject: subject,
@@ -59,5 +89,6 @@ exports.sendmail1 = (to, cc, subject, html, attachments) => {
         }
     });
 };
+
 
 
