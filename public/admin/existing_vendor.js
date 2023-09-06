@@ -2727,7 +2727,7 @@ var vendor = {
 
         $("#forword_section").css("display", "block")
         $("#revert_section").css("display", "none")
-
+        $(".secc").css("display", "block")
         $("#forword_btn").css("display", "block")
         $("#revert_btn").css("display", "none")
 
@@ -2859,7 +2859,14 @@ var vendor = {
 
         $("#revert_section").css("display", "block")
 
-        $("#forword_btn").css("display", "none")
+        $(".secc").css("display", "none")
+
+        // Get a reference to the button element by its ID
+var button = document.getElementById("forword_btn");
+
+// Set the display property to "none"
+button.style.display = "none";
+
         $("#revert_btn").css("display", "block")
 
         $("#action_mdole_btn").click()
