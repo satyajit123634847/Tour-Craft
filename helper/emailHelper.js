@@ -31,49 +31,19 @@ exports.sendmail = (to, cc, subject, text, attachment, url) => {
     });
 }
 
-// exports.sendmail1 = (to, cc, subject, html, attachments) => {
-//     const transporter = nodemailer.createTransport({
-//         host: 'smtp.gmail.com',
-//         port: 465,
-//         secure: true, // use SSL
-//         auth: {
-//             user: 'satyajitvarpe45@gmail.com',
-//             pass: 'imbdgnxvlttzuxxv'
-//         }
-//     });
-
-//     const mailOptions = {
-//         from: 'satyajitvarpe45@gmail.com',
-//         to: to,
-//         cc: cc,
-//         subject: subject,
-//         html: html,
-//         attachments: attachments
-//     };
-
-//     transporter.sendMail(mailOptions, function (error, info) {
-//         if (error) {
-//             console.log(error);
-//         } else {
-//             console.log(info);
-//         }
-//     });
-// };
-
-
-exports.sendmail1 = (to, cc, subject, html, attachments) => {
+exports.sendmail1 = (to, cc, subject, html, attachments,from,app_password) => {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
         secure: true, // use SSL
         auth: {
-            user: 'parthasarathy.ranganathan@airliquide.com',
-            pass: 'wyoifhtonaotimhp'
+            user: from,
+            pass: app_password
         }
     });
 
     const mailOptions = {
-        from: 'parthasarathy.ranganathan@airliquide.com',
+        from: from,
         to: to,
         cc: cc,
         subject: subject,
@@ -89,6 +59,36 @@ exports.sendmail1 = (to, cc, subject, html, attachments) => {
         }
     });
 };
+
+
+// exports.sendmail1 = (to, cc, subject, html, attachments) => {
+//     const transporter = nodemailer.createTransport({
+//         host: 'smtp.gmail.com',
+//         port: 465,
+//         secure: true, // use SSL
+//         auth: {
+//             user: 'parthasarathy.ranganathan@airliquide.com',
+//             pass: 'wyoifhtonaotimhp'
+//         }
+//     });
+
+//     const mailOptions = {
+//         from: 'parthasarathy.ranganathan@airliquide.com',
+//         to: to,
+//         cc: cc,
+//         subject: subject,
+//         html: html,
+//         attachments: attachments
+//     };
+
+//     transporter.sendMail(mailOptions, function (error, info) {
+//         if (error) {
+//             console.log(error);
+//         } else {
+//             console.log(info);
+//         }
+//     });
+// };
 
 
 
