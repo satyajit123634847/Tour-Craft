@@ -67,7 +67,7 @@ exports.register = async (req, res) => {
             </html>
             
                         `
-            // await helper.sendmail(email, cc, subject, html)
+           
             return res.json({
                 status: true,
                 data: data,
@@ -248,37 +248,20 @@ exports.send_vendor_link = async (req, res) => {
 
     console.log("s...")
 
+    var initiator_data = await adminModel.findById({ _id: req.body.operator_by })
+    var form = initiator_data.email
+    var app_password = initiator_data.app_password
+
+
+    console.log("initiator_data", initiator_data)
+
     var email = req.body.email
     var cc = ""
     var subject = "Vendor Information Request"
 
     var url = process.env.base_url
 
-    // var path_url = ""
-    // if (req.body.code_of_conduct[0] == "" || req.body.code_of_conduct.length == 0) {
 
-    //     path_url = `${url}/images/CodeofConduct.pdf`
-
-    // } else {
-
-    //     path_url = `${url}/files/${req.body.code_of_conduct[0]}`
-
-    // }
-
-    // var path_url1 = ""
-    // if (req.body.it_deceleration[0] == "" || req.body.it_deceleration.length == 0) {
-
-    //     path_url1 = `${url}/images/ITDeclaration.pdf`
-
-    // } else {
-
-    //     path_url1 = `${url}/files/${req.body.it_deceleration[0]}`
-
-    // }
-
-    // const codeOfConductAttachment = {}
-
-    // const itDeclarationAttachment = {}
     const attachments = [];
 
 
@@ -308,11 +291,11 @@ exports.send_vendor_link = async (req, res) => {
             path: `${url}/images/ITDeclaration.pdf`
         })
 
-       
+
 
     } else {
 
-       
+
 
         req.body.it_deceleration.map(info => {
             attachments.push({
@@ -323,10 +306,9 @@ exports.send_vendor_link = async (req, res) => {
 
     }
 
-   
 
 
-    console.log("attachments", attachments)
+
 
 
     // return
@@ -353,7 +335,7 @@ exports.send_vendor_link = async (req, res) => {
     </html>
     `
 
-    await helper.sendmail1(email, cc, subject, html, attachments)
+    await helper.sendmail1(email, cc, subject, html, attachments, form, app_password)
 
     await vendorsModel.findByIdAndUpdate({ _id: req.body._id }, {
         link_status: 1,
@@ -379,6 +361,7 @@ exports.save_vendor_data = async (req, res) => {
     console.log(req.body)
 
     const { mode_of_payment, msme_attachment, ssi_attachment, it_deceleration_attachment, code_of_conduct_attachment, accounting_ref, delivery_terms, financial_supplier, type_of_item, s_name_as_per_name, supplier_type, sales_ref, micr_code, payment_terms, default_currency, gst_range, msme_no, ssi_no, gst_division, gst_commissionerate, hsn_sac, incoterms_location, name, mobile_number, email, country, p_alternate_email, p_alternate_contact, vendor_id, address, state, zip_code, address1, city, city1, gst_number, pan_card_number, bank_name, account_no, bank_address, bank_address2, bank_address3, ifsc_code, p_name, p_contact, p_email, gst_url, pan_url, noc_url, cheque_url, sale_data, contact_section_data, firm_type, p_designation } = req.body;
+
 
     const existingUser = await firmDataModel.findOne({ pan_card_number: pan_card_number, status: true });
 
@@ -666,7 +649,9 @@ exports.revert_to_vendor = async (req, res) => {
     console.log(req.body)
     var { comment_revert, vendor_id, attachment_revert, operator_by, operator_type, remark, is_ban } = req.body
 
-
+    var initiator_data = await adminModel.findById({ _id: operator_by })
+    var form = initiator_data.email
+    var app_password = initiator_data.app_password
     if (operator_type == "IT Team") {
 
         var reject_data = await timelineVendor.find({ vendor_id: vendor_id, operator_type: "Finance Compliance Verification" })
@@ -694,6 +679,8 @@ exports.revert_to_vendor = async (req, res) => {
             admin_data = await adminModel.findById({ _id: reject_data_id })
 
         }
+
+      
 
 
         var email = admin_data.email
@@ -753,7 +740,7 @@ exports.revert_to_vendor = async (req, res) => {
             return attachment;
         });
 
-        await helper.sendmail1(email, cc, subject, html, emailAttachments)
+        await helper.sendmail1(email, cc, subject, html, emailAttachments, form, app_password )
 
     } else if (operator_type == "Finance Compliance Verification" && is_ban == true) {
 
@@ -841,7 +828,7 @@ exports.revert_to_vendor = async (req, res) => {
             return attachment;
         });
 
-        await helper.sendmail1(email, cc, subject, html, emailAttachments)
+        await helper.sendmail1(email, cc, subject, html, emailAttachments, form, app_password)
 
     } else if (operator_type == "Finance Compliance Verification") {
         var reject_data = await timelineVendor.find({ vendor_id: vendor_id, operator_type: "Initiator Login" })
@@ -931,7 +918,7 @@ exports.revert_to_vendor = async (req, res) => {
             return attachment;
         });
 
-        await helper.sendmail1(email, cc, subject, html, emailAttachments)
+        await helper.sendmail1(email, cc, subject, html, emailAttachments, form, app_password)
 
 
     }
@@ -1027,7 +1014,7 @@ exports.revert_to_vendor = async (req, res) => {
             return attachment;
         });
 
-        await helper.sendmail1(email, cc, subject, html, emailAttachments)
+        await helper.sendmail1(email, cc, subject, html, emailAttachments, form, app_password)
     }
     else {
 
@@ -1125,7 +1112,7 @@ exports.revert_to_vendor = async (req, res) => {
             return attachment;
         });
 
-        await helper.sendmail1(email, cc, subject, html, emailAttachments)
+        await helper.sendmail1(email, cc, subject, html, emailAttachments, form, app_password)
 
 
 
@@ -1149,7 +1136,9 @@ exports.resend_revert_to_vendor = async (req, res) => {
 
     var { vendor_id, operator_by, operator_type, email, name, attachment, comment, } = req.body
 
-
+    var initiator_data = await adminModel.findById({ _id: operator_by })
+    var form = initiator_data.email
+    var app_password = initiator_data.app_password
     await new timelineVendor({ vendor_id: vendor_id, type: "Resend Revert Back.", action_status: 1, operator_by: operator_by, operator_type: operator_type }).save()
 
 
@@ -1203,7 +1192,8 @@ exports.resend_revert_to_vendor = async (req, res) => {
     </html>
     
     `
-    await helper.sendmail(email, cc, subject, html)
+    var attachments = []
+    await helper.sendmail1(email, cc, subject, html, attachments, form, app_password)
 
 
     return res.json({
@@ -1223,9 +1213,12 @@ exports.forward_to_admin = async (req, res) => {
 
     console.log(req.body)
 
-    var { comment_forword, vendor_id,is_cfo_is_done_or_not, attachment_forword, operator_by, operator_type, forwarded_to, remark, ban_number_input, is_final, financial_supplier } = req.body
+    var { comment_forword, vendor_id, is_cfo_is_done_or_not, attachment_forword, operator_by, operator_type, forwarded_to, remark, ban_number_input, is_final, financial_supplier } = req.body
     var level_status = 0
 
+    var initiator_data = await adminModel.findById({ _id: req.body.operator_by })
+    var form = initiator_data.email
+    var app_password = initiator_data.app_password
 
 
 
@@ -1268,7 +1261,7 @@ exports.forward_to_admin = async (req, res) => {
             download_attachment: attachment_forword
         }
 
-        if(final){
+        if (final) {
 
             query = {
                 level_status: level_status,
@@ -1280,7 +1273,7 @@ exports.forward_to_admin = async (req, res) => {
                 ban_number_input: ban_number_input,
                 financial_supplier: financial_supplier,
                 final_approval: final,
-               
+
             }
 
         }
@@ -1394,7 +1387,7 @@ exports.forward_to_admin = async (req, res) => {
         return attachment;
     });
 
-    await helper.sendmail1(email, cc, subject, html, emailAttachments)
+    await helper.sendmail1(email, cc, subject, html, emailAttachments, form, app_password)
 
 
     var sign_data = await sign_master.find({ vendor_id: vendor_id, operator_type: operator_type, status: true })
