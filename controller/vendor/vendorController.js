@@ -19,7 +19,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 
 const ejs = require('ejs');
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
@@ -1640,7 +1640,7 @@ exports.download_pdf = async (req, res) => {
 
 
 async function generatePDF(htmlData) {
-    const browser = await puppeteer.launch({ headless: 'new' });
+    // const browser = await puppeteer.launch({ headless: 'new' });
     const page = await browser.newPage();
 
     // Set the HTML content
